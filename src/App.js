@@ -5,7 +5,7 @@ function App() {
   return (
 
         <p>
-         My super day
+        Bonjour à tous
         </p>
   );
 }
