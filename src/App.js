@@ -5,7 +5,7 @@ function App() {
   return (
 
         <p>
-         My super dayyyyyy
+         My super day
         </p>
   );
 }
