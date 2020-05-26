@@ -11,7 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import {useTheme}   from '@material-ui/core/styles';
-
+import Calculator from "../Calculator/calculator";
 import useStyles from "./style";
 
 
@@ -87,7 +87,7 @@ function Dashboard(props) {
             </nav>
             <main className={classes.content}>
                 <div>
-                    //C'EST ICI QUE VOUS POUVEZ TEST
+                   <Calculator/>
                 </div>
             </main>
         </div>
