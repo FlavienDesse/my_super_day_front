@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import {useTheme}   from '@material-ui/core/styles';
 
 import useStyles from "./style";
-import Horoscope from "../Horoscope/horoscope";
+import Trajet from "../Trajet/trajet";
 
 
 
@@ -88,7 +88,7 @@ function Dashboard(props) {
             </nav>
             <main className={classes.content}>
                 <div>
-                    <Horoscope/>
+                    <Trajet/>
                 </div>
             </main>
         </div>

@@ -4,7 +4,7 @@ import React from 'react';
 import useStyles from "./style";
 
 
-function Horoscope(props) {
+function Trajet(props) {
     const classes = useStyles();
     return (
         <div>
@@ -13,4 +13,4 @@ function Horoscope(props) {
     );
 }
 
-export default Horoscope;
+export default Trajet;
