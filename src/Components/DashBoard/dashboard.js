@@ -4,13 +4,13 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
+import  MainListItemsSideBar from './list'
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import MainListItemsSideBar from './list'
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import {useTheme}   from '@material-ui/core/styles';
 
 import useStyles from "./style";
 
@@ -22,10 +22,11 @@ function Dashboard(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = React.useState(false);
-
+    const [titleName, setTitleName] = React.useState("Vue d'ensemble");
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+
 
 
 
@@ -35,7 +36,7 @@ function Dashboard(props) {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
+            <AppBar position="fixed" className={classes.appBar} >
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -47,7 +48,7 @@ function Dashboard(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        Responsive drawer
+                       {titleName}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -67,7 +68,7 @@ function Dashboard(props) {
                             keepMounted: true, // Better open performance on mobile.
                         }}
                     >
-                        <MainListItemsSideBar style={classes}>
+                        <MainListItemsSideBar setTitleName={setTitleName} style={classes}>
                         </MainListItemsSideBar>
                     </Drawer>
                 </Hidden>
@@ -79,13 +80,15 @@ function Dashboard(props) {
                         variant="permanent"
                         open
                     >
-                        <MainListItemsSideBar style={classes}>
+                        <MainListItemsSideBar setTitleName={setTitleName} style={classes}>
                         </MainListItemsSideBar>
                     </Drawer>
                 </Hidden>
             </nav>
             <main className={classes.content}>
-
+                <div>
+                    //C'EST ICI QUE VOUS POUVEZ TEST
+                </div>
             </main>
         </div>
     );

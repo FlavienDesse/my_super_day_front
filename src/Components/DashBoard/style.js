@@ -1,11 +1,18 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-
-
-
 const drawerWidth = 240;
-
+const drawerHeight = 64;
+const sizeButtonHome = 32;
 const useStyles = makeStyles((theme) => ({
+  homeDivButton:{
+    height:drawerHeight,
+    textAlign:'center',
+    paddingTop: `calc( ${drawerHeight/2 - sizeButtonHome/2}px)`,
+  },
+  homeButton:{
+    height:sizeButtonHome,
+  },
+
   root: {
     display: 'flex',
   },
@@ -19,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
+      height:drawerHeight,
     },
   },
   menuButton: {
@@ -28,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
+
   drawerPaper: {
     width: drawerWidth,
   },
