@@ -17,6 +17,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import HomeIcon from '@material-ui/icons/Home';
 
+import MapIcon from '@material-ui/icons/Map';
 
 
 function MainListItemsSideBar(props){
@@ -62,6 +63,10 @@ function MainListItemsSideBar(props){
                 <ListItem button onClick={(e)=> {props.setTitleName("Bourse")}}>
                     <ListItemIcon> <AccountBalanceIcon/></ListItemIcon>
                     <ListItemText primary={"Bourse"}/>
+                </ListItem>
+                <ListItem button onClick={()=> {props.setTitleName("Trajet")}}>
+                    <ListItemIcon> <MapIcon/></ListItemIcon>
+                    <ListItemText primary={"Trajet"}/>
                 </ListItem>
             </List>
         </div>
