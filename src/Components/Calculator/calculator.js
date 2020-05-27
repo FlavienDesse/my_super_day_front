@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import jexl from 'jexl';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from "@material-ui/core/TextField";
-
+import Paper from "@material-ui/core/Paper";
 export default function Calculator() {
     const classes = useStyles();
 
@@ -46,177 +46,179 @@ export default function Calculator() {
     const [valueClicked, setValueClicked] = React.useState("");
     const [result, setResult] = React.useState("");
     return (
-        <div className={classes.container}>
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <TextField id="outlined-basic" onKeyDown={(e) => keyPressTextArea(e.key)} variant="outlined"
-                               inputProps={{style: {textAlign: "right"}}} value={result} className={classes.result}>
+        <Paper elevation={3} className={classes.container}>
+                <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                        <TextField id="outlined-basic" onKeyDown={(e) => keyPressTextArea(e.key)} variant="outlined"
+                                   inputProps={{style: {textAlign: "right"}}} value={result} className={classes.result}>
 
-                    </TextField>
-                </Grid>
+                        </TextField>
+                    </Grid>
 
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        (
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        )
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        %
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button color="secondary" startIcon={<DeleteIcon/>} variant="contained" className={[classes.button]}
-                            onClick={(e) => {
-                                setResult("");
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            (
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            )
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            %
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button color="secondary" startIcon={<DeleteIcon/>} variant="contained" className={[classes.button]}
+                                onClick={(e) => {
+                                    setResult("");
+                                    setValueClicked("")
+                                }}>
+                            AC
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            7
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            8
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            9
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            /
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            4
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            5
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            6
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            *
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            1
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            2
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            3
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            -
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            0
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            .
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            const regex = new RegExp("^-?[0-9|1-9.0-9]+([+\\/\\-*%][0-9|1-9.0-9]*)*$");
+                            console.log(valueClicked)
+                            if (regex.test(valueClicked)) {
+                                jexl.eval(valueClicked).then((res) => {
+                                    setResult(res+"")
+                                    setValueClicked(res+"")
+                                }, (err) => {
+                                    setResult(err);
+                                });
+
+
+                            } else {
+                                setResult("Erreur");
                                 setValueClicked("")
-                            }}>
-                        AC
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        7
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        8
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        9
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        /
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        4
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        5
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        6
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        *
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        1
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        2
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        3
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        -
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        0
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        .
-                    </Button>
-                </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        const regex = new RegExp("^-?[0-9|1-9.0-9]+([+\\/\\-*%][0-9|1-9.0-9]*)*$");
-                        console.log(valueClicked)
-                        if (regex.test(valueClicked)) {
-                            jexl.eval(valueClicked).then((res) => {
-                                setResult(res+"")
-                                setValueClicked(res+"")
-                            }, (err) => {
-                                setResult(err);
-                            });
+                            }
 
 
-                        } else {
-                            setResult("Erreur");
-                            setValueClicked("")
                         }
+                        }>
+                            =
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button className={classes.button} onClick={(e) => {
+                            clickButton(e.target.innerText)
+                        }}>
+                            +
+                        </Button>
+                    </Grid>
 
 
-                    }
-                    }>
-                        =
-                    </Button>
                 </Grid>
-                <Grid item xs={3}>
-                    <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
-                    }}>
-                        +
-                    </Button>
-                </Grid>
 
+        </Paper>
 
-            </Grid>
-        </div>
     );
 }
