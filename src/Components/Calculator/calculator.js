@@ -21,10 +21,11 @@ export default function Calculator() {
         if (!isNaN(key) || keyInDec === 37 || (keyInDec >= 40 && (keyInDec <= 43 || keyInDec === 46 || keyInDec === 47  ))) {
             setResult(valueClicked + key);
             setValueClicked(valueClicked + key);
-        } else if (keyInDec == 66) {
-            setResult(result.slice(0, -1))
+        } else if (keyInDec === 66) {
+            setResult(result.slice(0, -1));
+            setValueClicked(valueClicked.slice(0, -1));
         }
-        else if (keyInDec == 69) {
+        else if (keyInDec === 69) {
             const regex = new RegExp("^-?[0-9|1-9.0-9]+([+\\/\\-*%][0-9|1-9.0-9]*)*$");
             if (regex.test(valueClicked)) {
                 jexl.eval(valueClicked).then((res) => {
@@ -185,10 +186,11 @@ export default function Calculator() {
                 <Grid item xs={3}>
                     <Button className={classes.button} onClick={(e) => {
                         const regex = new RegExp("^-?[0-9|1-9.0-9]+([+\\/\\-*%][0-9|1-9.0-9]*)*$");
+                        console.log(valueClicked)
                         if (regex.test(valueClicked)) {
                             jexl.eval(valueClicked).then((res) => {
-                                setResult(res)
-                                setValueClicked(res)
+                                setResult(res+"")
+                                setValueClicked(res+"")
                             }, (err) => {
                                 setResult(err);
                             });
