@@ -2,10 +2,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 const useStyles = makeStyles((theme) => ({
-  buttonGroup:{
-    position:'absolute',
-    zIndex:1,
-  },
   result:{
     width:'100%',
   },
@@ -18,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   container:{
     border:'black solid 1px rounded',
     padding:7,
+    width:350,
 
   },
   AC:{

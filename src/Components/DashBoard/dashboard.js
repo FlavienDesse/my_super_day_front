@@ -11,8 +11,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import {useTheme}   from '@material-ui/core/styles';
-import Calculator from "../Calculator/calculator";
 import useStyles from "./style";
+import Calculator from "../Calculator/calculator";
 
 
 
