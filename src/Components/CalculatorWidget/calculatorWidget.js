@@ -13,6 +13,7 @@ export default function CalculatorWidget() {
     function clickButton(value) {
         setResult(valueClicked + value);
         setValueClicked(valueClicked + value);
+
     }
 
     function keyPressTextArea(key) {
@@ -27,7 +28,7 @@ export default function CalculatorWidget() {
             setValueClicked(valueClicked.slice(0, -1));
         } else if (keyInDec === 69) {
 
-            jexl.eval(valueClicked).then((res) => {
+            evaluate(valueClicked).then((res) => {
                 setResult(res)
                 setValueClicked(res)
             }, (err) => {
@@ -184,7 +185,7 @@ return (
                 <Button className={classes.button} onClick={(e) => {
 
 
-                    jexl.eval(valueClicked).then((res) => {
+                    evaluate(valueClicked).then((res) => {
                         setResult(res + "")
                         setValueClicked(res + "")
                     }, (err) => {
