@@ -2,12 +2,35 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 const useStyles = makeStyles((theme) => ({
+  modalContainerButtonValidate:{
+    width:'100%',
+    textAlign:"center",
+  },
+
+  modalTextField:{
+    width:'100%',
+  },
+  listVarAndFun:{
+    textAlign:'left',
+  },
   buttonGroup:{
     position:'absolute',
     zIndex:1,
   },
   result:{
     width:'100%',
+  },
+  modalButton:{
+    textTransform:"none !important",
+    width:'100%',
+  },
+  modalPop: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
   },
   button:{
     textTransform:"none !important",
