@@ -6,21 +6,23 @@ export default function Trajet() {
 
     const classes = useStyles();
     const [currentLocation, getCurrentLocation] = React.useState("");
-    const [userAddress, setUserAddress] = React.useState("21 Allée Robespierre, 59150 Wattrelos, France");
-    const [workAddress, setWorkAddress] = React.useState("41 Boulebard Vauban, 59000 Lille, France");
+    const [userAddress, setUserAddress] = React.useState("21 Allee Robespierre, 59150 Wattrelos, France");
+    const [workAddress, setWorkAddress] = React.useState("41 Boulevard Vauban, 59000 Lille, France");
     const [currentLongitude, setCurrentLongitude] = React.useState("");
     const [currentLatitude, setCurrentLatitude] = React.useState("");
 
-    function getInfo(props) {
-        return fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=50.709125199999995,3.1681510999999998&key=AIzaSyCDa_5CfpTTBeNY0PFremSA5i_1zqaGnEU\n')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                return responseJson.results;
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+
+    function marchePls() {
+        // Simple POST request with a JSON body using fetch
+        const requestOptions = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        };
+        fetch(`http://localhost:9000/testapi?address=${userAddress}`, requestOptions)
+            .then(response => response.json())
+            .then(data => console.log(data));
     }
+    marchePls();
 
     function getLocation() {
         if (navigator.geolocation) {
@@ -59,7 +61,7 @@ export default function Trajet() {
             </h1>
             <h4>Location</h4>
             <p>{getLocation()}
-                Latidude : {currentLatitude} </p>
+                Latitude : {currentLatitude} </p>
             <p>Longitude : {currentLongitude}</p>
             <h4>Google maps reverse geocoding</h4>
             <p>Address : {userAddress}</p>
