@@ -15,21 +15,21 @@ const Biorythm = () => {
     var data = {
         labels: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34],
         datasets: [{
-            label: "f(x) = x",
+            label: "f(x) = Physique",
             function: function(x) { return 100*Math.sin((2*Math.PI*((x+21252%23))/23)) },
             borderColor: "rgba(192, 0, 0, 1)",
             data: [],
             fill: false
         },
             {
-                label: "f(x) = x²",
+                label: "f(x) = Emotionnel",
                 function: function(x) { return 100*Math.sin((2*Math.PI*((x+21252%28))/28))	 },
                 borderColor: "rgba(0, 192, 0, 1)",
                 data: [],
                 fill: false
             },
             {
-                label: "f(x) = x * log(x)",
+                label: "f(x) = Intellectuel",
                 function: function(x) { return 100*Math.sin((2*Math.PI*((x+21252%33))/33)) },
                 borderColor: "rgba(0, 0, 192, 1)",
                 data: [],
