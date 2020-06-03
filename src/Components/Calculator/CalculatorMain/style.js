@@ -2,6 +2,14 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 const useStyles = makeStyles((theme) => ({
+  listVarAndFun:{
+    padding:'5px 0px 0px 0px  !important',
+  },
+  container:{
+    [theme.breakpoints.down('md')]: {
+      flexDirection:'column',
+    },
+  },
   modalContainerButtonValidate:{
     width:'100%',
     textAlign:"center",
@@ -10,13 +18,12 @@ const useStyles = makeStyles((theme) => ({
   modalTextField:{
     width:'100%',
   },
-  listVarAndFun:{
-    textAlign:'left',
-  },
+
   buttonGroup:{
     position:'absolute',
     zIndex:1,
   },
+
   result:{
     width:'100%',
   },
@@ -31,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    top: `50%`,
+    left: `50%`,
+    transform: `translate(-50%, -50%)`,
   },
   button:{
     textTransform:"none !important",
@@ -39,10 +49,32 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:'white',
     boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)',
 },
-  container:{
+  containerCalculator:{
     border:'black solid 1px rounded',
     padding:7,
 
+
+  },
+  gridCalculator:{
+    [theme.breakpoints.down('md')]: {
+      order:3,
+      width:'100%',
+      maxWidth:'none !important',
+    },
+  },
+  gridFunction:{
+    [theme.breakpoints.down('md')]: {
+      order:1,
+      width:'100%',
+      maxWidth:'none !important',
+    },
+  },
+  gridVariable:{
+    [theme.breakpoints.down('md')]: {
+      order:2,
+      width:'100%',
+      maxWidth:'none !important',
+    },
   },
   AC:{
     backgroundColor:'red',
