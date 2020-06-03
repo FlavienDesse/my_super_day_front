@@ -68,7 +68,7 @@ const Biorythm = () => {
                         <Line  data={data} options={{
                             sampleSize:50000,
                             responsive: true,
-                            title: {text: 'Votre bite actuel', display: true},
+                            title: {text: 'Votre biorythme actuel', display: true},
                             scales : {
                                 yAxes: [
                                     {
