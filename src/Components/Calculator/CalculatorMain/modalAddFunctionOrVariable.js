@@ -5,10 +5,12 @@ import TextField from "@material-ui/core/TextField";
 import {Alert} from '@material-ui/lab';
 import Collapse from '@material-ui/core/Collapse';
 import PersonnalFunction from "./PersonnalFunction";
+import PersonnalVariable from "./PersonnalVariable";
 
-export default function SimpleModal(props) {
+export default function ModalAddFunctionOrVariable(props) {
 
     const classes = props.classes;
+    let parserVar = props.parserVar;
     let refTextFieldFunctions = useRef();
     let refTextFieldVariables = useRef();
     const [open, setOpen] = React.useState(false);
@@ -21,6 +23,11 @@ export default function SimpleModal(props) {
     const handleClose = () => {
         setOpen(false);
     };
+
+    function replaceAll(string, search, replace) {
+        return string.split(search).join(replace);
+    }
+
 
     const bodyFun = (
         <div className={classes.modalPop}>
@@ -36,20 +43,18 @@ export default function SimpleModal(props) {
                         let nameNewFunc = refTextFieldFunctions.current.value.match(".*(?=\\()")[0];
                         let alreadyuseName = false;
                         for (var i = 0; i < props.allFunctions.length; i++) {
-                            console.log(props.allFunctions[i].name)
                             if (props.allFunctions[i].name === nameNewFunc) {
                                 alreadyuseName = true;
                                 break;
                             }
                         }
-                        console.log(nameNewFunc)
                         if (alreadyuseName) {
                             setErrorMsg("Nom fonction déjà prise")
                             setOpenAlert(true);
                         } else {
                             let func = new PersonnalFunction(nameNewFunc, refTextFieldFunctions.current.value)
                             props.addOneFunction(func);
-                            props.parserVar.evaluate( refTextFieldFunctions.current.value)
+                            props.parserVar.evaluate(refTextFieldFunctions.current.value)
                             handleClose();
                         }
 
@@ -78,17 +83,38 @@ export default function SimpleModal(props) {
             <TextField inputRef={refTextFieldVariables} variant="outlined" className={classes.modalTextField}/>
             <div className={classes.modalContainerButtonValidate}>
                 <Button color="primary" onClick={() => {
-                    props.addOneVariable(refTextFieldVariables.current.value);
-                    props.parserVar.evaluate(refTextFieldVariables.current.value)
-                    handleClose();
+                    let res = replaceAll(refTextFieldVariables.current.value, " ", "");
+                    let nameNewVar = res.match(".*[a-zA-Z].*(?==.+)")[0];
+                    let alreadyuseName = false;
+                    for (var i = 0; i < props.allVariables.length; i++) {
+                        if (props.allVariables[i].name === nameNewVar) {
+                            alreadyuseName = true;
+                            break;
+                        }
+                    }
+                    if (alreadyuseName) {
+                        setErrorMsg("Nom fonction déjà prise")
+                        setOpenAlert(true);
+                    } else {
+                        parserVar.evaluate(res)
+                        let newVar = new PersonnalVariable(nameNewVar, res)
+                        props.addOneVariable(newVar);
+                        handleClose();
+                    }
                 }
                 }>Valider</Button>
+                <Collapse in={openAlert}>
+                    <Alert onClose={() => {
+                        setOpenAlert(false)
+                    }} severity="error">
+                        {errorMsg}
+                    </Alert>
+                </Collapse>
             </div>
         </div>
     );
 
-    return (
-        <div>
+    return (<div>
             <Button color={"primary"} className={classes.modalButton} type="button" variant="contained"
                     onClick={handleOpen}>
                 {props.isFunction ? "Ajouter une fonction" : "Ajouter une variable"}
@@ -103,4 +129,6 @@ export default function SimpleModal(props) {
             </Modal>
         </div>
     );
+
+
 }

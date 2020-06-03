@@ -2,6 +2,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 const useStyles = makeStyles((theme) => ({
+  buttonAddGraph:{
+    width:'100%',
+  },
   listVarAndFun:{
     padding:'5px 0px 0px 0px  !important',
   },

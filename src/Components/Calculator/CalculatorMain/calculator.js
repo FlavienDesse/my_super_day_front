@@ -8,29 +8,33 @@ import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import SimpleModal from "./simpleModal"
+import ModalAddFunctionOrVariable from "./modalAddFunctionOrVariable"
 import DeleteIcon from '@material-ui/icons/Delete';
 import PersonnalFunction from "./PersonnalFunction";
+import PersonnalVariable from "./PersonnalVariable";
 import {parser} from "mathjs";
+
 export default function Calculator() {
     const classes = useStyles();
 
 
     const [isCalcul, setIsCalcul] = React.useState(true);
-    const [allVariables, setAllVariables] = React.useState(["x = 3","y = 8"]);
+    const [allVariables, setAllVariables] = React.useState([new PersonnalVariable("x", "x=78")]);
     const [allFunctions, setAllFunctions] = React.useState(
-        [new PersonnalFunction("f","f(x)=3*x")]
+        [new PersonnalFunction("f", "f(x)=3*x")]
     );
 
-    const parserVar = parser();
-    allVariables.map((item, i) =>
-        parserVar.evaluate(item)
-    );
+    var parserVar = parser();
+
 
     allFunctions.map((item, i) =>
+
         parserVar.evaluate(item.expression)
     );
 
+    allVariables.map((item, i) =>
+        parserVar.evaluate(item.expression)
+    );
 
 
     function addOneVariable(val) {
@@ -41,17 +45,18 @@ export default function Calculator() {
         setAllFunctions(allFunctions.concat(val))
     }
 
-    function onClickDeleteFunction(i){
+    function onClickDeleteFunction(i) {
         let allFunctionsVar = allFunctions.slice();
         parserVar.remove(allFunctions[i].expression)
-        allFunctionsVar.splice(i,1)
+        allFunctionsVar.splice(i, 1)
         setAllFunctions(allFunctionsVar);
     }
 
-    function onClickDeleteVariable(i){
+    function onClickDeleteVariable(i) {
 
-        let allVariablesVar =allVariables.slice();
-        allVariablesVar.splice(i,1)
+        let allVariablesVar = allVariables.slice();
+        parserVar.remove(allVariables[i].expression)
+        allVariablesVar.splice(i, 1)
         setAllVariables(allVariablesVar);
 
 
@@ -63,18 +68,22 @@ export default function Calculator() {
         <Grid container spacing={1} className={classes.container}>
             <Grid item xs={2} className={classes.gridFunction}>
 
-                <List >
-                    <SimpleModal  parserVar={parserVar} allFunctions={allFunctions} isFunction={1} classes={classes}  addOneFunction={addOneFunction} >
+                <List>
+                    <ModalAddFunctionOrVariable allFunctions={allFunctions} isFunction={1}
+                                                classes={classes}
+                                                addOneFunction={addOneFunction}/>
 
-                    </SimpleModal>
+
                     {
 
-                      allFunctions.map((item, i) =>
+                        allFunctions.map((item, i) =>
 
                             <ListItem className={classes.listVarAndFun}>
 
                                 <ListItemIcon>
-                                    <DeleteIcon  onClick={() => {onClickDeleteFunction(i)} }></DeleteIcon>
+                                    <DeleteIcon onClick={() => {
+                                        onClickDeleteFunction(i)
+                                    }}></DeleteIcon>
                                 </ListItemIcon>
                                 <ListItemText
                                     primary={item.expression}
@@ -89,23 +98,32 @@ export default function Calculator() {
             </Grid>
             <Grid item xs={8} className={classes.gridCalculator}>
                 <Paper elevation={3} className={classes.containerCalculator}>
-                    {isCalcul ? <CalculInterface parserVar={parserVar} allFunctions={allFunctions} allVariables={allVariables} setIsCalcul={setIsCalcul} classes={classes}/> : <GraphicInterface/>}
+                    {isCalcul ?
+                        <CalculInterface parserVar={parserVar} allFunctions={allFunctions} allVariables={allVariables}
+                                         setIsCalcul={setIsCalcul} classes={classes}/>
+                        :
+
+                        <GraphicInterface classes={classes}/>}
                 </Paper>
             </Grid>
             <Grid item xs={2} className={classes.gridVariable}>
-                <SimpleModal isFunction={0} classes={classes} addOneVariable={addOneVariable}>
+                <ModalAddFunctionOrVariable parserVar={parserVar}
+                                            allVariables={allVariables} isFunction={0} classes={classes}
+                                            addOneVariable={addOneVariable}>
 
-                </SimpleModal>
+                </ModalAddFunctionOrVariable>
                 {
-                    allVariables.map((item,i) =>
+                    allVariables.map((item, i) =>
 
                         <ListItem className={classes.listVarAndFun}>
 
                             <ListItemIcon>
-                                <DeleteIcon  onClick={() => {onClickDeleteVariable(i)} }></DeleteIcon>
+                                <DeleteIcon onClick={() => {
+                                    onClickDeleteVariable(i)
+                                }}/>
                             </ListItemIcon>
                             <ListItemText
-                                primary={item}
+                                primary={item.expression}
                             />
                         </ListItem>)
 
