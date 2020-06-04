@@ -2,7 +2,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 const useStyles = makeStyles((theme) => ({
-  buttonAddGraph:{
+  containerGraph:{
+    width:'100%',
+  },
+  selectModalAddGraph:{
     width:'100%',
   },
   listVarAndFun:{
@@ -16,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   modalContainerButtonValidate:{
     width:'100%',
     textAlign:"center",
+    marginTop:'10px',
   },
 
   modalTextField:{

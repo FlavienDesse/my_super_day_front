@@ -17,9 +17,7 @@ const useStyles = makeStyles((theme) => ({
     width:350,
 
   },
-  AC:{
-    backgroundColor:'red',
-  },
+
 
 }));
 

@@ -37,10 +37,10 @@ export default function ModalAddFunctionOrVariable(props) {
             <div className={classes.modalContainerButtonValidate}>
                 <Button color="primary" onClick={() => {
 
+                    let isFunc = refTextFieldFunctions.current.value.match("\\b^[^() ]+\\((.*)\\) *=(.+)$")
+                    if (isFunc) {
 
-                    if (refTextFieldFunctions.current.value.match("\\b^[^() ]+\\((.*)\\) *=.+$")) {
-
-                        let nameNewFunc = refTextFieldFunctions.current.value.match(".*(?=\\()")[0];
+                        let nameNewFunc = refTextFieldFunctions.current.value.match("^.?(?=\\()")[0];
                         let alreadyuseName = false;
                         for (var i = 0; i < props.allFunctions.length; i++) {
                             if (props.allFunctions[i].name === nameNewFunc) {
@@ -52,7 +52,9 @@ export default function ModalAddFunctionOrVariable(props) {
                             setErrorMsg("Nom fonction déjà prise")
                             setOpenAlert(true);
                         } else {
-                            let func = new PersonnalFunction(nameNewFunc, refTextFieldFunctions.current.value)
+                            let valueNewFunc = isFunc[2];
+                            console.log(nameNewFunc)
+                            let func = new PersonnalFunction(nameNewFunc, refTextFieldFunctions.current.value,valueNewFunc)
                             props.addOneFunction(func);
                             props.parserVar.evaluate(refTextFieldFunctions.current.value)
                             handleClose();
@@ -83,23 +85,28 @@ export default function ModalAddFunctionOrVariable(props) {
             <TextField inputRef={refTextFieldVariables} variant="outlined" className={classes.modalTextField}/>
             <div className={classes.modalContainerButtonValidate}>
                 <Button color="primary" onClick={() => {
-                    let res = replaceAll(refTextFieldVariables.current.value, " ", "");
-                    let nameNewVar = res.match(".*[a-zA-Z].*(?==.+)")[0];
-                    let alreadyuseName = false;
-                    for (var i = 0; i < props.allVariables.length; i++) {
-                        if (props.allVariables[i].name === nameNewVar) {
-                            alreadyuseName = true;
-                            break;
+                    if (refTextFieldVariables.current.value.match(".*[a-zA-Z].*=.+$")) {
+                        let res = replaceAll(refTextFieldVariables.current.value, " ", "");
+                        let nameNewVar = res.match(".*[a-zA-Z].*(?==.+)")[0];
+                        let alreadyuseName = false;
+                        for (var i = 0; i < props.allVariables.length; i++) {
+                            if (props.allVariables[i].name === nameNewVar) {
+                                alreadyuseName = true;
+                                break;
+                            }
                         }
-                    }
-                    if (alreadyuseName) {
-                        setErrorMsg("Nom fonction déjà prise")
+                        if (alreadyuseName) {
+                            setErrorMsg("Nom fonction déjà prise")
+                            setOpenAlert(true);
+                        } else {
+                            parserVar.evaluate(res)
+                            let newVar = new PersonnalVariable(nameNewVar, res)
+                            props.addOneVariable(newVar);
+                            handleClose();
+                        }
+                    }else {
+                        setErrorMsg("Erreur syntaxical")
                         setOpenAlert(true);
-                    } else {
-                        parserVar.evaluate(res)
-                        let newVar = new PersonnalVariable(nameNewVar, res)
-                        props.addOneVariable(newVar);
-                        handleClose();
                     }
                 }
                 }>Valider</Button>

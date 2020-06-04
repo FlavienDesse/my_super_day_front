@@ -21,7 +21,7 @@ export default function Calculator() {
     const [isCalcul, setIsCalcul] = React.useState(true);
     const [allVariables, setAllVariables] = React.useState([new PersonnalVariable("x", "x=78")]);
     const [allFunctions, setAllFunctions] = React.useState(
-        [new PersonnalFunction("f", "f(x)=3*x")]
+        [new PersonnalFunction("f", "f(x)=3*x","3*x")]
     );
 
     var parserVar = parser();
@@ -70,7 +70,7 @@ export default function Calculator() {
 
                 <List>
                     <ModalAddFunctionOrVariable allFunctions={allFunctions} isFunction={1}
-                                                classes={classes}
+                                                classes={classes} parserVar={parserVar}
                                                 addOneFunction={addOneFunction}/>
 
 
@@ -83,7 +83,7 @@ export default function Calculator() {
                                 <ListItemIcon>
                                     <DeleteIcon onClick={() => {
                                         onClickDeleteFunction(i)
-                                    }}></DeleteIcon>
+                                    }}/>
                                 </ListItemIcon>
                                 <ListItemText
                                     primary={item.expression}
@@ -103,7 +103,7 @@ export default function Calculator() {
                                          setIsCalcul={setIsCalcul} classes={classes}/>
                         :
 
-                        <GraphicInterface classes={classes}/>}
+                        <GraphicInterface  setIsCalcul={setIsCalcul} parserVar={parserVar} allFunctions={allFunctions} classes={classes}/>}
                 </Paper>
             </Grid>
             <Grid item xs={2} className={classes.gridVariable}>

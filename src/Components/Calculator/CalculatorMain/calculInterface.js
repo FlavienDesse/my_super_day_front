@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
-import {parser} from "mathjs";
+
 
 
 export default function CalculInterface(props) {
@@ -12,7 +12,8 @@ export default function CalculInterface(props) {
     const [valueClicked, setValueClicked] = React.useState("");
     const [result, setResult] = React.useState("");
     const [posCursorInput,setPosCursorInput]= React.useState(-1);
-
+    let refTextField = useRef();
+    let parserVar= props.parserVar
     function changeValueInput() {
 
         refTextField.current.value = result
@@ -30,11 +31,6 @@ export default function CalculInterface(props) {
 
     });
 
-    let refTextField = useRef();
-
-
-
-    let parserVar= props.parserVar
 
 
     function setCaretPosition(caretPos) {
@@ -88,7 +84,7 @@ export default function CalculInterface(props) {
 
         } else if (key === "Enter") {
             Compute();
-        } else if (/^[a-zA-Z0-9]$/.test(key) || /[+-/%*.()]/.test(key)) {
+        } else if (/^[a-zA-Z0-9]$/.test(key) || /[+-/%*^.()]/.test(key)) {
 
             setResult(res + key);
             setValueClicked(res + key);
@@ -351,13 +347,7 @@ export default function CalculInterface(props) {
                     im(
                 </Button>
             </Grid>
-            <Grid item xs={2}>
-                <Button className={classes.button} onClick={(e) => {
-                    clickButtonSpecial(e.target.innerText, 'derivative(')
-                }}>
-                    dérivée(
-                </Button>
-            </Grid>
+
             <Grid item xs={6}>
 
             </Grid>
