@@ -5,32 +5,84 @@ import classes from './style'
 import Grid from "@material-ui/core/Grid";
 import Chart from 'chart.js';
 
+const numDaySinceBirth = 2700
 
 const Biorythm = () => {
+    let label = [];
+    let date = new Date();
+    date.setDate(date.getDate()-15)
+    for (let i = 0 ; i <30 ; i++ ){
+        date.setDate(date.getDate()+1);
+        let copyDate = new Date(date.getTime());
+        let day  = copyDate.getUTCDate();
+        let month = copyDate.getMonth()+1;
+
+        label.push(day + '/' + month);
+    }
+
 
     const classes = useStyles();
 
     const [chartData, setChartData] = useState({})
 
+    function numDiffDay(day,month,year) {
+        if (Math.abs(jour_actuel - day)<16){
+            return(day-jour_actuel)
+        }
+        else {
+            if (mois_actuel - month == 1|| mois_actuel - month == -11){
+                return (-getDaysInMonth(month,year)+Math.abs(jour_actuel-day))
+            }
+            else if(mois_actuel - month== -1|| mois_actuel - month == 11){ /*condition non nécessaire mais mieux pour expliquer */
+                return(getDaysInMonth(month,year)-Math.abs(jour_actuel-day))
+            }
+
+        }
+
+
+
+
+
+    }
+
     var data = {
-        labels: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34],
+        labels: label,
         datasets: [{
-            label: "f(x) = Physique",
-            function: function(x) { return 100*Math.sin((2*Math.PI*((x+21252%23))/23)) },
+            label: "Physique",
+            function: function(x) {
+
+                let day = x.match("[0-9]+(?=\\/)");
+                let month = x.match("(?<=\\/)[0-9]+");
+
+                let numberDiffDay = 0
+
+
+                let res=numDaySinceBirth+numDiffDay
+                //console.log(res)
+                return 100*Math.sin((2*Math.PI*((res%23))/23))
+
+            },
             borderColor: "rgba(192, 0, 0, 1)",
             data: [],
             fill: false
         },
             {
-                label: "f(x) = Emotionnel",
-                function: function(x) { return 100*Math.sin((2*Math.PI*((x+21252%28))/28))	 },
+                label: "Emotionnel",
+                function: function(x) {
+
+                    let res=x+numDaySinceBirth-new Date().getDay()
+                    return 100*Math.sin((2*Math.PI*((res%28))/28))
+                },
                 borderColor: "rgba(0, 192, 0, 1)",
                 data: [],
                 fill: false
             },
             {
-                label: "f(x) = Intellectuel",
-                function: function(x) { return 100*Math.sin((2*Math.PI*((x+21252%33))/33)) },
+                label: "Intellectuel",
+                function: function(x) {
+                    let res=x+numDaySinceBirth-new Date().getDay()
+                    return 100*Math.sin((2*Math.PI*((res%33))/33))
+                },
                 borderColor: "rgba(0, 0, 192, 1)",
                 data: [],
                 fill: false
@@ -83,6 +135,7 @@ const Biorythm = () => {
                                     }
                                 ],
                                 xAxes:[
+
                                     {
                                        gridLines: {
                                            display: true
