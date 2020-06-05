@@ -5,8 +5,8 @@ import classes from './style'
 import Grid from "@material-ui/core/Grid";
 import Chart from 'chart.js';
 
-const numDaySinceBirth = 2700
-
+const numDaySinceBirth = 7602
+const xValue = []
 const Biorythm = () => {
     let label = [];
     let date = new Date();
@@ -16,8 +16,14 @@ const Biorythm = () => {
         let copyDate = new Date(date.getTime());
         let day  = copyDate.getUTCDate();
         let month = copyDate.getMonth()+1;
+        let year = copyDate.getFullYear()+1;
 
-        label.push(day + '/' + month);
+        xValue.push({
+            day : day,
+            month : month,
+            year : year
+        })
+        label.push(day + '/' + month );
     }
 
 
@@ -25,16 +31,30 @@ const Biorythm = () => {
 
     const [chartData, setChartData] = useState({})
 
+
+
+    var getDaysInMonth = function(month,year) {
+        // Here January is 1 based
+        //Day 0 is the last day in the previous month
+        return new Date(year, month+1, 0).getDate();
+        // Here January is 0 based
+        // return new Date(year, month+1, 0).getDate();
+    };
+
+
     function numDiffDay(day,month,year) {
-        if (Math.abs(jour_actuel - day)<16){
-            return(day-jour_actuel)
+        const actualDate = new Date();
+        const actualDay = actualDate.getDay();
+        const actualMonth = actualDate.getMonth()+1;
+        if (Math.abs(actualDay - day)<16){
+            return(day-actualDay)
         }
         else {
-            if (mois_actuel - month == 1|| mois_actuel - month == -11){
-                return (-getDaysInMonth(month,year)+Math.abs(jour_actuel-day))
+            if (actualMonth - month == 1|| actualMonth - month == -11){
+                return (-getDaysInMonth(month,year)+Math.abs(actualDay-day))
             }
-            else if(mois_actuel - month== -1|| mois_actuel - month == 11){ /*condition non nécessaire mais mieux pour expliquer */
-                return(getDaysInMonth(month,year)-Math.abs(jour_actuel-day))
+            else if(actualMonth - month== -1|| actualMonth - month == 11){ /*condition non nécessaire mais mieux pour expliquer */
+                return(getDaysInMonth(month,year)-Math.abs(actualDay-day))
             }
 
         }
@@ -51,15 +71,7 @@ const Biorythm = () => {
             label: "Physique",
             function: function(x) {
 
-                let day = x.match("[0-9]+(?=\\/)");
-                let month = x.match("(?<=\\/)[0-9]+");
-
-                let numberDiffDay = 0
-
-
-                let res=numDaySinceBirth+numDiffDay
-                //console.log(res)
-                return 100*Math.sin((2*Math.PI*((res%23))/23))
+                return 100*Math.sin((2*Math.PI*((x%23))/23))
 
             },
             borderColor: "rgba(192, 0, 0, 1)",
@@ -96,9 +108,14 @@ const Biorythm = () => {
             var data = chart.config.data;
             for (var i = 0; i < data.datasets.length; i++) {
                 for (var j = 0; j < data.labels.length; j++) {
-                    var fct = data.datasets[i].function,
-                        x = data.labels[j],
-                        y = fct(x);
+
+                    let day = xValue[j].day;
+                    let month = xValue[j].month;
+                    let year = xValue[j].year;
+                    let res = numDaySinceBirth + numDiffDay(day, month, year)
+
+                    var fct = data.datasets[i].function;
+                    var y = fct(res);
                     data.datasets[i].data.push(y);
                 }
             }
