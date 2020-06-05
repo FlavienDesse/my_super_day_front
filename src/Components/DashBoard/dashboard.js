@@ -87,7 +87,9 @@ function Dashboard(props) {
             </nav>
             <main className={classes.content}>
                 <div>
-                    //C'EST ICI QUE VOUS POUVEZ TEST
+                  <Traductor>
+
+                  </Traductor>
                 </div>
             </main>
         </div>

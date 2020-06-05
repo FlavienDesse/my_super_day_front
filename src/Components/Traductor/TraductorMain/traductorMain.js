@@ -1,17 +1,19 @@
 import React from "react";
 
 function traductorMain(){
-    let langCible = "eng"
+    let langCible = ""
     function callTrad() {
         // Simple POST request with a JSON body using fetch
         const requestOptions = {
-            method: 'GET',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body :{
-                text:"Alors Alex c'est certe un dieu , mais wollah il est bg ce batard"
-            }
+            body : JSON.stringify( {
+                text:"Alors Alex c'est certe un dieu , mais wollah il est bg ce batard",
+                langCible:langCible,
+            }),
+
         };
-        fetch(`http://localhost:9000/Traductori?lang=${langCible}`, requestOptions)
+        fetch(`http://localhost:9000/traducteur`, requestOptions)
             .then(response => response.json())
             .then(data => console.log(data));
     }
@@ -22,3 +24,5 @@ function traductorMain(){
         </div>
     )
 }
+
+export default traductorMain;
