@@ -39,7 +39,7 @@ export default function ModalAddGraph(props) {
     };
 
     function addGraph() {
-
+        let oneFunSelected=false;
         let numberValue = 10;
         let data = {}
         data["datasets"] = [];
@@ -47,7 +47,7 @@ export default function ModalAddGraph(props) {
         data["labels"] = Array.from(Array(numberValue+1), (d, i) => (maxValueX - minValueX) / numberValue * i);
         for (const item of props.allFunctions){
             if (stateCheckBox["checked" + i]) {
-
+                oneFunSelected =true;
                 const func = props.allFunctions[i];
                 const f = props.parserVar.get(item.name)
 
@@ -64,7 +64,18 @@ export default function ModalAddGraph(props) {
             }
             i=i+1;
         }
-        props.addData(data);
+        if(oneFunSelected){
+
+            props.addData(data);
+            return (true);
+        }
+        else {
+            setErrorMsg("Veuillez choisir au moins une fonction")
+            setOpenAlert(true)
+            return (false);
+
+        }
+
 
     }
 
@@ -153,9 +164,14 @@ export default function ModalAddGraph(props) {
 
                     <div className={classes.modalContainerButtonValidate}>
                         <Button color="primary" onClick={() => {
-                            addGraph()
+                            if(addGraph()) {
+                                setOpenAlert(false)
+                                handleClose()
+                            }
 
-                            handleClose()
+
+
+
                         }}>Valider</Button>
                         <Collapse in={openAlert}>
                             <Alert onClose={() => {
