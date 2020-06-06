@@ -50,7 +50,6 @@ export default function Calculator() {
 
         let allDataGraphVar =Object.assign({}, allDataGraph);
         delete allDataGraphVar[i];
-        console.log( allDataGraphVar)
         setAllDataGraph(Object.values( allDataGraphVar));
     }
 

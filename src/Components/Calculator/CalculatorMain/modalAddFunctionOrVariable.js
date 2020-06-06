@@ -52,12 +52,22 @@ export default function ModalAddFunctionOrVariable(props) {
                             setErrorMsg("Nom fonction déjà prise")
                             setOpenAlert(true);
                         } else {
-                            let valueNewFunc = isFunc[2];
-                            console.log(nameNewFunc)
-                            let func = new PersonnalFunction(nameNewFunc, refTextFieldFunctions.current.value,valueNewFunc)
-                            props.addOneFunction(func);
-                            props.parserVar.evaluate(refTextFieldFunctions.current.value)
-                            handleClose();
+
+                            try {
+                                parserVar.evaluate(refTextFieldFunctions.current.value)
+                                let tryFunc = parserVar.get(nameNewFunc)
+                                tryFunc(1);
+                                let valueNewFunc = isFunc[2];
+                                let func = new PersonnalFunction(nameNewFunc, refTextFieldFunctions.current.value,valueNewFunc)
+                                props.addOneFunction(func);
+                                setOpenAlert(false);
+                                handleClose();
+                            }
+                            catch (e) {
+                                setErrorMsg("Erreur de syntaxe")
+                                setOpenAlert(true);
+                            }
+
                         }
 
                     } else {
@@ -99,10 +109,19 @@ export default function ModalAddFunctionOrVariable(props) {
                             setErrorMsg("Nom fonction déjà prise")
                             setOpenAlert(true);
                         } else {
-                            parserVar.evaluate(res)
-                            let newVar = new PersonnalVariable(nameNewVar, res)
-                            props.addOneVariable(newVar);
-                            handleClose();
+                           try{
+                               parserVar.evaluate(res)
+                               let newVar = new PersonnalVariable(nameNewVar, res)
+                               props.addOneVariable(newVar);
+                               setOpenAlert(false);
+                               handleClose();
+                           }
+                           catch (e) {
+                               setErrorMsg("Erreur de syntaxe")
+                               setOpenAlert(true);
+                           }
+
+
                         }
                     }else {
                         setErrorMsg("Erreur de syntaxe")
