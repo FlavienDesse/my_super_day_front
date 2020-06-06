@@ -31,7 +31,7 @@ export default function ModalAddFunctionOrVariable(props) {
 
     const bodyFun = (
         <div className={classes.modalPop}>
-            <h2>Ajouter une function</h2>
+            <h2>Ajouter une fonction</h2>
 
             <TextField inputRef={refTextFieldFunctions} variant="outlined" className={classes.modalTextField}/>
             <div className={classes.modalContainerButtonValidate}>
@@ -61,7 +61,7 @@ export default function ModalAddFunctionOrVariable(props) {
                         }
 
                     } else {
-                        setErrorMsg("Erreur syntaxical")
+                        setErrorMsg("Erreur de syntaxe")
                         setOpenAlert(true);
                     }
 
@@ -105,7 +105,7 @@ export default function ModalAddFunctionOrVariable(props) {
                             handleClose();
                         }
                     }else {
-                        setErrorMsg("Erreur syntaxical")
+                        setErrorMsg("Erreur de syntaxe")
                         setOpenAlert(true);
                     }
                 }

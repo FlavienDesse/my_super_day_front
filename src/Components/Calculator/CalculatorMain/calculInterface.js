@@ -22,7 +22,7 @@ export default function CalculInterface(props) {
     React.useEffect(() => {
 
 
-        if(posCursorInput!=-1){
+        if(posCursorInput!==-1){
             setCaretPosition(posCursorInput);
 
         }
@@ -277,7 +277,7 @@ export default function CalculInterface(props) {
                 <Button className={classes.button} onClick={(e) => {
                     clickButton(e.target.innerText)
                 }}>
-                    3
+                    1
                 </Button>
             </Grid>
             <Grid item xs={2}>
@@ -291,7 +291,7 @@ export default function CalculInterface(props) {
                 <Button className={classes.button} onClick={(e) => {
                     clickButton(e.target.innerText)
                 }}>
-                    1
+                    3
                 </Button>
             </Grid>
             <Grid item xs={2}>

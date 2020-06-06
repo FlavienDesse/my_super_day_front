@@ -23,7 +23,7 @@ export default function Calculator() {
     const [allFunctions, setAllFunctions] = React.useState(
         [new PersonnalFunction("f", "f(x)=3*x","3*x")]
     );
-
+    const [allDataGraph, setAllDataGraph] = React.useState([]);
     var parserVar = parser();
 
 
@@ -43,6 +43,15 @@ export default function Calculator() {
 
     function addOneFunction(val) {
         setAllFunctions(allFunctions.concat(val))
+    }
+
+    function deleteGraph(i) {
+
+
+        let allDataGraphVar =Object.assign({}, allDataGraph);
+        delete allDataGraphVar[i];
+        console.log( allDataGraphVar)
+        setAllDataGraph(Object.values( allDataGraphVar));
     }
 
     function onClickDeleteFunction(i) {
@@ -103,7 +112,7 @@ export default function Calculator() {
                                          setIsCalcul={setIsCalcul} classes={classes}/>
                         :
 
-                        <GraphicInterface  setIsCalcul={setIsCalcul} parserVar={parserVar} allFunctions={allFunctions} classes={classes}/>}
+                        <GraphicInterface deleteGraph={deleteGraph} setAllDataGraph={setAllDataGraph} allDataGraph={allDataGraph} setIsCalcul={setIsCalcul} parserVar={parserVar} allFunctions={allFunctions} classes={classes}/>}
                 </Paper>
             </Grid>
             <Grid item xs={2} className={classes.gridVariable}>

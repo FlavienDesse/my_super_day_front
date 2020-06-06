@@ -11,14 +11,14 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Checkbox from "@material-ui/core/Checkbox";
 import Typography from "@material-ui/core/Typography";
-import {compile} from "mathjs";
+
 
 export default function ModalAddGraph(props) {
     let checkBox = {}
 
-    props.allFunctions.map((item, i) => {
+    props.allFunctions.map((item, i) =>
             checkBox["checked" + i] = false
-        }
+
     );
     const classes = props.classes;
     const [open, setOpen] = React.useState(false);
@@ -43,9 +43,9 @@ export default function ModalAddGraph(props) {
         let numberValue = 10;
         let data = {}
         data["datasets"] = [];
-
-        data["labels"] = Array.from(Array(numberValue), (d, i) => (maxValueX - minValueX) / numberValue * i);
-        props.allFunctions.map((item, i) => {
+        let i = 0;
+        data["labels"] = Array.from(Array(numberValue+1), (d, i) => (maxValueX - minValueX) / numberValue * i);
+        for (const item of props.allFunctions){
             if (stateCheckBox["checked" + i]) {
 
                 const func = props.allFunctions[i];
@@ -62,7 +62,8 @@ export default function ModalAddGraph(props) {
                     }
                 )
             }
-        })
+            i=i+1;
+        }
         props.addData(data);
 
     }
@@ -70,15 +71,15 @@ export default function ModalAddGraph(props) {
 
     return (
         <Grid container>
-            <Grid item xs={6}>
-                <Button color={"primary"} type="button"  className={classes.button} variant="contained"
+            <Grid item xs={6} >
+                <Button color={"primary"} type="button"  className={classes.buttonModalAddGaph} variant="contained"
                         onClick={handleOpen}>
                     Ajouter un graphique
                 </Button>
             </Grid>
             <Grid item xs={6}>
 
-                <Button color={"primary"} className={classes.button} type="button" variant="contained"
+                <Button color={"primary"} className={classes.buttonModalAddGaph} type="button" variant="contained"
                         onClick={() => props.setIsCalcul(true)}>
                     Calcul
                 </Button>
