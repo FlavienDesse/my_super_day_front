@@ -9,6 +9,7 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
+import StockExchange from  '../stockExchange/stockExchangeMain/stockExchange';
 import Typography from '@material-ui/core/Typography';
 import {useTheme}   from '@material-ui/core/styles';
 
@@ -87,7 +88,8 @@ function Dashboard(props) {
             </nav>
             <main className={classes.content}>
                 <div>
-                    //C'EST ICI QUE VOUS POUVEZ TEST
+                    <StockExchange>
+                    </StockExchange>
                 </div>
             </main>
         </div>
