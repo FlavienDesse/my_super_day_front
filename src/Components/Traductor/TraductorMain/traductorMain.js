@@ -1,28 +1,46 @@
-import React from "react";
+import React, {useEffect} from "react";
+import useStyles from  './style'
 
-function traductorMain(){
-    let langCible = ""
-    function callTrad() {
-        // Simple POST request with a JSON body using fetch
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body : JSON.stringify( {
-                text:"Alors Alex c'est certe un dieu , mais wollah il est bg ce batard",
-                langCible:langCible,
-            }),
 
-        };
-        fetch(`http://localhost:9000/traducteur`, requestOptions)
-            .then(response => response.json())
-            .then(data => console.log(data));
-    }
-    callTrad();
+function callTrad(props) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body : JSON.stringify( {
+            text:props.text,
+            langCible:props.langCible,
+        }),
+
+    };
+    fetch(`http://localhost:9000/traducteur`, requestOptions)
+        .then(response =>{response.json()
+            .then(data => {
+                props.setTraduction(data.trad);
+            })
+        })
+}
+
+function TraductorMain(){
+    const classes = useStyles();
+    let langCible = "en"
+    let text="J'aime la france";
+    const [traduction,setTraduction]=React.useState("");
+
+    useEffect(()=>{
+        callTrad({
+            langCible:langCible,
+            text:text,
+            setTraduction:setTraduction,
+        }
+    )}, [langCible, text]
+    );
+
+
     return (
-        <div>
-            Le caca c'est dur mais bon
+        <div className={classes.container}>
+            Traduction : {traduction}
         </div>
     )
 }
 
-export default traductorMain;
+export default TraductorMain;
