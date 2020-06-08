@@ -7,7 +7,7 @@ import Chart from 'chart.js';
 
 
 const numDaySinceBirth = 7603
-const numDayDisplay = 365;
+const numDayDisplay = 30;
 const Biorythm = () => {
     let label = [];
     let date = new Date();
@@ -103,7 +103,7 @@ const Biorythm = () => {
                                     type: 'line',
                                     mode: 'vertical',
                                     scaleID: 'x-axis-0',
-                                    value: '15',
+                                    value: Math.round(numDayDisplay/2-1),
                                     borderColor: 'black',
                                     borderWidth: 3,
                                 }]
