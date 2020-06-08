@@ -7,11 +7,11 @@ import Chart from 'chart.js';
 
 
 const numDaySinceBirth = 7603
-const xValue = []
+const numDayDisplay = 365;
 const Biorythm = () => {
     let label = [];
     let date = new Date();
-    const numDayDisplay = 365;
+
     date.setDate(date.getDate() - numDayDisplay/2);
     for (let i = 0; i < numDayDisplay; i++) {
         date.setDate(date.getDate() + 1);
@@ -73,7 +73,7 @@ const Biorythm = () => {
             var data = chart.config.data;
             for (var i = 0; i < data.datasets.length; i++) {
                 for (var j = 0; j < data.labels.length; j++) {
-                    let res = numDaySinceBirth + j-15
+                    let res = numDaySinceBirth +j- numDayDisplay/2
                     var fct = data.datasets[i].function;
                     var y = fct(res);
                     data.datasets[i].data.push(y);
