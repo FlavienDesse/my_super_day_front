@@ -1,25 +1,33 @@
-import React from "react";
+import React , {useEffect}from "react";
 import useStyles from "./style";
 import {Line} from 'react-chartjs-2';
 import {annotation} from 'chartjs-plugin-annotation'
 import Grid from "@material-ui/core/Grid";
 import Chart from 'chart.js';
+import Typography from "@material-ui/core/Typography";
+import Slider from "@material-ui/core/Slider";
 
 
-const numDaySinceBirth = 7603
-const numDayDisplay = 30;
+
+
 const Biorythm = () => {
     let label = [];
     let date = new Date();
+    const [chartData,setChartData] = React.useState({});
+
+    const numDaySinceBirth = 7603
+    let numDayDisplay = 30;
 
     date.setDate(date.getDate() - numDayDisplay/2);
     for (let i = 0; i < numDayDisplay; i++) {
+
         date.setDate(date.getDate() + 1);
         let copyDate = new Date(date.getTime());
         let day = copyDate.getUTCDate();
         let month = copyDate.getUTCMonth() + 1;
 
         label.push(day + '/' + month);
+
     }
 
 
@@ -28,48 +36,50 @@ const Biorythm = () => {
 
 
 
-    var data = {
-        labels: label,
+    const chart = () => {
+        setChartData({
+            labels: label,
 
-        datasets: [{
-            label: "Physique",
-            function: function (x) {
-
-                return 100 * Math.sin((2 * Math.PI * ((x % 23)) / 23))
-
-            },
-            borderColor: "rgba(192, 0, 0, 1)",
-            data: [],
-            fill: false
-        },
-            {
-                label: "Emotionnel",
+            datasets: [{
+                label: "Physique",
                 function: function (x) {
 
+                    return 100 * Math.sin((2 * Math.PI * ((x % 23)) / 23))
 
-                    return 100 * Math.sin((2 * Math.PI * ((x % 28)) / 28))
                 },
-                borderColor: "rgba(0, 192, 0, 1)",
+                borderColor: "rgba(192, 0, 0, 1)",
                 data: [],
                 fill: false
             },
-            {
-                label: "Intellectuel",
-                function: function (x) {
+                {
+                    label: "Emotionnel",
+                    function: function (x) {
 
-                    return 100 * Math.sin((2 * Math.PI * ((x % 33)) / 33))
+
+                        return 100 * Math.sin((2 * Math.PI * ((x % 28)) / 28))
+                    },
+                    borderColor: "rgba(0, 192, 0, 1)",
+                    data: [],
+                    fill: false
                 },
-                borderColor: "rgba(0, 0, 192, 1)",
-                data: [],
-                fill: false
-            }]
+                {
+                    label: "Intellectuel",
+                    function: function (x) {
+
+                        return 100 * Math.sin((2 * Math.PI * ((x % 33)) / 33))
+                    },
+                    borderColor: "rgba(0, 0, 192, 1)",
+                    data: [],
+                    fill: false
+                }]
+        })
     };
 
 
 
-
     Chart.pluginService.register({
-        beforeInit: function(chart) {
+
+        beforeUpdate:function(chart) {
             var data = chart.config.data;
             for (var i = 0; i < data.datasets.length; i++) {
                 for (var j = 0; j < data.labels.length; j++) {
@@ -81,6 +91,9 @@ const Biorythm = () => {
             }
         }
     });
+    useEffect(() => {
+        chart();
+    }, []);
 
 
     return (
@@ -91,8 +104,7 @@ const Biorythm = () => {
                 </Grid>
                 <Grid item xs={12}>
 
-                    <div style={{width: "100%"}}>
-                        <Line data={data} options={{
+                        <Line   style={{width: "100%"}} data={chartData} options={{
                             sampleSize: 50000,
                             responsive: true,
                             title: {text: 'Votre biorythme actuel', display: true},
@@ -133,7 +145,9 @@ const Biorythm = () => {
                             }
 
                         }}/>
-                    </div>
+
+
+
                 </Grid>
 
             </Grid>
