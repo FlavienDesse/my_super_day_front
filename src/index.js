@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './Components/DashBoard/dashboard';
+import App from './Components/SignIn/signIn';
 ReactDOM.render(
   <React.StrictMode>
     <App />
