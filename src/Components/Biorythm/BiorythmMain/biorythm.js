@@ -8,8 +8,6 @@ import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 
 
-
-
 const Biorythm = () => {
     let label = [];
     let date = new Date();
@@ -151,9 +149,16 @@ const Biorythm = () => {
                 </Grid>
 
             </Grid>
-
+            <div>
+                <div className={classes.annotationTexte} >
+                    <p>Votre biorythme <span className={classes.annotationTextPhysique}> Physique </span> est à <span className={classes.annotationTextPhysique}> {Math.round(100 * Math.sin((2 * Math.PI * ((numDaySinceBirth-1) % 23) / 23)))}%</span></p>
+                    <p>Votre biorythme <span className={classes.annotationTextEmotionnel}> Emotionnel </span>est à <span className={classes.annotationTextEmotionnel}> {Math.round(100 * Math.sin((2 * Math.PI * ((numDaySinceBirth-1) % 28) / 28)))}%</span></p>
+                    <p>Votre biorythme <span className={classes.annotationTextIntellectuel}> Intellectuel </span> est à <span className={classes.annotationTextIntellectuel}> {Math.round(100 * Math.sin((2 * Math.PI * ((numDaySinceBirth-1) % 33) / 33)))}%</span></p>
+                </div>
+            </div>
 
         </div>
+
     );
 }
 
