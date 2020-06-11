@@ -95,7 +95,8 @@ export default function SignIn() {
             }),
 
         };
-        fetch(`https://bdoalex.com/mysuperday/users/signup`, requestOptions)
+        fetch(`http://localhost:9000/users/signup`, requestOptions)
+
             .then(response => {
                 console.log(response)
                if(response.status===500){
