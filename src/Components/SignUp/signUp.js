@@ -16,15 +16,29 @@ import {
 } from '@material-ui/pickers';
 import MomentUtils from "@date-io/moment";
 import "moment/locale/fr";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Alert from "@material-ui/lab/Alert";
+import CloseIcon from '@material-ui/icons/Close';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from "@material-ui/core/IconButton";
 
 export default function SignIn() {
     const [errorMessageMail, setErrorMessageMail] = React.useState("");
     const [errorMessagePassword, setErrorMessagePassword] = React.useState("");
     const [errorMessagePasswordRetry, setErrorMessagePasswordRetry] = React.useState("");
     const [errorMessageUsername, setErrorMessageUsername] = React.useState("");
-    const [errorMessageAddress, setErrorMessageAddress] = React.useState("");
+    const [errorMessageAddressHome, setErrorMessageAddressHome] = React.useState("");
+    const [errorMessageAddressWork, setErrorMessageAddressWork] = React.useState("");
+
 
     const [selectedDate, setSelectedDate] = React.useState(new Date());
+
+    const [selectPredictionsHome, setSelectPredictionsHome] = React.useState([]);
+    const [selectPredictionsWork, setSelectPredictionsWork] = React.useState([]);
+
+
+    const [openErrorServeur, setOpenErrorServeur] = React.useState(false);
+    const [messageErreurServeur,setMessageErreurServeur]= React.useState("");
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -35,31 +49,59 @@ export default function SignIn() {
     const refTextFieldPassword = React.useRef();
     const refTextFieldPasswordRetry = React.useRef();
     const refTextFieldUsername = React.useRef();
-    const refTextFieldAddress = React.useRef();
+    const refTextFieldAddressHome = React.useRef();
+    const refTextFieldAddressWork = React.useRef();
 
 
-    function callPredictions(e) {
+    function callPredictions(value, isHome) {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body : JSON.stringify( {
-                address:e.target.value,
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                address: value,
             }),
 
         };
         fetch(`http://localhost:9000/users/getAutocomplete`, requestOptions)
-            .then(response =>{response.json()
-                .then(data => {
-                    console.log(data)
+            .then(response => {
+                response.json()
+                    .then(data => {
+                        if (isHome) {
+                            setSelectPredictionsHome(data.predictions)
+                        } else {
+                            setSelectPredictionsWork(data.predictions);
+                        }
 
-                })
+
+                    })
             })
     };
-   
-    
-    function callBDD() {
 
+
+    function createAccount(email,password,username,homeAddress,workAddress,birthDate) {
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                email: email,
+                password:password,
+                username:username,
+                homeAddress:homeAddress,
+                workAddress:workAddress,
+                birthDate:birthDate
+
+            }),
+
+        };
+        fetch(`https://bdoalex.com/mysuperday/users/signup`, requestOptions)
+            .then(response => {
+                console.log(response)
+               if(response.status===500){
+                   setMessageErreurServeur("Mdr pas possible")
+               }
+            })
     }
 
     function verifyLogin() {
@@ -68,7 +110,10 @@ export default function SignIn() {
         let password = refTextFieldPassword.current.value;
         let passwordRetry = refTextFieldPasswordRetry.current.value;
         let username = refTextFieldUsername.current.value;
-        let address = refTextFieldUsername.current.value;
+        let addressHome = refTextFieldAddressHome.current.value;
+        let addressWork = refTextFieldAddressWork.current.value;
+        let dateOfBirth = selectedDate;
+
 
         var pattMail = new RegExp("[a-z0-9!#$%&'*+/=?^_‘{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_‘{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
 
@@ -127,14 +172,31 @@ export default function SignIn() {
             setErrorMessagePassword("Votre mot de passe doit contenir au moins 6 caractères")
         }
 
-        if (username.length <= 6) {
+        if (username.length === 0) {
             error = true;
             setErrorMessageUsername("Ce champ doit être rempli")
         }
 
+        if (addressHome.length !== 0) {
+
+
+        } else {
+            error = true;
+            setErrorMessageAddressHome("Ce champ doit être rempli")
+        }
+
+
+        if (addressWork.length !== 0) {
+
+        } else {
+            error = true;
+            setErrorMessageAddressWork("Ce champ doit être rempli")
+        }
+
 
         if (!error) {
-            callBDD()
+
+            createAccount(email,password,username,addressHome,addressWork,dateOfBirth);
         }
 
 
@@ -164,7 +226,7 @@ export default function SignIn() {
                         autoFocus
                         inputRef={refTextFieldUsername}
                         helperText={errorMessageUsername}
-                        error={errorMessageUsername ? true : false}
+                        error={errorMessageUsername}
                     />
                     <TextField
                         variant="outlined"
@@ -178,7 +240,7 @@ export default function SignIn() {
                         autoFocus
                         inputRef={refTextFieldMail}
                         helperText={errorMessageMail}
-                        error={errorMessageMail ? true : false}
+                        error={errorMessageMail}
                     />
                     <TextField
                         variant="outlined"
@@ -187,13 +249,13 @@ export default function SignIn() {
                         fullWidth
                         type="password"
                         id="password"
-                        label="Password"
+                        label="Mot de passe"
                         name="password"
                         autoComplete="password"
                         autoFocus
                         inputRef={refTextFieldPassword}
                         helperText={errorMessagePassword}
-                        error={errorMessagePassword ? true : false}
+                        error={errorMessagePassword}
                     />
                     <TextField
                         variant="outlined"
@@ -207,10 +269,10 @@ export default function SignIn() {
                         autoComplete="current-password"
                         inputRef={refTextFieldPasswordRetry}
                         helperText={errorMessagePasswordRetry}
-                        error={errorMessagePasswordRetry ? true : false}
+                        error={errorMessagePasswordRetry}
 
                     />
-                    <MuiPickersUtilsProvider utils={MomentUtils} locale="fr">
+                    <MuiPickersUtilsProvider  utils={MomentUtils} locale="fr">
                         <KeyboardDatePicker
                             maxDate={new Date()}
                             margin="normal"
@@ -225,20 +287,42 @@ export default function SignIn() {
                         </KeyboardDatePicker>
                     </MuiPickersUtilsProvider>
 
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="address"
-                        label="Adresse"
-                        id="address"
-                        inputRef={refTextFieldAddress}
-                        helperText={errorMessageAddress}
-                        error={errorMessageAddress ? true : false}
-                        onChange={callPredictions }
-
+                    <Autocomplete
+                        options={selectPredictionsHome}
+                        getOptionLabel={(selectPredictionsHome) => selectPredictionsHome}
+                        renderInput={(params) =>
+                            <TextField onChange={(e) => callPredictions(e.target.value, true)} {...params}
+                                       variant="outlined"
+                                       margin="normal"
+                                       required
+                                       fullWidth
+                                       name="address"
+                                       label="Adresse du domicile"
+                                       id="address"
+                                       inputRef={refTextFieldAddressHome}
+                                       helperText={errorMessageAddressHome}
+                                       error={errorMessageAddressHome}/>
+                        }
                     />
+
+                    <Autocomplete
+                        options={selectPredictionsWork}
+                        getOptionLabel={(selectPredictionsWork) => selectPredictionsWork}
+                        renderInput={(params) =>
+                            <TextField onChange={(e) => callPredictions(e.target.value, false)} {...params}
+                                       variant="outlined"
+                                       margin="normal"
+                                       required
+                                       fullWidth
+                                       name="addressWork"
+                                       label="Adresse du travail"
+                                       id="addressWork"
+                                       inputRef={refTextFieldAddressWork}
+                                       helperText={errorMessageAddressWork}
+                                       error={errorMessageAddressWork}/>
+                        }
+                    />
+
 
                     <Button
                         type="submit"
@@ -248,7 +332,7 @@ export default function SignIn() {
                         className={classes.submit}
                         onClick={verifyLogin}
                     >
-                        Se connecter
+                        Créer un compte
                     </Button>
                     <Grid container>
                         <Grid item>
@@ -257,6 +341,24 @@ export default function SignIn() {
                             </Link>
                         </Grid>
                     </Grid>
+                    <Collapse in={openErrorServeur}>
+                        <Alert
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpenErrorServeur(false);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                        >
+                            {messageErreurServeur}
+                        </Alert>
+                    </Collapse>
                 </FormControl>
             </div>
 
