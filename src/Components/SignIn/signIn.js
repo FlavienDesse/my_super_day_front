@@ -12,8 +12,6 @@ import useStyles from "./style";
 import FormControl from '@material-ui/core/FormControl'
 
 export default function SignIn() {
-    const [errorMessageMail, setErrorMessageMail] = React.useState("");
-    const [errorMessagePassword, setErrorMessagePassword] = React.useState("");
 
     
     function callBDD() {
@@ -21,56 +19,6 @@ export default function SignIn() {
     }
     
     
-    function verifyLogin() {
-
-        let email = refTextFieldMail.current.value;
-        let password = refTextFieldPassword.current.value;
-
-
-        var pattMail = new RegExp("[a-z0-9!#$%&'*+/=?^_‘{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_‘{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
-
-        var pattPasswordAtLeastOneCharacterMin = new RegExp("[a-z]");
-        var pattPasswordAtLeastOneCharacterMax = new RegExp("[A-Z]");
-        var pattPasswordAtLeastOneNumber = new RegExp("[0-9]");
-        var pattPasswordAtLeastOneSpecialCharacter = new RegExp("[!^$*%@&$()+/-]");
-        var pattPasswordSpace = new RegExp(" ");
-
-
-        if (pattMail.test(email)) {
-            setErrorMessageMail("")
-        } else {
-            setErrorMessageMail("Addrese mail non valide")
-        }
-
-        if (password.length >= 6) {
-            if (pattPasswordAtLeastOneCharacterMin.test(password)) {
-                if (pattPasswordAtLeastOneCharacterMax.test(password)) {
-                    if (pattPasswordAtLeastOneNumber.test(password)) {
-                        if (pattPasswordAtLeastOneSpecialCharacter.test(password)) {
-                            if (!pattPasswordSpace.test(password)) {
-                                setErrorMessagePassword("")
-                                callBDD();
-                            } else {
-                                setErrorMessagePassword("Votre mot de passe ne doit pas contenir d'espace")
-                            }
-                        } else {
-                            setErrorMessagePassword("Votre mot de passe doit contenir au moins 1 caractère spécial")
-                        }
-                    } else {
-                        setErrorMessagePassword("Votre mot de passe doit contenir au moins 1 nombre")
-                    }
-                } else {
-                    setErrorMessagePassword("Votre mot de passe doit contenir au moins 1 caractère en majuscule")
-                }
-            } else {
-                setErrorMessagePassword("Votre mot de passe doit contenir au moins 1 caractère en minuscule")
-            }
-        } else {
-            setErrorMessagePassword("Votre mot de passe doit contenir au moins 6 caractères")
-        }
-
-
-    }
 
     const classes = useStyles();
     const refTextFieldMail = React.useRef();
@@ -97,8 +45,7 @@ export default function SignIn() {
                         autoComplete="email"
                         autoFocus
                         inputRef={refTextFieldMail}
-                        helperText={errorMessageMail}
-                        error={errorMessageMail ? true : false}
+
                     />
                     <TextField
                         variant="outlined"
@@ -111,8 +58,7 @@ export default function SignIn() {
                         id="password"
                         autoComplete="current-password"
                         inputRef={refTextFieldPassword}
-                        helperText={errorMessagePassword}
-                        error={errorMessagePassword ? true : false}
+
 
                     />
                     <Button
@@ -121,7 +67,7 @@ export default function SignIn() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={verifyLogin}
+                        onClick={callBDD}
                     >
                         Se connecter
                     </Button>
