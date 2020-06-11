@@ -95,12 +95,13 @@ export default function SignIn() {
             }),
 
         };
-        fetch(`http://localhost:9000/users/signup`, requestOptions)
+        fetch(`https://bdoalex.com/mysuperday/users/signup`, requestOptions)
 
             .then(response => {
                 console.log(response)
                if(response.status===500){
-                   setMessageErreurServeur("Mdr pas possible")
+                   setOpenErrorServeur(true);
+                   setMessageErreurServeur("Mdr pas possible");
                }
             })
     }
