@@ -4,22 +4,26 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
-import  MainListItemsSideBar from './list'
+import MainListItemsSideBar from './list'
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import {useTheme}   from '@material-ui/core/styles';
+import {useTheme} from '@material-ui/core/styles';
 import useStyles from "./style";
+import {
+    Switch,
+    Route,
+    Router
+} from "react-router-dom";
+
 import Calculator from "../Calculator/CalculatorMain/calculator";
-import CalculatorWidget from "../Calculator/CalculatorWidget/calculatorWidget";
-
-
+import Biorythme from "../Biorythm/BiorythmMain/biorythm";
 
 
 function Dashboard(props) {
-    const { window } = props;
+    const {window} = props;
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -29,15 +33,12 @@ function Dashboard(props) {
     };
 
 
-
-
-
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
         <div className={classes.root}>
-            <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar} >
+            <CssBaseline/>
+            <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -46,10 +47,10 @@ function Dashboard(props) {
                         onClick={handleDrawerToggle}
                         className={classes.menuButton}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                       {titleName}
+                        {titleName}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -87,11 +88,22 @@ function Dashboard(props) {
                 </Hidden>
             </nav>
             <main className={classes.content}>
-                <div>
-                   <Calculator/>
-                </div>
+                <Switch>
+                    <Route path="/my_super_day">
+
+                        <Route path="/my_super_day/calculatrice">
+                            <Calculator/>
+                        </Route>
+
+                        <Route path="/my_super_day/biorythme">
+                            <Biorythme/>
+                        </Route>
+
+                    </Route>
+                </Switch>
             </main>
         </div>
+
     );
 }
 

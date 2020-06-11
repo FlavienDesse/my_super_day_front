@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './Components/SignUp/signUp';
+import App from './Components/DashBoard/dashboard';
+import {
+    BrowserRouter as Router,
+} from "react-router-dom";
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <Router>
+          <App />
+      </Router>
+
 
 
   </React.StrictMode>,

@@ -269,7 +269,7 @@ export default function CalculInterface(props) {
                 </Grid>
                 <Grid item xs={2}>
                     <Button className={classes.button} onClick={(e) => {
-                        clickButton(e.target.innerText)
+                        clickButtonSpecial(e.target.innerText,"log(")
                     }}>
                         ln(
                     </Button>

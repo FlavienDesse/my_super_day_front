@@ -12,7 +12,14 @@ const useStyles = makeStyles((theme) => ({
   homeButton:{
     height:sizeButtonHome,
   },
+  link:{
+    color:"inherit",
+    '&:link':{
+      textDecoration:'none',
 
+    },
+
+  },
   root: {
     display: 'flex',
   },

@@ -14,7 +14,7 @@ import Typography from "@material-ui/core/Typography";
 
 
 export default function ModalAddGraph(props) {
-    let checkBox = {}
+    let checkBox = {};
 
     props.allFunctions.map((item, i) =>
             checkBox["checked" + i] = false
@@ -40,16 +40,24 @@ export default function ModalAddGraph(props) {
 
     function addGraph() {
         let oneFunSelected=false;
-        let numberValue = 10;
-        let data = {}
+        let numberValue =20;
+        let data = {};
         data["datasets"] = [];
-        let i = 0;
-        data["labels"] = Array.from(Array(numberValue+1), (d, i) => (maxValueX - minValueX) / numberValue * i);
+        var i = 0;
+
+
+
+        data["labels"] = [];
+        let  precision = Math.pow(10, 2)
+        let iteration = Math.sqrt(  Math.pow(minValueX,2) + Math.pow(maxValueX,2) ) / numberValue;
+        for( let i = parseInt(minValueX);i<=parseInt( numberValue + minValueX) ; i=i+iteration){
+            data["labels"].push(Math.ceil(i * precision) / precision);
+        }
         for (const item of props.allFunctions){
             if (stateCheckBox["checked" + i]) {
                 oneFunSelected =true;
                 const func = props.allFunctions[i];
-                const f = props.parserVar.get(item.name)
+                const f = props.parserVar.get(item.name);
 
                 data["datasets"].push({
                         label: func.expression,
@@ -67,12 +75,12 @@ export default function ModalAddGraph(props) {
         if(oneFunSelected){
 
             props.addData(data);
-            return (true);
+            return true;
         }
         else {
-            setErrorMsg("Veuillez choisir au moins une fonction")
-            setOpenAlert(true)
-            return (false);
+            setErrorMsg("Veuillez choisir au moins une fonction");
+            setOpenAlert(true);
+            return true;
 
         }
 
