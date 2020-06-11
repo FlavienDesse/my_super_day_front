@@ -4,8 +4,7 @@ import {Line} from 'react-chartjs-2';
 import {annotation} from 'chartjs-plugin-annotation'
 import Grid from "@material-ui/core/Grid";
 import Chart from 'chart.js';
-import Typography from "@material-ui/core/Typography";
-import Slider from "@material-ui/core/Slider";
+
 
 
 const Biorythm = () => {

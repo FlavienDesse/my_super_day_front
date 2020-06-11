@@ -11,7 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import {useTheme}   from '@material-ui/core/styles';
-import Biorythm from "../Biorythm/BiorythmMain/biorythm";
+import Biorythm from "../Biorythm/BiorythmWidget/biorythmWidget";
 import useStyles from "./style";
 
 
