@@ -37,8 +37,8 @@ export default function SignIn() {
     const [selectPredictionsWork, setSelectPredictionsWork] = React.useState([]);
 
 
-    const [openErrorServeur, setOpenErrorServeur] = React.useState(false);
-    const [messageErreurServeur,setMessageErreurServeur]= React.useState("");
+    const [openError, setOpenError] = React.useState(false);
+    const [messageErreur,setMessageErreur]= React.useState("");
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -63,7 +63,7 @@ export default function SignIn() {
             }),
 
         };
-        fetch(`http://localhost:9000/users/getAutocomplete`, requestOptions)
+        fetch(`http://localhost:9000/mysuperday/users/getAutocomplete`, requestOptions)
             .then(response => {
                 response.json()
                     .then(data => {
@@ -95,14 +95,15 @@ export default function SignIn() {
             }),
 
         };
-        fetch(`https://bdoalex.com/mysuperday/users/signup`, requestOptions)
+        fetch(`http://localhost:9000/mysuperday/users/signup`, requestOptions)
 
             .then(response => {
-                console.log(response)
+
                if(response.status===500){
-                   setOpenErrorServeur(true);
-                   setMessageErreurServeur("Mdr pas possible");
+                   setOpenError(true);
+                   setMessageErreur("Erreur interne");
                }
+
             })
     }
 
@@ -336,14 +337,8 @@ export default function SignIn() {
                     >
                         Créer un compte
                     </Button>
-                    <Grid container>
-                        <Grid item>
-                            <Link href="#" variant="body2">
-                                {"Dèjà un compte ?"}
-                            </Link>
-                        </Grid>
-                    </Grid>
-                    <Collapse in={openErrorServeur}>
+
+                    <Collapse in={openError}>
                         <Alert
                             action={
                                 <IconButton
@@ -351,16 +346,24 @@ export default function SignIn() {
                                     color="inherit"
                                     size="small"
                                     onClick={() => {
-                                        setOpenErrorServeur(false);
+                                        setOpenError(false);
                                     }}
                                 >
                                     <CloseIcon fontSize="inherit" />
                                 </IconButton>
                             }
                         >
-                            {messageErreurServeur}
+                            {messageErreur}
                         </Alert>
                     </Collapse>
+                    <Grid container>
+                        <Grid item>
+                            <Link href="#" variant="body2">
+                                {"Dèjà un compte ?"}
+                            </Link>
+                        </Grid>
+                    </Grid>
+
                 </FormControl>
             </div>
 
