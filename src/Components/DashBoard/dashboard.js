@@ -20,7 +20,7 @@ import {
 
 import Calculator from "../Calculator/CalculatorMain/calculator";
 import Biorythme from "../Biorythm/BiorythmMain/biorythm";
-
+import SignUp from "../SignUp/signUp";
 
 function Dashboard(props) {
     const {window} = props;
@@ -97,6 +97,9 @@ function Dashboard(props) {
 
                         <Route path="/my_super_day/biorythme">
                             <Biorythme/>
+                        </Route>
+                        <Route path="/my_super_day/users/signUp">
+                            <SignUp/>
                         </Route>
 
                     </Route>
