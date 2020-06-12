@@ -14,6 +14,7 @@ import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
+import { Redirect } from 'react-router-dom';
 export default function SignIn() {
 
     const classes = useStyles();
@@ -23,7 +24,7 @@ export default function SignIn() {
 
 
     function callBDD(username,password) {
-        console.log(username + " " + password)
+
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -34,11 +35,12 @@ export default function SignIn() {
             }),
 
         };
-        fetch(`http://localhost:9001/mysuperday/users/signin`, requestOptions)
+        fetch(`http://localhost:9000/mysuperday/users/signin`, requestOptions)
 
             .then(response => {
                 response.json()
                     .then(data => {
+                        console.log(response)
                       if(response.status===500){
                           setErrorMessage(data.message)
                       }
@@ -52,7 +54,6 @@ export default function SignIn() {
                       }
                         else {
                           setErrorMessage("")
-                            console.log(data)
                       }
 
                     })
