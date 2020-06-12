@@ -89,7 +89,7 @@ function Dashboard(props) {
             </nav>
             <main className={classes.content}>
                 <Switch>
-                    <Route path="/mysuper_ay">
+                    <Route path="/mysuperday">
 
                         <Route path="/mysuperday/calculatrice">
                             <Calculator/>
@@ -98,7 +98,7 @@ function Dashboard(props) {
                         <Route path="/mysuperday/biorythme">
                             <Biorythme/>
                         </Route>
-                        <Route path="/mysuperday/users/signUp">
+                        <Route path="/mysuperday/users/signup">
                             <SignUp/>
                         </Route>
 
