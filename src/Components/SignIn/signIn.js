@@ -55,7 +55,8 @@ export default function SignIn() {
                         } else {
                             setErrorMessage("")
                             if (data.accessToken) {
-                                localStorage.setItem("user", JSON.stringify(data.accessToken));
+
+                                localStorage.setItem("user", JSON.stringify(data));
                                 history.push('/mysuperday/dashboard')
                             }
 
