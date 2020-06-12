@@ -27,7 +27,7 @@ function MainListItemsSideBar(props) {
 
     return (
         <div>
-            <Link to="/my_super_day/dashboard" className={props.style.link}>
+            <Link to="/mysuperday/dashboard" className={props.style.link}>
                 <div className={props.style.homeDivButton} onClick={() => {
                     props.setTitleName("Vue d'ensemble")
                 }}>
@@ -40,7 +40,7 @@ function MainListItemsSideBar(props) {
 
 
             <List>
-                <Link to="/my_super_day/horoscope" className={props.style.link}>
+                <Link to="/mysuperday/horoscope" className={props.style.link}>
                     <ListItem button onClick={() => {
                         props.setTitleName("Horoscope")
                     }}>
@@ -48,7 +48,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Horoscope"}/>
                     </ListItem>
                 </Link>
-                <Link to="/my_super_day/biorythme" className={props.style.link}>
+                <Link to="/mysuperday/biorythme" className={props.style.link}>
                     <ListItem button onClick={() => {
                         props.setTitleName("Biorythme")
                     }}>
@@ -56,7 +56,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Biorythme"}/>
                     </ListItem>
                 </Link>
-                <Link to="/my_super_day/traducteur" className={props.style.link}>
+                <Link to="/mysuperday/traducteur" className={props.style.link}>
                     <ListItem button onClick={() => {
                         props.setTitleName("Traducteur")
                     }}>
@@ -64,7 +64,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Traducteur"}/>
                     </ListItem>
                 </Link>
-                <Link to="/my_super_day/agenda" className={props.style.link}>
+                <Link to="/mysuperday/agenda" className={props.style.link}>
                     <ListItem button onClick={() => {
                         props.setTitleName("Agenda")
                     }}>
@@ -72,7 +72,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Agenda"}/>
                     </ListItem>
                 </Link>
-                <Link to="/my_super_day/calculatrice" className={props.style.link}>
+                <Link to="/mysuperday/calculatrice" className={props.style.link}>
                     <ListItem button onClick={() => {
                         props.setTitleName("Calculatrice")
                     }}>
@@ -80,7 +80,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Calculatrice"}/>
                     </ListItem>
                 </Link>
-                <Link to="/my_super_day/blocNote" className={props.style.link}>
+                <Link to="/mysuperday/blocNote" className={props.style.link}>
                     <ListItem button onClick={(e) => {
                         props.setTitleName("Bloc notes")
                     }}>
@@ -88,7 +88,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Bloc notes"}/>
                     </ListItem>
                 </Link>
-                <Link to="/my_super_day/meteo" className={props.style.link}>
+                <Link to="/mysuperday/meteo" className={props.style.link}>
                     <ListItem button onClick={(e) => {
                         props.setTitleName("Météo")
                     }}>
@@ -96,7 +96,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Météo"}/>
                     </ListItem>
                 </Link>
-                <Link to="/my_super_day/bourse" className={props.style.link}>
+                <Link to="/mysuperday/bourse" className={props.style.link}>
                     <ListItem button onClick={(e) => {
                         props.setTitleName("Bourse")
                     }}>
