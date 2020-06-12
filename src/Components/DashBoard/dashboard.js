@@ -12,17 +12,21 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import {useTheme} from '@material-ui/core/styles';
 import useStyles from "./style";
+import Button from "@material-ui/core/Button";
 import {
     Switch,
     Route,
-    Router
+    Router,
+    useHistory
 } from "react-router-dom";
+import CheckConnected from "../Controller/CheckConnected";
 
 import Calculator from "../Calculator/CalculatorMain/calculator";
 import Biorythme from "../Biorythm/BiorythmMain/biorythm";
 import SignUp from "../SignUp/signUp";
 
 function Dashboard(props) {
+    let history=useHistory();
     const {window} = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -49,9 +53,15 @@ function Dashboard(props) {
                     >
                         <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" noWrap>
+                    <Typography variant="h6" noWrap className={classes.title}>
                         {titleName}
                     </Typography>
+                    <Button color="inherit" edge={"end"} onClick={()=> {
+                        localStorage.clear();
+                        history.push('/')
+                    }}>  <Typography  noWrap className={classes.title}>
+                        Se déconnecter
+                    </Typography></Button>
                 </Toolbar>
             </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">

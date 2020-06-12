@@ -4,6 +4,9 @@ const drawerWidth = 240;
 const drawerHeight = 64;
 const sizeButtonHome = 32;
 const useStyles = makeStyles((theme) => ({
+  title:{
+    flexGrow:1,
+  },
   homeDivButton:{
     height:drawerHeight,
     textAlign:'center',

@@ -21,8 +21,11 @@ import Alert from "@material-ui/lab/Alert";
 import CloseIcon from '@material-ui/icons/Close';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from "@material-ui/core/IconButton";
+import {useHistory} from "react-router-dom";
 
 export default function SignIn() {
+    let history = useHistory();
+
     const [errorMessageMail, setErrorMessageMail] = React.useState("");
     const [errorMessagePassword, setErrorMessagePassword] = React.useState("");
     const [errorMessagePasswordRetry, setErrorMessagePasswordRetry] = React.useState("");
@@ -337,7 +340,7 @@ export default function SignIn() {
                     </Button>
                     <Grid container>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link path="/mysuperday/users/signin" variant="body2" onClick={()=>history.push('/mysuperday/users/signin')} >
                                 {"Dèjà un compte ?"}
                             </Link>
                         </Grid>

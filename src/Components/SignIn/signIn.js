@@ -14,23 +14,27 @@ import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
-import { Redirect } from 'react-router-dom';
+
+
+import {useHistory} from "react-router-dom";
+
 export default function SignIn() {
 
+    const history =  useHistory();
     const classes = useStyles();
     const refTextFieldUsername = React.createRef();
     const refTextFieldPassword = React.createRef();
-    const [errorMessage,setErrorMessage]=React.useState("")
+    const [errorMessage, setErrorMessage] = React.useState("")
 
 
-    function callBDD(username,password) {
+    function callBDD(username, password) {
 
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                username:username,
-                password:password,
+                username: username,
+                password: password,
 
             }),
 
@@ -40,27 +44,27 @@ export default function SignIn() {
             .then(response => {
                 response.json()
                     .then(data => {
-                        console.log(response)
-                      if(response.status===500){
-                          setErrorMessage(data.message)
-                      }
-                      else if(response.status===404){
-                          setErrorMessage(data.message)
+                        if (response.status === 500) {
+                            setErrorMessage(data.message)
+                        } else if (response.status === 404) {
+                            setErrorMessage(data.message)
 
-                      }
-                      else if(response.status===401){
-                          setErrorMessage(data.message)
+                        } else if (response.status === 401) {
+                            setErrorMessage(data.message)
 
-                      }
-                        else {
-                          setErrorMessage("")
-                      }
+                        } else {
+                            setErrorMessage("")
+                            if (data.accessToken) {
+                                localStorage.setItem("user", JSON.stringify(data.accessToken));
+                                history.push('/mysuperday/dashboard')
+                            }
+
+
+                        }
 
                     })
             })
     }
-    
-    
 
 
     return (
@@ -107,31 +111,31 @@ export default function SignIn() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={()=>callBDD(refTextFieldUsername.current.value,refTextFieldPassword.current.value)}
+                        onClick={() => callBDD(refTextFieldUsername.current.value, refTextFieldPassword.current.value)}
                     >
                         Se connecter
                     </Button>
                     <Collapse in={errorMessage !== ""}>
                         <Alert severity="error"
-                            action={
-                                <IconButton
-                                    aria-label="close"
-                                    color="inherit"
-                                    size="small"
-                                    onClick={() => {
-                                        setErrorMessage("");
-                                    }}
-                                >
-                                    <CloseIcon fontSize="inherit" />
-                                </IconButton>
-                            }
+                               action={
+                                   <IconButton
+                                       aria-label="close"
+                                       color="inherit"
+                                       size="small"
+                                       onClick={() => {
+                                           setErrorMessage("");
+                                       }}
+                                   >
+                                       <CloseIcon fontSize="inherit"/>
+                                   </IconButton>
+                               }
                         >
                             {errorMessage}
                         </Alert>
                     </Collapse>
                     <Grid container>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link path="/mysuperday/signup" variant="body2" onClick={()=>history.push("/mysuperday/users/signup")}>
                                 {"Pas de compte ?"}
                             </Link>
                         </Grid>
