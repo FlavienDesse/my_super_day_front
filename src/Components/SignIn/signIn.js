@@ -10,19 +10,58 @@ import WbSunnyIcon from '@material-ui/icons/WbSunny';
 import Typography from '@material-ui/core/Typography';
 import useStyles from "./style";
 import FormControl from '@material-ui/core/FormControl'
-
+import Alert from '@material-ui/lab/Alert';
+import IconButton from '@material-ui/core/IconButton';
+import Collapse from '@material-ui/core/Collapse';
+import CloseIcon from '@material-ui/icons/Close';
 export default function SignIn() {
 
-    
-    function callBDD() {
-        return;
+    const classes = useStyles();
+    const refTextFieldUsername = React.createRef();
+    const refTextFieldPassword = React.createRef();
+    const [errorMessage,setErrorMessage]=React.useState("")
+
+
+    function callBDD(username,password) {
+        console.log(username + " " + password)
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                username:username,
+                password:password,
+
+            }),
+
+        };
+        fetch(`http://localhost:9001/mysuperday/users/signin`, requestOptions)
+
+            .then(response => {
+                response.json()
+                    .then(data => {
+                      if(response.status===500){
+                          setErrorMessage(data.message)
+                      }
+                      else if(response.status===404){
+                          setErrorMessage(data.message)
+
+                      }
+                      else if(response.status===401){
+                          setErrorMessage(data.message)
+
+                      }
+                        else {
+                          setErrorMessage("")
+                            console.log(data)
+                      }
+
+                    })
+            })
     }
     
     
 
-    const classes = useStyles();
-    const refTextFieldMail = React.useRef();
-    const refTextFieldPassword = React.useRef();
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline/>
@@ -39,12 +78,12 @@ export default function SignIn() {
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
-                        label="Email"
-                        name="email"
-                        autoComplete="email"
+                        id="username"
+                        label="Nom"
+                        name="username"
+                        autoComplete="username"
                         autoFocus
-                        inputRef={refTextFieldMail}
+                        inputRef={refTextFieldUsername}
 
                     />
                     <TextField
@@ -67,10 +106,28 @@ export default function SignIn() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={callBDD}
+                        onClick={()=>callBDD(refTextFieldUsername.current.value,refTextFieldPassword.current.value)}
                     >
                         Se connecter
                     </Button>
+                    <Collapse in={errorMessage !== ""}>
+                        <Alert severity="error"
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setErrorMessage("");
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                        >
+                            {errorMessage}
+                        </Alert>
+                    </Collapse>
                     <Grid container>
                         <Grid item>
                             <Link href="#" variant="body2">
