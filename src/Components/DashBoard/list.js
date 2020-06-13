@@ -21,11 +21,11 @@ import { Link ,useCurrentRoute} from 'react-navi'
 
 
 function MainListItemsSideBar(props) {
-    let url  = useCurrentRoute().url.pathname;
+    let url  = "/mysuperday/dashboard";
 
     return (
         <div>
-            <Link href={url + '/dashboard'} className={props.style.link}>
+            <Link href={url + '/'} className={props.style.link}>
                 <div className={props.style.homeDivButton} onClick={() => {
                     props.setTitleName("Vue d'ensemble")
                 }}>

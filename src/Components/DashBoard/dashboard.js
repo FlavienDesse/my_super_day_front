@@ -14,7 +14,7 @@ import {useTheme} from '@material-ui/core/styles';
 import useStyles from "./style";
 import Button from "@material-ui/core/Button";
 
-import {useNavigation} from "react-navi";
+import {Link, useNavigation} from "react-navi";
 
 
 
@@ -49,12 +49,11 @@ export function Dashboard(props) {
                     <Typography variant="h6" noWrap className={classes.title}>
                         {titleName}
                     </Typography>
-                    <Button color="inherit" edge={"end"} onClick={()=> {
-                        localStorage.clear();
-                        history.push('/')
-                    }}>  <Typography  noWrap className={classes.title}>
-                        Se déconnecter
-                    </Typography></Button>
+                    <Link href={'/'} className={classes.link}  onClick={()=> {
+                        localStorage.clear()
+
+                    }}>
+                        <Button  variant="contained">Se déconnecter</Button></Link>
                 </Toolbar>
             </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">

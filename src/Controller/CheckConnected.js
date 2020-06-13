@@ -16,7 +16,7 @@ export default function getUserBoard() {
         headers: authHeader(),
     };
 
-    return fetch(`http://localhost:9000/mysuperday/users/verifyToken`, requestOptions)
+    return fetch(`https://bdoalex.com/mysuperday/users/verifyToken`, requestOptions)
 
         .then(function (response) {
             return response.json()

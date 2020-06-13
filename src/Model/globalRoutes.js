@@ -3,7 +3,7 @@ import React from 'react'
 
 
 export default compose(
-    withView((request,context) =>
+    withView((request, context) =>
         console.log(request)
     ),
     mount({
@@ -20,7 +20,7 @@ export default compose(
                                     <Biorythm>
 
                                     </Biorythm>
-                                </Dashboard> )
+                                </Dashboard>)
                         } else {
                             const {SignIn} = await import('../Components/SignIn/signIn')
                             return <SignIn authService={context.authService}/>
@@ -40,7 +40,7 @@ export default compose(
                                     <Calculator>
 
                                     </Calculator>
-                                </Dashboard> )
+                                </Dashboard>)
                         } else {
                             const {SignIn} = await import('../Components/SignIn/signIn')
                             return <SignIn authService={context.authService}/>
@@ -64,7 +64,31 @@ export default compose(
 
                     },
             }),
+        '/mysuperday/users/signup':
+            route({
+                getView: async (req, context) => {
+
+                    const {SignUp} = await import('../Components/SignUp/signUp')
+                    return <SignUp />
+                },
+            }),
         '/':
+            route({
+                getView: async (req, context) => {
+
+                    const {SignIn} = await import('../Components/SignIn/signIn')
+                    return <SignIn authService={context.authService}/>
+                },
+            }),
+        '/mysuperday':
+            route({
+                getView: async (req, context) => {
+
+                    const {SignIn} = await import('../Components/SignIn/signIn')
+                    return <SignIn authService={context.authService}/>
+                },
+            }),
+        '/mysuperday/users/signin':
             route({
                 getView: async (req, context) => {
 

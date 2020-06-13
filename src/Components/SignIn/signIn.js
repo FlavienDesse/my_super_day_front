@@ -4,7 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
+
 import Grid from '@material-ui/core/Grid';
 import WbSunnyIcon from '@material-ui/icons/WbSunny';
 import Typography from '@material-ui/core/Typography';
@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
 import {useHistory} from "react-navi";
-
+import { Link} from 'react-navi';
 
 export function SignIn({authService}) {
 
@@ -38,7 +38,7 @@ export function SignIn({authService}) {
             }),
 
         };
-        fetch(`http://localhost:9000/mysuperday/users/signin`, requestOptions)
+        fetch(`https://bdoalex.com/mysuperday/users/signin`, requestOptions)
 
             .then(response => {
                 response.json()
@@ -135,7 +135,7 @@ export function SignIn({authService}) {
                     </Collapse>
                     <Grid container>
                         <Grid item>
-                            <Link path="/mysuperday/signup" variant="body2" >
+                            <Link href="/mysuperday/users/signup" >
                                 {"Pas de compte ?"}
                             </Link>
                         </Grid>

@@ -21,9 +21,9 @@ import Alert from "@material-ui/lab/Alert";
 import CloseIcon from '@material-ui/icons/Close';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from "@material-ui/core/IconButton";
-import {useHistory} from "react-router-dom";
+import {useHistory} from "react-navi";
 
-export default function SignIn() {
+export  function SignUp() {
     let history = useHistory();
 
     const [errorMessageMail, setErrorMessageMail] = React.useState("");
@@ -36,12 +36,14 @@ export default function SignIn() {
 
     const [selectedDate, setSelectedDate] = React.useState(new Date());
 
+
+
     const [selectPredictionsHome, setSelectPredictionsHome] = React.useState([]);
     const [selectPredictionsWork, setSelectPredictionsWork] = React.useState([]);
 
 
-    const [openErrorServeur, setOpenErrorServeur] = React.useState(false);
-    const [messageErreurServeur,setMessageErreurServeur]= React.useState("");
+    const [openError, setOpenError] = React.useState(false);
+    const [messageErreur,setMessageErreur]= React.useState("");
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -66,7 +68,7 @@ export default function SignIn() {
             }),
 
         };
-        fetch(`http://localhost:9000/users/getAutocomplete`, requestOptions)
+        fetch(`https://bdoalex.com/mysuperday/users/getAutocomplete`, requestOptions)
             .then(response => {
                 response.json()
                     .then(data => {
@@ -98,14 +100,23 @@ export default function SignIn() {
             }),
 
         };
-        fetch(`http://localhost:9000/users/signup`, requestOptions)
+        fetch(`https://bdoalex.com/mysuperday/users/signup`, requestOptions)
 
             .then(response => {
-                console.log(response)
-               if(response.status===500){
-                   setMessageErreurServeur("Mdr pas possible")
-               }
-            })
+                response.json()
+                    .then(data => {
+
+                        if(response.status===500 || response.status===400 ){
+                            setMessageErreur(data.message);
+                            setOpenError(true)
+
+                        }
+                        else {
+                            history.push('/mysuperday/users/signin')
+                        }
+                    })
+
+        })
     }
 
     function verifyLogin() {
@@ -345,22 +356,24 @@ export default function SignIn() {
                             </Link>
                         </Grid>
                     </Grid>
-                    <Collapse in={openErrorServeur}>
+                    <Collapse in={openError}>
                         <Alert
+                            severity={"error"}
                             action={
                                 <IconButton
                                     aria-label="close"
                                     color="inherit"
                                     size="small"
                                     onClick={() => {
-                                        setOpenErrorServeur(false);
+                                        setMessageErreur("")
+                                        setOpenError(false);
                                     }}
                                 >
                                     <CloseIcon fontSize="inherit" />
                                 </IconButton>
                             }
                         >
-                            {messageErreurServeur}
+                            {messageErreur}
                         </Alert>
                     </Collapse>
                 </FormControl>
