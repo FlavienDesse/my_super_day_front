@@ -23,9 +23,12 @@
     "luxon": "^1.24.1",
     "mathjs": "^7.0.1",
     "moment": "^2.26.0",
+    "navi": "^0.14.0",
     "react": "^16.13.1",
+    "react-busy-indicator": "^1.0.0",
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.1",
+    "react-navi": "^0.14.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1"
   },
@@ -49,5 +52,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "envify": "^4.1.0",
+    "terser": "^4.7.0",
+    "uglifyify": "^5.0.2"
   }
 }

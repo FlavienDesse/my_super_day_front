@@ -1,5 +1,5 @@
 function authHeader() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('users'));
 
     if (user && user.accessToken) {
         // for Node.js Express back-end
@@ -23,6 +23,7 @@ export default function getUserBoard() {
         })
 
         .then(function (data) {
+
             if (data.isConnected) {
                 return true;
             } else {

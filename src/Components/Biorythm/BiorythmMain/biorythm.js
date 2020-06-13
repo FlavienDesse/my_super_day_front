@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Chart from 'chart.js';
 
 
-const Biorythm = () => {
+export const Biorythm = () => {
     let label = [];
     let date = new Date();
     const [chartData, setChartData] = React.useState({});
@@ -165,4 +165,3 @@ const Biorythm = () => {
     );
 }
 
-export default Biorythm;

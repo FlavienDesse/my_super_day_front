@@ -14,13 +14,12 @@ import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
+import {useHistory} from "react-navi";
 
 
-import {useHistory} from "react-router-dom";
+export function SignIn({authService}) {
 
-export default function SignIn() {
-
-    const history =  useHistory();
+    let history = useHistory()
     const classes = useStyles();
     const refTextFieldUsername = React.createRef();
     const refTextFieldPassword = React.createRef();
@@ -55,9 +54,9 @@ export default function SignIn() {
                         } else {
                             setErrorMessage("")
                             if (data.accessToken) {
+                                authService.login(data)
 
-                                localStorage.setItem("user", JSON.stringify(data));
-                                history.push('/mysuperday/dashboard')
+                                history.push("/mysuperday/dashboard")
                             }
 
 
@@ -136,7 +135,7 @@ export default function SignIn() {
                     </Collapse>
                     <Grid container>
                         <Grid item>
-                            <Link path="/mysuperday/signup" variant="body2" onClick={()=>history.push("/mysuperday/users/signup")}>
+                            <Link path="/mysuperday/signup" variant="body2" >
                                 {"Pas de compte ?"}
                             </Link>
                         </Grid>

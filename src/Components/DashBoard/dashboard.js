@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState} from 'react';
 
 
 import AppBar from '@material-ui/core/AppBar';
@@ -13,20 +13,13 @@ import Typography from '@material-ui/core/Typography';
 import {useTheme} from '@material-ui/core/styles';
 import useStyles from "./style";
 import Button from "@material-ui/core/Button";
-import {
-    Switch,
-    Route,
-    Router,
-    useHistory
-} from "react-router-dom";
-import CheckConnected from "../Controller/CheckConnected";
 
-import Calculator from "../Calculator/CalculatorMain/calculator";
-import Biorythme from "../Biorythm/BiorythmMain/biorythm";
-import SignUp from "../SignUp/signUp";
+import {useNavigation} from "react-navi";
 
-function Dashboard(props) {
-    let history=useHistory();
+
+
+export function Dashboard(props) {
+    let history=useNavigation();
     const {window} = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -98,26 +91,9 @@ function Dashboard(props) {
                 </Hidden>
             </nav>
             <main className={classes.content}>
-                <Switch>
-                    <Route path="/mysuperday">
-
-                        <Route path="/mysuperday/calculatrice">
-                            <Calculator/>
-                        </Route>
-
-                        <Route path="/mysuperday/biorythme">
-                            <Biorythme/>
-                        </Route>
-                        <Route path="/mysuperday/users/signup">
-                            <SignUp/>
-                        </Route>
-
-                    </Route>
-                </Switch>
+                {props.children}
             </main>
         </div>
 
     );
 }
-
-export default Dashboard;

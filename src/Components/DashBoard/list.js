@@ -16,18 +16,16 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import HomeIcon from '@material-ui/icons/Home';
+import { Link ,useCurrentRoute} from 'react-navi'
 
-import {
-    BrowserRouter as Router,
-    Link,
-} from "react-router-dom";
 
 
 function MainListItemsSideBar(props) {
+    let url  = useCurrentRoute().url.pathname;
 
     return (
         <div>
-            <Link to="/mysuperday/dashboard" className={props.style.link}>
+            <Link href={url + '/dashboard'} className={props.style.link}>
                 <div className={props.style.homeDivButton} onClick={() => {
                     props.setTitleName("Vue d'ensemble")
                 }}>
@@ -40,7 +38,7 @@ function MainListItemsSideBar(props) {
 
 
             <List>
-                <Link to="/mysuperday/horoscope" className={props.style.link}>
+                <Link href={`${url}/horoscope`} className={props.style.link}>
                     <ListItem button onClick={() => {
                         props.setTitleName("Horoscope")
                     }}>
@@ -48,7 +46,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Horoscope"}/>
                     </ListItem>
                 </Link>
-                <Link to="/mysuperday/biorythme" className={props.style.link}>
+                <Link href={`${url}/biorythme`} className={props.style.link}>
                     <ListItem button onClick={() => {
                         props.setTitleName("Biorythme")
                     }}>
@@ -56,7 +54,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Biorythme"}/>
                     </ListItem>
                 </Link>
-                <Link to="/mysuperday/traducteur" className={props.style.link}>
+                <Link href={`${url}/traducteur`} className={props.style.link}>
                     <ListItem button onClick={() => {
                         props.setTitleName("Traducteur")
                     }}>
@@ -64,7 +62,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Traducteur"}/>
                     </ListItem>
                 </Link>
-                <Link to="/mysuperday/agenda" className={props.style.link}>
+                <Link href={`${url}/agenda`} className={props.style.link}>
                     <ListItem button onClick={() => {
                         props.setTitleName("Agenda")
                     }}>
@@ -72,7 +70,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Agenda"}/>
                     </ListItem>
                 </Link>
-                <Link to="/mysuperday/calculatrice" className={props.style.link}>
+                <Link href={`${url}/calculatrice`} className={props.style.link}>
                     <ListItem button onClick={() => {
                         props.setTitleName("Calculatrice")
                     }}>
@@ -80,7 +78,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Calculatrice"}/>
                     </ListItem>
                 </Link>
-                <Link to="/mysuperday/blocNote" className={props.style.link}>
+                <Link href={`${url}/blocNote`} className={props.style.link}>
                     <ListItem button onClick={(e) => {
                         props.setTitleName("Bloc notes")
                     }}>
@@ -88,7 +86,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Bloc notes"}/>
                     </ListItem>
                 </Link>
-                <Link to="/mysuperday/meteo" className={props.style.link}>
+                <Link href={`${url}/meteo`} className={props.style.link}>
                     <ListItem button onClick={(e) => {
                         props.setTitleName("Météo")
                     }}>
@@ -96,7 +94,7 @@ function MainListItemsSideBar(props) {
                         <ListItemText primary={"Météo"}/>
                     </ListItem>
                 </Link>
-                <Link to="/mysuperday/bourse" className={props.style.link}>
+                <Link href={`${url}/bourse`} className={props.style.link}>
                     <ListItem button onClick={(e) => {
                         props.setTitleName("Bourse")
                     }}>

@@ -12,9 +12,9 @@ import ModalAddFunctionOrVariable from "./modalAddFunctionOrVariable"
 import DeleteIcon from '@material-ui/icons/Delete';
 import PersonnalFunction from "./PersonnalFunction";
 import PersonnalVariable from "./PersonnalVariable";
-import {evaluate, parser} from "mathjs";
+import { parser} from "mathjs";
 
-export default function Calculator() {
+export function Calculator() {
     const classes = useStyles();
 
 
