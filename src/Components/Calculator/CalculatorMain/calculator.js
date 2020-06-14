@@ -86,9 +86,9 @@ export function Calculator() {
 
                         allFunctions.map((item, i) =>
 
-                            <ListItem className={classes.listVarAndFun}>
+                            <ListItem key={i.toString()}   className={classes.listVarAndFun}>
 
-                                <ListItemIcon>
+                                <ListItemIcon >
                                     <DeleteIcon onClick={() => {
                                         onClickDeleteFunction(i)
                                     }}/>
@@ -123,7 +123,7 @@ export function Calculator() {
                 {
                     allVariables.map((item, i) =>
 
-                        <ListItem className={classes.listVarAndFun}>
+                        <ListItem  key={i.toString()}  className={classes.listVarAndFun}>
 
                             <ListItemIcon>
                                 <DeleteIcon onClick={() => {

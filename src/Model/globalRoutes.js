@@ -1,100 +1,72 @@
-import {compose, mount, route, withView} from 'navi'
+import {compose, mount, route, redirect, map} from 'navi'
 import React from 'react'
 
-
 export default compose(
-    withView((request, context) =>
-        console.log(request)
-    ),
     mount({
-        '/mysuperday/dashboard/biorythme':
-            route({
-                getView:
-                    async (req, context) => {
-                        let connected = await context.authService.isConnected()
-                        if (connected) {
+        '/mysuperday/dashboard/biorythme': map(async (request, context) =>
+            await context.authService.isConnected() ? route({
+                    getView:
+                        async (req, context) => {
                             const {Dashboard} = await import('../Components/DashBoard/dashboard')
                             const {Biorythm} = await import('../Components/Biorythm/BiorythmMain/biorythm')
                             return (
-                                <Dashboard authService={context.authService}>
-                                    <Biorythm>
-
-                                    </Biorythm>
-                                </Dashboard>)
-                        } else {
-                            const {SignIn} = await import('../Components/SignIn/signIn')
-                            return <SignIn authService={context.authService}/>
-                        }
-                    },
-            }),
-        '/mysuperday/dashboard/calculatrice':
-            route({
-                getView:
-                    async (req, context) => {
-                        let connected = await context.authService.isConnected()
-                        if (connected) {
+                                <Dashboard  authService={context.authService}>
+                                    <Biorythm/>
+                                </Dashboard>
+                            )
+                        },
+                })
+                :
+                redirect('/mysuperday/users/signin')
+        ),
+        '/mysuperday/dashboard/calculatrice': map(async (request, context) =>
+            await context.authService.isConnected() ? route({
+                    getView:
+                        async (req, context) => {
                             const {Dashboard} = await import('../Components/DashBoard/dashboard')
                             const {Calculator} = await import('../Components/Calculator/CalculatorMain/calculator')
                             return (
-                                <Dashboard authService={context.authService}>
-                                    <Calculator>
-
-                                    </Calculator>
-                                </Dashboard>)
-                        } else {
-                            const {SignIn} = await import('../Components/SignIn/signIn')
-                            return <SignIn authService={context.authService}/>
-                        }
-                    },
-            }),
-        '/mysuperday/dashboard':
-            route({
-                getView:
-                    async (req, context) => {
-                        let connected = await context.authService.isConnected()
-
-                        if (connected) {
+                                <Dashboard  authService={context.authService}>
+                                    <Calculator/>
+                                </Dashboard>
+                            )
+                        },
+                })
+                :
+                redirect('/mysuperday/users/signin')
+        ),
+        '/mysuperday/dashboard': map(async (request, context) =>
+            await context.authService.isConnected() ? route({
+                    getView:
+                        async (req, context) => {
                             const {Dashboard} = await import('../Components/DashBoard/dashboard')
                             return <Dashboard authService={context.authService}/>
-                        } else {
+                        },
+                })
+                :
+                redirect('/mysuperday/users/signin')
+        ),
+        '/mysuperday/users/signup': route({
+            getView:
+                async (req, context) => {
+                    const {SignUp} = await import('../Components/SignUp/signUp')
+                    return <SignUp authService={context.authService}/>
+                },
+        }),
+        '/mysuperday/users/signin': map(async (request, context) =>
+            await context.authService.isConnected() ?
+                redirect('/mysuperday/dashboard')
+                : route({
+                    getView:
+                        async (req, context) => {
+
                             const {SignIn} = await import('../Components/SignIn/signIn')
                             return <SignIn authService={context.authService}/>
-                        }
+                        },
+                })
+        ),
+        '/': redirect('/mysuperday/users/signin'),
+        '/mysuperday': redirect('/mysuperday/users/signin'),
 
-
-                    },
-            }),
-        '/mysuperday/users/signup':
-            route({
-                getView: async (req, context) => {
-
-                    const {SignUp} = await import('../Components/SignUp/signUp')
-                    return <SignUp />
-                },
-            }),
-        '/':
-            route({
-                getView: async (req, context) => {
-
-                    const {SignIn} = await import('../Components/SignIn/signIn')
-                    return <SignIn authService={context.authService}/>
-                },
-            }),
-        '/mysuperday':
-            route({
-                getView: async (req, context) => {
-
-                    const {SignIn} = await import('../Components/SignIn/signIn')
-                    return <SignIn authService={context.authService}/>
-                },
-            }),
-        '/mysuperday/users/signin':
-            route({
-                getView: async (req, context) => {
-
-                    const {SignIn} = await import('../Components/SignIn/signIn')
-                    return <SignIn authService={context.authService}/>
-                },
-            })
     })
 )

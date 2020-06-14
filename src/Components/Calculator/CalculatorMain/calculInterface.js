@@ -142,7 +142,6 @@ export default function CalculInterface(props) {
     }
 
     if (windowDimensions > defaultTheme.breakpoints.values.md) {
-        console.log(defaultTheme.breakpoints.values.s)
         return (
             <Grid container spacing={1} alignItems="flex-end">
 
@@ -187,7 +186,7 @@ export default function CalculInterface(props) {
                 </Grid>
                 <Grid item xs={4}>
                     <Button color="secondary" startIcon={<DeleteIcon/>} variant="contained"
-                            className={[classes.button]}
+                            className={classes.button}
                             onClick={(e) => {
                                 setResult("");
                                 setValueClicked("")

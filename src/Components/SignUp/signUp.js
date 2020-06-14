@@ -68,7 +68,7 @@ export  function SignUp() {
             }),
 
         };
-        fetch(`https://bdoalex.com/mysuperday/users/getAutocomplete`, requestOptions)
+        fetch(`http://localhost:9000/mysuperday/users/getAutocomplete`, requestOptions)
             .then(response => {
                 response.json()
                     .then(data => {
@@ -100,7 +100,7 @@ export  function SignUp() {
             }),
 
         };
-        fetch(`https://bdoalex.com/mysuperday/users/signup`, requestOptions)
+        fetch(`http://localhost:9000/mysuperday/users/signup`, requestOptions)
 
             .then(response => {
                 response.json()
