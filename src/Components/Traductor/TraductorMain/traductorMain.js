@@ -1,45 +1,60 @@
 import React, {useEffect} from "react";
-import useStyles from  './style'
-
+import useStyles from './style'
+import Grid from "@material-ui/core/Grid";
+import InputBase from "@material-ui/core/InputBase";
+import Paper from "@material-ui/core/Paper";
 
 function callTrad(props) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body : JSON.stringify( {
-            text:props.text,
-            langCible:props.langCible,
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            text: props.text,
+            langCible: props.langCible,
         }),
 
     };
     fetch(`http://localhost:9000/traducteur`, requestOptions)
-        .then(response =>{response.json()
-            .then(data => {
-                props.setTraduction(data.trad);
-            })
+        .then(response => {
+            response.json()
+                .then(data => {
+                    props.setTraduction(data.trad);
+                })
         })
 }
 
-function TraductorMain(){
+function TraductorMain() {
     const classes = useStyles();
-    let langCible = "en"
-    let text="J'aime la france";
-    const [traduction,setTraduction]=React.useState("");
-
-    useEffect(()=>{
-        callTrad({
-            langCible:langCible,
-            text:text,
-            setTraduction:setTraduction,
-        }
-    )}, [langCible, text]
-    );
+    const [traduction, setTraduction] = React.useState("");
+    const [textWanted, setTextWanted] = React.useState("")
+    const [lang, setLang] = React.useState("")
 
 
     return (
-        <div className={classes.container}>
-            Traduction : {traduction}
-        </div>
+        <Paper className={classes.container}>
+
+
+            <Grid container spacing={3}>
+                <Grid item xs={6}>
+
+                </Grid>
+                <Grid item xs={6}>
+                    a
+                </Grid>
+                <Grid item xs={6} className={classes.textWanted}>
+                    <InputBase
+                        multiline
+                        className={classes.textField}
+                        defaultValue=""
+                        inputProps={{'aria-label': 'naked'}}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    a
+                </Grid>
+
+            </Grid>
+        </Paper>
     )
 }
 
