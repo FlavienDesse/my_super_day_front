@@ -38,7 +38,7 @@ export function SignIn({authService}) {
             }),
 
         };
-        fetch(`${window.url}/mysuperday/users/signin`, requestOptions)
+        fetch(`${window.url}/mysuperday/api/users/signin`, requestOptions)
 
             .then(response => {
                 response.json()

@@ -21,10 +21,10 @@ import Alert from "@material-ui/lab/Alert";
 import CloseIcon from '@material-ui/icons/Close';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from "@material-ui/core/IconButton";
-import {useHistory} from "react-navi";
+import {useNavigation} from "react-navi";
 
 export  function SignUp() {
-    let history = useHistory();
+    let history = useNavigation();
 
     const [errorMessageMail, setErrorMessageMail] = React.useState("");
     const [errorMessagePassword, setErrorMessagePassword] = React.useState("");
@@ -68,7 +68,7 @@ export  function SignUp() {
             }),
 
         };
-        fetch(`${window.url}/mysuperday/users/getAutocomplete`, requestOptions)
+        fetch(`${window.url}/mysuperday/api/users/getAutocomplete`, requestOptions)
             .then(response => {
                 response.json()
                     .then(data => {
@@ -85,7 +85,8 @@ export  function SignUp() {
 
 
     function createAccount(email,password,username,homeAddress,workAddress,birthDate) {
-
+        setMessageErreur('');
+        setOpenError(false)
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -100,19 +101,18 @@ export  function SignUp() {
             }),
 
         };
-        fetch(`${window.url}/mysuperday/users/signup`, requestOptions)
+        fetch(`${window.url}/mysuperday/api/users/signup`, requestOptions)
 
             .then(response => {
                 response.json()
                     .then(data => {
-
                         if(response.status===500 || response.status===400 ){
                             setMessageErreur(data.message);
                             setOpenError(true)
 
                         }
                         else {
-                            history.push('/mysuperday/users/signin')
+                            history.navigate('/mysuperday/users/signin')
                         }
                     })
 
