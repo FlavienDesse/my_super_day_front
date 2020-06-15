@@ -14,11 +14,11 @@ import {useTheme} from '@material-ui/core/styles';
 import useStyles from "./style";
 import Button from "@material-ui/core/Button";
 
-import {Link} from "react-navi";
-
+import {Link, useNavigation} from "react-navi";
 
 
 export function Dashboard(props) {
+    const history = useNavigation();
     const {window} = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -48,11 +48,13 @@ export function Dashboard(props) {
                     <Typography variant="h6" noWrap className={classes.title}>
                         {titleName}
                     </Typography>
-                    <Link href={'/'} className={classes.link}  onClick={()=> {
-                        localStorage.clear()
 
-                    }}>
-                        <Button  variant="contained">Se déconnecter</Button></Link>
+                    <Button variant="contained" onClick={() => {
+                        props.authService.deconnected();
+                        history.navigate('/')
+
+                    }}>Se déconnecter</Button>
+
                 </Toolbar>
             </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">

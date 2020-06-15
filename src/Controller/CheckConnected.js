@@ -1,5 +1,5 @@
 function authHeader() {
-    const user = JSON.parse(localStorage.getItem('users'));
+    const user = JSON.parse(window.localStorage.getItem('users'));
 
     if (user && user.accessToken) {
         // for Node.js Express back-end
@@ -16,14 +16,19 @@ export default function getUserBoard() {
         headers: authHeader(),
     };
 
-    return fetch(`http://localhost:9000/mysuperday/users/verifyToken`, requestOptions)
+    return fetch(`${window.url}/mysuperday/users/verifyToken`, requestOptions)
 
-        .then(function (response) {
-            return response.ok;
-
-
-
-        })
+        .then(response => {
+               return response.json()
+                    .then(data => {
+                        console.log(data)
+                        if(response.status==403 ||response.status==401||response.status==500 ){
+                            return false;
+                        }
+                        return true;
+                    })
+            }
+        )
 
 
 }
