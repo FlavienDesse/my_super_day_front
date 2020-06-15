@@ -10,7 +10,19 @@ const useStyles = makeStyles((theme) => ({
   },
   gridItem:{
     height:'300px',
+  },
+  paragraphe:{
+    height:'40px',
+    color:"red",
+    fontFamily:"Verdana",
+  },
+  green:{
+    color:"green"
+  },
+  red:{
+    color:"red"
   }
+
 }));
 
 export default useStyles;
