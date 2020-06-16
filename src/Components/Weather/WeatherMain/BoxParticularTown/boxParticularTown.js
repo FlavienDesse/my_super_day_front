@@ -20,20 +20,20 @@ function createData(name, calories, fat, carbs, protein) {
 
 function ArrayTemperature() {
     return (
-       <Grid container>
-           <Grid item xs={6} >
-               Matin
-           </Grid>
-           <Grid item xs={6}>
-               Aprèm
-           </Grid>
-           <Grid item xs={6}>
-                    15
-           </Grid>
-           <Grid item xs={6}>
-                    26
-           </Grid>
-       </Grid>
+        <Grid container>
+            <Grid item xs={6}>
+                Matin
+            </Grid>
+            <Grid item xs={6}>
+                Aprèm
+            </Grid>
+            <Grid item xs={6}>
+                15°C
+            </Grid>
+            <Grid item xs={6}>
+                26°C
+            </Grid>
+        </Grid>
     )
 }
 
@@ -57,7 +57,7 @@ export default function BoxParticularTown(props) {
         <Paper elevation={3} className={classes.paper}>
             <Grid container className={classes.container}>
                 <Grid item xs={12}>
-                    <TableContainer>
+                    <TableContainer className={classes.tableContainer}>
                         <Table className={classes.table} size="small">
                             <TableHead>
                                 <TableRow>
@@ -75,41 +75,131 @@ export default function BoxParticularTown(props) {
                                     <TableCell align="center">{actualDate.add(1, 'days').format('dddd')}</TableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
+                            <TableBody className={classes.tabBody}>
 
                                 <TableRow>
                                     <TableCell component="th" scope="row">
                                         Température
                                     </TableCell>
-                                    <TableCell align="center" scope="row"  className={classes.tableCellTemperature} >
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
                                         <ArrayTemperature>
                                         </ArrayTemperature>
                                     </TableCell>
-                                    <TableCell align="center" scope="row"    className={classes.tableCellTemperature} >
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
                                         <ArrayTemperature>
                                         </ArrayTemperature>
                                     </TableCell>
-                                    <TableCell align="center" scope="row"   className={classes.tableCellTemperature}>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
                                         <ArrayTemperature>
                                         </ArrayTemperature>
                                     </TableCell>
-                                    <TableCell align="center" scope="row"   className={classes.tableCellTemperature} >
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
                                         <ArrayTemperature>
                                         </ArrayTemperature>
                                     </TableCell>
-                                    <TableCell align="center" scope="row"  className={classes.tableCellTemperature}>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
                                         <ArrayTemperature>
                                         </ArrayTemperature>
                                     </TableCell>
-                                    <TableCell align="center" scope="row"   className={classes.tableCellTemperature} >
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
                                         <ArrayTemperature>
                                         </ArrayTemperature>
                                     </TableCell>
-                                    <TableCell align="center" scope="row"   className={classes.tableCellTemperature} >
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
                                         <ArrayTemperature>
                                         </ArrayTemperature>
                                     </TableCell>
                                 </TableRow>
+
+
+                                <TableRow>
+                                    <TableCell component="th" scope="row">
+                                        Humidité
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                </TableRow>
+
+
+                                <TableRow>
+                                    <TableCell component="th" scope="row">
+                                        cloud
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                </TableRow>
+
+
+                                <TableRow>
+                                    <TableCell component="th" scope="row">
+                                        Nuage
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+
+                                    </TableCell>
+                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+
+                                    </TableCell>
+                                </TableRow>
+
+
+
 
                             </TableBody>
                         </Table>
