@@ -10,6 +10,166 @@ import AddIcon from '@material-ui/icons/Add';
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete"
 
+/*
+let temperature =0;
+
+function couleur (temperature) {
+
+    let couleurRGB = "rgb(0,0,0)";
+switch (temperature) {
+    case ((temperature >= -18)) :{
+        couleurRGB= "rgb(250, 253, 255)";
+        };
+        break;
+    case ((temperature <-18) && (temperature >= -16)) :{
+        couleurRGB= "rgb(236, 250, 255)";
+    };
+        break;
+    case ((temperature <-16) && (temperature >= -14)) :{
+        couleurRGB= "rgb(218, 245, 255)";
+    };
+        break;
+    case ((temperature <-14) && (temperature >= -12)) :{
+        couleurRGB= "rgb(204, 242, 255)";
+    };
+        break;
+    case ((temperature <-12) && (temperature >= -10)) :{
+        couleurRGB= "rgb(181, 236, 255)";
+    };
+        break;
+    case ((temperature <-10) && (temperature >= -8)) :{
+        couleurRGB= "rgb(162, 232, 255)";
+    };
+        break;
+    case ((temperature <-8) && (temperature >= -6)) :{
+        couleurRGB= "rgb(144, 227, 255)";
+    };
+        break;
+    case ((temperature <-6) && (temperature >= -4)) :{
+        couleurRGB= "rgb(125, 222, 255)";
+    };
+        break;
+    case ((temperature <-4) && (temperature >= -2)) :{
+        couleurRGB= "rgb(107, 218, 255)";
+    };
+        break;
+    case ((temperature <-2) && (temperature > 0)) :{
+        couleurRGB= "rgb(89, 213, 255)";
+    };
+        break;
+    case (temperature = 0) :{
+        couleurRGB= "rgb(75, 210, 255)";
+    };
+        break;
+    case ((temperature > 0) && (temperature <= 2)) :{
+        couleurRGB= "rgb(121, 221, 255)";
+    };
+        break;
+    case ((temperature > 2) && (temperature <= 4)) :{
+        couleurRGB= "rgb(148, 228, 255)";
+    };
+        break;
+    case ((temperature > 4) && (temperature <=6)) :{
+        couleurRGB= "rgb(181, 236, 255)";
+    };
+        break;
+    case ((temperature > 6) && (temperature <= 8)) :{
+        couleurRGB= "rgb(227, 248, 255)";
+    };
+        break;
+    case ((temperature > 😎 && (temperature <= 10)) :{
+        couleurRGB= "rgb(255, 253, 214)";
+    };
+        break;
+    case ((temperature > 10) && (temperature <= 12)) :{
+        couleurRGB= "rgb(255, 252, 177)";
+    };
+        break;
+    case ((temperature > 12) && (temperature <= 14)) :{
+        couleurRGB= "rgb(255, 251, 150)";
+    };
+        break;
+    case ((temperature > 14) && (temperature <= 16)) :{
+        couleurRGB= "rgb(253, 238, 67)";
+    };
+        break;
+    case ((temperature > 16) && (temperature <= 18)) :{
+        couleurRGB= "rgb(249, 218, 64)";
+    };
+        break;
+    case ((temperature > 18) && (temperature <= 20)) :{
+        couleurRGB= "rgb(247, 203, 62)";
+    };
+        break;
+    case ((temperature > 20) && (temperature <= 22)) :{
+        couleurRGB= "rgb(244, 187, 60)";
+    };
+        break;
+    case ((temperature > 22) && (temperature <= 24)) :{
+        couleurRGB= "rgb(241, 172, 58)";
+    };
+        break;
+    case ((temperature > 24) && (temperature <=26)) :{
+        couleurRGB= "rgb(239, 157, 56)";
+    };
+        break;
+    case ((temperature > 26) && (temperature <= 28)) :{
+        couleurRGB= "rgb(234, 131, 52)";
+    };
+        break;
+    case ((temperature > 28) && (temperature <= 30)) :{
+        couleurRGB= "rgb(234, 131, 52)";
+    };
+        break;
+    case ((temperature > 30) && (temperature <= 32)) :{
+        couleurRGB= "rgb(232, 116, 50)";
+    };
+        break;
+    case ((temperature > 32) && (temperature <= 34)) :{
+        couleurRGB= "rgb(230, 106, 49)";
+    };
+        break;
+    case ((temperature > 34) && (temperature <=36)) :{
+        couleurRGB= "rgb(228, 96, 47)";
+    };
+        break;
+    case ((temperature > 36) && (temperature <= 38)) :{
+        couleurRGB= "rgb(226, 85, 46)";
+    };
+        break;
+    case ((temperature > 38) && (temperature <= 40)) :{
+        couleurRGB= "rgb(225, 75, 44)";
+    };
+        break;
+    case ((temperature > 40) && (temperature <= 42)) :{
+        couleurRGB= "rgb(223, 65, 43)";
+    };
+        break;
+    case ((temperature > 42) && (temperature <= 44)) :{
+        couleurRGB= "rgb(222, 60, 42)";
+    };
+        break;
+    case ((temperature > 44) && (temperature <=46)) :{
+        couleurRGB= "rgb(221, 55, 42)";
+    };
+        break;
+    case ((temperature > 46) && (temperature <= 48)) :{
+        couleurRGB= "rgb(220, 50, 41)";
+    };
+        break;
+    case ((temperature > 48) ) :{
+        couleurRGB= "rgb(219, 45, 40)";
+    };
+        break;
+
+    default:
+        console.log("erreur");
+
+        return(couleurRGB);
+}
+    }
+ */
+
 
 France.locations.push({
     name: "Paris",
@@ -127,7 +287,6 @@ function WeatherMain() {
 
             })
             .catch(function (e) {
-
 
 
                 tempAllDataParticularTown[pos].error = true;
