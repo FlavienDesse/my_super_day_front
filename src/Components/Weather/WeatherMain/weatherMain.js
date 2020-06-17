@@ -6,8 +6,8 @@ import useStyles from "./style";
 import Paper from "@material-ui/core/Paper";
 import BoxParticularTown from "./BoxParticularTown/boxParticularTown";
 import ModelWeather from "./Model/ModelWeather";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete"
+
+
 
 France.locations.push({
     name: "Paris",
@@ -64,40 +64,15 @@ France.locations.push({
 })
 
 function WeatherMain() {
-    const [selectPredictionsHome,setSelectPredictionsHome] = React.useState()
-
-    function callPredictions(value) {
-
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                address: value,
-            }),
-
-        };
-        fetch(`${window.url}/mysuperday/api/users/getAutocomplete`, requestOptions)
-            .then(response => {
-                response.json()
-                    .then(data => {
-
-                        setSelectPredictionsHome(data.predictions)
-
-
-                    })
-            })
-    };
-
-
     const classes = useStyles();
     const refGridSvg = useRef();
-    const [sizeSvg, setSizeSvg] = useState({
-        width: 700,
-        height: 500,
+    const [sizeSvg,setSizeSvg]= useState({
+        width:700,
+        height:500,
     });
 
-    const [allParticularTown, setAllParticularTown] = React.useState([
-        new ModelWeather("Paris", 10, 15, 75, 3, 2, 21),
+    const [allParticularTown,setAllParticularTown]=React.useState([
+        new ModelWeather("Paris",10,15,75,3,2,21),
 
 
     ])
@@ -115,35 +90,16 @@ function WeatherMain() {
 
                 </svg>
 
-
-            </Grid>
-            <Grid item xs={5}>
-                <Autocomplete
-                    options={selectPredictionsHome}
-                    getOptionLabel={(selectPredictionsHome) => selectPredictionsHome}
-                    renderInput={(params) =>
-                        <TextField onChange={(e) => callPredictions(e.target.value)} {...params}
-                                   variant="outlined"
-                                   margin="normal"
-                                   required
-                                   fullWidth
-                                   name="address"
-                                   label="Adresse du domicile"
-                                   id="address"
-                        />
-                    }
-                />
             </Grid>
             <Grid item xs={12}>
-
                 <Paper className={classes.paperParticularTown}>
-                    {
-                        allParticularTown.map((item, i) =>
-                            <BoxParticularTown item={item}>
+                   {
+                       allParticularTown.map((item,i)=>
+                           <BoxParticularTown item={item}>
 
-                            </BoxParticularTown>
-                        )
-                    }
+                           </BoxParticularTown>
+                       )
+                   }
                 </Paper>
 
             </Grid>
