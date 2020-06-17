@@ -3,25 +3,55 @@ import useStyles from "./style";
 import Paper from "@material-ui/core/Paper";
 import Grid from '@material-ui/core/Grid';
 import Share from './share'
-import {ComboBox, FloatingActionButtons} from "./functions";
+import ComboBox from "./functions";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from "@material-ui/core/IconButton";
 
 export default function StockExchange() {
+    const transfert = {
+        Air_liquide: 360017018,
+    }
     const classes = useStyles();
     const [allShare, setAllShare] = React.useState([
             new Share("BNP", 10, 20, 5, 15),
             new Share("Kerlink", 10, 20, -2, 15)
-
         ]
     );
+
+    function deleteExchange(i) {
+        let temp = allShare.slice();
+        temp.splice(i, 1);
+        setAllShare(temp);
+
+    }
+
+    function addExchange(value) {
+
+        fetch("https://bdoalex.com/mysuperday/api/bourse?action=" + value)
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                let newPush = allShare.slice();
+                newPush.push(new Share(data.name, data.lowPrice, data.highPrice, data.dayChangePercentage, data.lastPrice))
+                setAllShare(newPush);
+            })
+    }
+
+    const [getValueAutoComplete, setGetValueAutoComplete] = React.useState("")
     return (
         <div className={classes.container}>
-            <Grid container spacing={5} justify="center" alignItems="center">
-                <Grid item xs={2.5}>
-                    <ComboBox></ComboBox>
+            <Grid container spacing={2} justify="center" alignItems="center">
+                <Grid item xs={'auto'}>
+                    <ComboBox setGetValueAutoComplete={setGetValueAutoComplete}/>
 
                 </Grid>
-                <Grid item xs={1}>
-                    <FloatingActionButtons setAllShare={setAllShare}></FloatingActionButtons>
+                <Grid item xs={'auto'}>
+                    <Fab color="primary" aria-label="add" onClick={() => addExchange(360017018)}>
+                        <AddIcon/>
+                    </Fab>
                 </Grid>
             </Grid>
             <Grid container justify="center">
@@ -29,40 +59,53 @@ export default function StockExchange() {
                     allShare.map((item, i) =>
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
-                                <Grid item xs={5} className={classes.data}>
-                                    <p className={classes.shareTitle}>
-                                        {item.name}
-                                    </p>
-                                    <Grid container>
-                                        <Grid item xs={6}>
-                                            <p>
-                                                <p className={classes.infoTitle}>Prix actuel : </p>
-                                                <p className={classes.infoNumber}>{item.lastPrice}</p>
-                                            </p >
-                                        </Grid>
-                                        <Grid item xs={6}>
-                                            <p>
-                                                <p className={classes.infoTitle}>Variation du jour : </p>
-                                                <p className={classes.infoNumber}>{item.dayPercentChange > 0 ?
-                                                    <span className={classes.green}> {item.dayPercentChange} %</span> :
-                                                    <span className={classes.red}>{item.dayPercentChange} %</span>}</p>
-                                            </p>
-                                        </Grid>
-                                        <Grid item xs={6}>
-                                            <p>
-                                                <p className={classes.infoTitle}>Prix + haut : </p>
-                                                <p className={classes.infoNumber}>{item.highPrice}</p>
-                                            </p>
-                                        </Grid>
-                                        <Grid item xs={6}>
-                                            <p>
-                                                <p className={classes.infoTitle}>Prix + bas : </p>
-                                                <p className={classes.infoNumber}>{item.lowPrice}</p>
-                                            </p>
+                                <Grid container alignItems="center" className={classes.gridItem}>
+                                    <Grid item xs={5} className={classes.data}>
+                                        <p className={classes.shareTitle}>
+                                            {item.name}
+                                        </p>
+                                        <Grid container>
+                                            <Grid item xs={6}>
+                                                <div>
+                                                    <p className={classes.infoTitle}>Prix actuel : </p>
+                                                    <p className={classes.infoNumber}>{item.lastPrice}</p>
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={6}>
+                                                <div>
+                                                    <p className={classes.infoTitle}>Variation du jour : </p>
+                                                    <p className={classes.infoNumber}>{item.dayPercentChange > 0 ?
+                                                        <span
+                                                            className={classes.green}> {item.dayPercentChange} %</span> :
+                                                        <span
+                                                            className={classes.red}>{item.dayPercentChange} %</span>}</p>
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={6}>
+                                                <div>
+                                                    <p className={classes.infoTitle}>Prix + haut : </p>
+                                                    <p className={classes.infoNumber}>{item.highPrice}</p>
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={6}>
+                                                <div>
+                                                    <p className={classes.infoTitle}>Prix + bas : </p>
+                                                    <p className={classes.infoNumber}>{item.lowPrice}</p>
+                                                </div>
+                                            </Grid>
                                         </Grid>
                                     </Grid>
-                                </Grid>
-                                <Grid item xs={7}>
+                                    <Grid item xs={7}>
+                                        <Grid container>
+                                            <Grid item xs={11}>
+                                            </Grid>
+                                            <Grid item xs={1}>
+                                                <IconButton>
+                                                    <CloseIcon onClick={() => deleteExchange(i)}/>
+                                                </IconButton>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                             </Paper>
                         </Grid>

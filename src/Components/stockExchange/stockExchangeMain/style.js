@@ -5,16 +5,22 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '50px',
     },
 
+    gridItem: {
+        marginTop:'20px'
+    },
+
+
     data:{
         borderRight:'2px dashed grey',
     },
 
     shareTitle: {
         height: '20px',
-        color: "black",
+        color: "#3f51b5",
         fontFamily: "Verdana",
         fontSize: 30,
         marginLeft: "30px",
+        marginTop:"0px",
     },
 
     infoTitle:{
