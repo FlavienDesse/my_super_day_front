@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom:'100px !important',
     },
     gridContainerSavedNote:{
-        marginTop:'10px !important',
+        marginTop:'15px !important',
     },
     inputSaveFile:{
         width:'100%',

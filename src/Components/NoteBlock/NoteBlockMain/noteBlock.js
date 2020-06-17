@@ -9,14 +9,16 @@ import Paper from '@material-ui/core/Paper';
 import Rendersavenote from "./renderSaveNote";
 import SimpleModal from "./modalSaveNote";
 import ModelSavefile from "./modelSavefile";
+import NoteBlockWIdget from "../NoteBlockWidget/noteBlockWIdget";
 
 
 function NoteBlock(props) {
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [allSaveFile, setAllSaveFile] = React.useState([new ModelSavefile("note pour demain", 'demain à la maison')]);
+    const [allSaveFile, setAllSaveFile] = React.useState([]);
     const refTextFieldNote = React.useRef();
+
     const handleOpen = () => {
         setOpen(true);
     };
@@ -26,14 +28,23 @@ function NoteBlock(props) {
     };
 
 
+    function deleteNote (i) {
+
+        let temp = allSaveFile.slice();
+        temp.splice(i,1);
+        console.log(temp)
+        setAllSaveFile(temp)
+    }
+
+
     return (
 
         <div className={classes.container}>
             <SimpleModal  allSaveFile={allSaveFile} valueTextFieldNote={refTextFieldNote.current} setAllSaveFile={setAllSaveFile} handleOpen={handleOpen} handleClose={handleClose} open={open}>
             </SimpleModal>
-            <Grid container spacing={0}>
-                <Grid item xs={12} className={classes.title}>
-                    <Paper variant={'outlined'} color={"primary"}>
+            <Grid container justify={"center"}>
+                <Grid item xs={4} alignContent={'center'} className={classes.title}>
+                    <Paper variant={'elevation'} elevation={5} color={"primary"}>
                         Generation d'une nouvelle note
                     </Paper>
                 </Grid>
@@ -58,14 +69,14 @@ function NoteBlock(props) {
                         </IconButton>
                     </Grid>
                 </Grid>
-                <Grid item xs={12} className={classes.title}>
-                    <Paper variant={'outlined'} color={"primary"}>
+                <Grid item xs={3} className={classes.title}>
+                    <Paper variant={'elevation'} elevation={5} color={"primary"}>
                         Consultation des notes
                     </Paper>
                 </Grid>
                 {
                     allSaveFile.map((item, i) => 
-                            <Rendersavenote  name={item.name} value={item.value}>
+                            <Rendersavenote  pos={i} deleteNote={deleteNote} name={item.name} value={item.value}>
 
                             </Rendersavenote>
 
@@ -74,6 +85,9 @@ function NoteBlock(props) {
                 }
 
             </Grid>
+            <NoteBlockWIdget>
+
+            </NoteBlockWIdget>
         </div>);
 
 
