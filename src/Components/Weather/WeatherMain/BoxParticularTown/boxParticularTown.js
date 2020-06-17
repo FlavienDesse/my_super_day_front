@@ -48,11 +48,16 @@ const rows = [
 ];
 
 
+
+
 export default function BoxParticularTown(props) {
     moment.locale('fr')
-    //  https://bdoalex.com/api/meteo?lng=3&lat=50
-    let data = props.item.finished ? props.item.data.daily : new Array(7).fill(0) ;
 
+    let data = props.item.finished ? props.item.data.daily : new Array(7).fill(0) ;
+    String.prototype.capitalize = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1)
+    };
+    console.log(data[0])
     const classes = useStyles();
     const actualDate = moment();
     return (
@@ -61,20 +66,35 @@ export default function BoxParticularTown(props) {
                 <Grid item xs={12}>
                     <TableContainer className={classes.tableContainer}>
                         <Table className={classes.table} size="small">
-                            <TableHead>
+                            <TableHead className={classes.tabHead}>
                                 <TableRow>
                                     <TableCell>
                                         <Typography variant="h5" component="h1" className={classes.title}>
                                             {props.item.name}
                                         </Typography>
                                     </TableCell>
-                                    <TableCell align="center">aujourd'hui</TableCell>
-                                    <TableCell align="center">{actualDate.add(1, 'days').format('dddd')}</TableCell>
-                                    <TableCell align="center">{actualDate.add(1, 'days').format('dddd')}</TableCell>
-                                    <TableCell align="center">{actualDate.add(1, 'days').format('dddd')}</TableCell>
-                                    <TableCell align="center">{actualDate.add(1, 'days').format('dddd')}</TableCell>
-                                    <TableCell align="center">{actualDate.add(1, 'days').format('dddd')}</TableCell>
-                                    <TableCell align="center">{actualDate.add(1, 'days').format('dddd')}</TableCell>
+
+                                    {
+                                        data.map((item,i)=>(
+
+                                            <TableCell align="center">
+                                                <p className={classes.day}>  {i == 0 ? "Aujourd'hui" : actualDate.add(1, 'days').format('dddd').capitalize()}  </p>
+                                                {
+                                                    props.item.finished ?
+                                                     <img src={'http://openweathermap.org/img/wn/'+item.weather.icon+'@2x.png'} width='50' height='50'/>
+                                                        :
+                                                        props.item.error ?
+                                                            <span className={classes.red}>  Erreur de chargement</span>
+                                                         :
+                                                            <CircularProgress size={20} />
+                                                }
+
+                                               </TableCell>
+
+                                        ))
+                                    }
+
+
                                 </TableRow>
                             </TableHead>
                             <TableBody className={classes.tabBody}>
@@ -91,6 +111,8 @@ export default function BoxParticularTown(props) {
                                                         <ArrayTemperature data={item}>
                                                         </ArrayTemperature>
                                                         :
+                                                        props.item.error ?
+                                                            <span className={classes.red}>  Erreur de chargement</span>:
                                                         <CircularProgress size={20} />
 
                                                 }
@@ -111,7 +133,9 @@ export default function BoxParticularTown(props) {
                                                     props.item.finished ?
                                                         item.humidity+ " %"
                                                         :
-                                                        <CircularProgress size={20} />
+                                                        props.item.error ?
+                                                            <span className={classes.red}> Erreur de chargement</span>:
+                                                            <CircularProgress size={20} />
                                                 }
                                             </TableCell>
                                         ))
@@ -130,7 +154,9 @@ export default function BoxParticularTown(props) {
                                                     props.item.finished ?
                                                         item.cloud + " %"
                                                         :
-                                                        <CircularProgress size={20} />
+                                                        props.item.error ?
+                                                            <span className={classes.red}>  Erreur de chargement</span>:
+                                                            <CircularProgress size={20} />
                                                 }
                                             </TableCell>
                                         ))
@@ -149,7 +175,9 @@ export default function BoxParticularTown(props) {
                                                     props.item.finished ?
                                                         item.windSpeed + " m/s"
                                                         :
-                                                        <CircularProgress size={20} />
+                                                        props.item.error ?
+                                                            <span className={classes.red}>  Erreur de chargement</span>:
+                                                            <CircularProgress size={20} />
                                                 }
                                             </TableCell>
                                         ))

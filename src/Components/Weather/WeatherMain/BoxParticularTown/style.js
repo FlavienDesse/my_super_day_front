@@ -7,19 +7,36 @@ const useStyles = makeStyles((theme) => ({
     paper:{
         marginBottom:'10px',
     },
+    day:{
+      margin:'0',
+    },
     table: {
         [theme.breakpoints.down('lg')]: {
             tableLayout: 'fixed',
             width: '1250px !important',
         },
+        '&  td:nth-child(n):not(:last-child) ':{
+            borderRight:'2px solid '+'rgba(200,200,200)',
+        },
+        '&  th:nth-child(n):not(:last-child) ':{
+            borderRight:'2px solid '+'rgba(200,200,200)',
+
+        },
+        '&  th:nth-child(n):not(:first-child) ':{
+            borderBottom: 'solid 2px'+'rgba(200,200,200)',
+        },
+
 
 
     },
 
+    red:{
+      color:'red',
+    },
     tabBody: {
 
         '& > :nth-child(odd)': {
-            backgroundColor: theme.palette.action.hover,
+            backgroundColor:'rgba(227,227,227)',
         },
     },
 

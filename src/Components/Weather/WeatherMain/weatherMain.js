@@ -11,7 +11,6 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete"
 
 
-
 France.locations.push({
     name: "Paris",
     id: "ville paris",
@@ -67,54 +66,98 @@ France.locations.push({
 })
 
 function WeatherMain() {
-    const [selectPredictionsHome,setSelectPredictionsHome] = React.useState([])
-    const [allDataTown,setAllDataTown]=React.useState({
-        Lille_France:{},
-        Paris_France:{},
-        Dijon_France:{},
-        Strasbourg_France:{},
-        Bordeaux_France:{},
-        Lyon_France:{},
-        Ajaccio_France:{},
-        Nantes_France:{},
-        Orleans_France:{},
-        Perpignan_France:{},
-        Le_Havre_France:{},
-        Brest_France:{},
-        Marseille_France:{},
+    const [selectPredictionsHome, setSelectPredictionsHome] = React.useState([])
+    const [lastChoicePrediction, setLastChoicePrediction] = React.useState("")
+
+    const [allDataTown, setAllDataTown] = React.useState({
+        Lille_France: {},
+        Paris_France: {},
+        Dijon_France: {},
+        Strasbourg_France: {},
+        Bordeaux_France: {},
+        Lyon_France: {},
+        Ajaccio_France: {},
+        Nantes_France: {},
+        Orleans_France: {},
+        Perpignan_France: {},
+        Le_Havre_France: {},
+        Brest_France: {},
+        Marseille_France: {},
     });
-    const [allDataParticularTown,setAllDataParticularTown]=React.useState([
-        {
-            finished:false,
-            name:"Paris , France",
-            data:{}
-        },
+    const [allDataParticularTown, setAllDataParticularTown] = React.useState([
             {
-                finished:false,
-                name:"Paris , France",
-                data:{}
+                finished: false,
+                name: "Paris , France",
+                error: false,
+                data: {}
+            },
+            {
+                finished: false,
+                name: "Lille , France",
+                error: false,
+                data: {}
             },
 
-    ]
-
-
+        ]
     )
-   useEffect(()=>{
-       for (let i =0; i<allDataParticularTown.length;i++){
-           fetch("http://localhost:9000/mysuperday/api/meteo?address="+allDataParticularTown[0].name)
-               .then( (res)=>{
-                 return res.json()
-               })
-               .then((data)=>{
-                   let tempaAlDataParticularTown = allDataParticularTown.slice()
-                   tempaAlDataParticularTown[i].data=data;
-                   tempaAlDataParticularTown[i].finished=true;
-                   setAllDataParticularTown(tempaAlDataParticularTown)
-               })
-       }
-   },[])
+
+    async function addParticularTown(name, pos) {
+        var tempAllDataParticularTown = allDataParticularTown.slice()
+        tempAllDataParticularTown.push({
+            finished: false,
+            name: name,
+            error: false,
+            data: {}
+        });
+
+        await setAllDataParticularTown(tempAllDataParticularTown.slice())
 
 
+        fetch("http://localhost:9000/mysuperday/api/meteo?address=" + name)
+            .then((res) => {
+
+                return res.json()
+            })
+            .then((data) => {
+                console.log(data)
+                tempAllDataParticularTown[pos].data = data;
+                tempAllDataParticularTown[pos].finished = true;
+
+                setAllDataParticularTown(tempAllDataParticularTown)
+
+            })
+            .catch(function (e) {
+
+
+
+                tempAllDataParticularTown[pos].error = true;
+                setAllDataParticularTown(tempAllDataParticularTown)
+            })
+    }
+
+    useEffect(() => {
+        for (let i = 0; i < allDataParticularTown.length; i++) {
+            fetch("http://localhost:9000/mysuperday/api/meteo?address=" + allDataParticularTown[i].name)
+                .then((res) => {
+
+                    return res.json()
+                })
+                .then((data) => {
+
+                    let tempaAlDataParticularTown = allDataParticularTown.slice()
+                    tempaAlDataParticularTown[i].data = data;
+                    tempaAlDataParticularTown[i].finished = true;
+
+                    setAllDataParticularTown(tempaAlDataParticularTown)
+                })
+                .catch(function (e) {
+
+                    let tempaAlDataParticularTown = allDataParticularTown.slice()
+                    tempaAlDataParticularTown[i].error = true;
+                    setAllDataParticularTown(tempaAlDataParticularTown)
+                })
+        }
+    }, [])
 
 
     const classes = useStyles();
@@ -123,7 +166,6 @@ function WeatherMain() {
         width: 700,
         height: 500,
     });
-
 
 
     function callPredictions(value) {
@@ -146,15 +188,19 @@ function WeatherMain() {
 
                     })
             })
+            .catch(function (e) {
+
+            })
     }
 
 
     return (
-        <Grid container className={classes.container} justify={"center"}  alignItems="center" spacing={5}>
+        <Grid container className={classes.container} justify={"center"} alignItems="center" spacing={5}>
 
 
-            <Grid item xs={2} className={classes.addParticularTown}>
+            <Grid item xs={3} className={classes.addParticularTown}>
                 <Autocomplete
+                    onChange={(e, newValue) => setLastChoicePrediction(newValue)}
                     options={selectPredictionsHome}
                     getOptionLabel={(selectPredictionsHome) => selectPredictionsHome}
                     renderInput={(params) =>
@@ -170,8 +216,14 @@ function WeatherMain() {
 
             </Grid>
             <Grid item xs={1}>
-                <Fab color="primary" aria-label="add">
-                    <AddIcon />
+                <Fab color="primary" aria-label="add" onClick={(e) => {
+                    if (lastChoicePrediction.length > 0) {
+                        addParticularTown(lastChoicePrediction, allDataParticularTown.length)
+                    }
+
+
+                }}>
+                    <AddIcon/>
                 </Fab>
             </Grid>
 
@@ -180,7 +232,7 @@ function WeatherMain() {
                 <Paper className={classes.paperParticularTown}>
                     {
                         allDataParticularTown.map((item, i) =>
-                            <BoxParticularTown item={item} key={i.toString()} >
+                            <BoxParticularTown item={item} key={i.toString()}>
 
                             </BoxParticularTown>
                         )
@@ -192,7 +244,7 @@ function WeatherMain() {
 
                 <svg width={sizeSvg.width} height={sizeSvg.height} className={classes.svg}>
 
-                    <SVGMap map={France} onLocationClick={(e)=>null}>
+                    <SVGMap map={France} onLocationClick={(e) => null}>
 
                     </SVGMap>
 
