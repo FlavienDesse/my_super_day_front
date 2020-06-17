@@ -5,9 +5,12 @@ import Grid from "@material-ui/core/Grid";
 import useStyles from "./style";
 import Paper from "@material-ui/core/Paper";
 import BoxParticularTown from "./BoxParticularTown/boxParticularTown";
-import ModelWeather from "./Model/ModelWeather";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from '@material-ui/icons/Add';
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete"
+
+
 
 France.locations.push({
     name: "Paris",
@@ -64,7 +67,64 @@ France.locations.push({
 })
 
 function WeatherMain() {
-    const [selectPredictionsHome,setSelectPredictionsHome] = React.useState()
+    const [selectPredictionsHome,setSelectPredictionsHome] = React.useState([])
+    const [allDataTown,setAllDataTown]=React.useState({
+        Lille_France:{},
+        Paris_France:{},
+        Dijon_France:{},
+        Strasbourg_France:{},
+        Bordeaux_France:{},
+        Lyon_France:{},
+        Ajaccio_France:{},
+        Nantes_France:{},
+        Orleans_France:{},
+        Perpignan_France:{},
+        Le_Havre_France:{},
+        Brest_France:{},
+        Marseille_France:{},
+    });
+    const [allDataParticularTown,setAllDataParticularTown]=React.useState([
+        {
+            finished:false,
+            name:"Paris , France",
+            data:{}
+        },
+            {
+                finished:false,
+                name:"Paris , France",
+                data:{}
+            },
+
+    ]
+
+
+    )
+   useEffect(()=>{
+       for (let i =0; i<allDataParticularTown.length;i++){
+           fetch("http://localhost:9000/mysuperday/api/meteo?address="+allDataParticularTown[0].name)
+               .then( (res)=>{
+                 return res.json()
+               })
+               .then((data)=>{
+                   let tempaAlDataParticularTown = allDataParticularTown.slice()
+                   tempaAlDataParticularTown[i].data=data;
+                   tempaAlDataParticularTown[i].finished=true;
+                   setAllDataParticularTown(tempaAlDataParticularTown)
+               })
+       }
+   },[])
+
+
+
+
+    const classes = useStyles();
+    const refGridSvg = useRef();
+    const [sizeSvg, setSizeSvg] = useState({
+        width: 700,
+        height: 500,
+    });
+
+
 
     function callPredictions(value) {
 
@@ -76,7 +136,7 @@ function WeatherMain() {
             }),
 
         };
-        fetch(`${window.url}/mysuperday/api/users/getAutocomplete`, requestOptions)
+        fetch(`http://localhost:9000/mysuperday/api/users/getAutocomplete`, requestOptions)
             .then(response => {
                 response.json()
                     .then(data => {
@@ -86,25 +146,48 @@ function WeatherMain() {
 
                     })
             })
-    };
-
-
-    const classes = useStyles();
-    const refGridSvg = useRef();
-    const [sizeSvg, setSizeSvg] = useState({
-        width: 700,
-        height: 500,
-    });
-
-    const [allParticularTown, setAllParticularTown] = React.useState([
-        new ModelWeather("Paris", 10, 15, 75, 3, 2, 21),
-
-
-    ])
+    }
 
 
     return (
-        <Grid container className={classes.container}>
+        <Grid container className={classes.container} justify={"center"}  alignItems="center" spacing={5}>
+
+
+            <Grid item xs={2} className={classes.addParticularTown}>
+                <Autocomplete
+                    options={selectPredictionsHome}
+                    getOptionLabel={(selectPredictionsHome) => selectPredictionsHome}
+                    renderInput={(params) =>
+                        <TextField onChange={(e) => callPredictions(e.target.value)} {...params}
+                                   variant="outlined"
+                                   margin="normal"
+                                   required
+                                   fullWidth
+
+                        />
+                    }
+                />
+
+            </Grid>
+            <Grid item xs={1}>
+                <Fab color="primary" aria-label="add">
+                    <AddIcon />
+                </Fab>
+            </Grid>
+
+            <Grid item xs={12}>
+
+                <Paper className={classes.paperParticularTown}>
+                    {
+                        allDataParticularTown.map((item, i) =>
+                            <BoxParticularTown item={item} key={i.toString()} >
+
+                            </BoxParticularTown>
+                        )
+                    }
+                </Paper>
+
+            </Grid>
             <Grid item xs={12} innerRef={refGridSvg}>
 
                 <svg width={sizeSvg.width} height={sizeSvg.height} className={classes.svg}>
@@ -117,37 +200,6 @@ function WeatherMain() {
 
 
             </Grid>
-            <Grid item xs={5}>
-                <Autocomplete
-                    options={selectPredictionsHome}
-                    getOptionLabel={(selectPredictionsHome) => selectPredictionsHome}
-                    renderInput={(params) =>
-                        <TextField onChange={(e) => callPredictions(e.target.value)} {...params}
-                                   variant="outlined"
-                                   margin="normal"
-                                   required
-                                   fullWidth
-                                   name="address"
-                                   label="Adresse du domicile"
-                                   id="address"
-                        />
-                    }
-                />
-            </Grid>
-            <Grid item xs={12}>
-
-                <Paper className={classes.paperParticularTown}>
-                    {
-                        allParticularTown.map((item, i) =>
-                            <BoxParticularTown item={item}>
-
-                            </BoxParticularTown>
-                        )
-                    }
-                </Paper>
-
-            </Grid>
-
         </Grid>
 
     )

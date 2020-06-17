@@ -3,14 +3,13 @@ import Paper from "@material-ui/core/Paper";
 import useStyles from "./style";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import ModelWeather from "../Model/ModelWeather";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Moment from 'react-moment';
+import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
 import 'moment/locale/fr';
 
@@ -18,20 +17,23 @@ function createData(name, calories, fat, carbs, protein) {
     return {name, calories, fat, carbs, protein};
 }
 
-function ArrayTemperature() {
+
+
+
+function ArrayTemperature(props) {
     return (
         <Grid container>
             <Grid item xs={6}>
                 Matin
             </Grid>
             <Grid item xs={6}>
-                Aprèm
+                Soir
             </Grid>
             <Grid item xs={6}>
-                15°C
+                {props.data.temperature.morn}°C
             </Grid>
             <Grid item xs={6}>
-                26°C
+                {props.data.temperature.eve}°C
             </Grid>
         </Grid>
     )
@@ -49,10 +51,10 @@ const rows = [
 export default function BoxParticularTown(props) {
     moment.locale('fr')
     //  https://bdoalex.com/api/meteo?lng=3&lat=50
+    let data = props.item.finished ? props.item.data.daily : new Array(7).fill(0) ;
 
     const classes = useStyles();
     const actualDate = moment();
-    const modelWeather = props.item
     return (
         <Paper elevation={3} className={classes.paper}>
             <Grid container className={classes.container}>
@@ -63,7 +65,7 @@ export default function BoxParticularTown(props) {
                                 <TableRow>
                                     <TableCell>
                                         <Typography variant="h5" component="h1" className={classes.title}>
-                                            {modelWeather.nameTown}
+                                            {props.item.name}
                                         </Typography>
                                     </TableCell>
                                     <TableCell align="center">aujourd'hui</TableCell>
@@ -81,34 +83,20 @@ export default function BoxParticularTown(props) {
                                     <TableCell component="th" scope="row">
                                         Température
                                     </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-                                        <ArrayTemperature>
-                                        </ArrayTemperature>
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-                                        <ArrayTemperature>
-                                        </ArrayTemperature>
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-                                        <ArrayTemperature>
-                                        </ArrayTemperature>
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-                                        <ArrayTemperature>
-                                        </ArrayTemperature>
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-                                        <ArrayTemperature>
-                                        </ArrayTemperature>
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-                                        <ArrayTemperature>
-                                        </ArrayTemperature>
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-                                        <ArrayTemperature>
-                                        </ArrayTemperature>
-                                    </TableCell>
+                                    {
+                                        data.map((item,i)=>(
+                                            <TableCell align="center" scope="row" className={classes.tableCellTemperature} key={i.toString()}>
+                                                {
+                                                    props.item.finished ?
+                                                        <ArrayTemperature data={item}>
+                                                        </ArrayTemperature>
+                                                        :
+                                                        <CircularProgress size={20} />
+
+                                                }
+                                            </TableCell>
+                                        ))
+                                    }
                                 </TableRow>
 
 
@@ -116,57 +104,18 @@ export default function BoxParticularTown(props) {
                                     <TableCell component="th" scope="row">
                                         Humidité
                                     </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                </TableRow>
-
-
-                                <TableRow>
-                                    <TableCell component="th" scope="row">
-                                        cloud
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
+                                    {
+                                        data.map((item,i)=>(
+                                            <TableCell align="center" scope="row" className={classes.tableCellTemperature} key={i.toString()}>
+                                                {
+                                                    props.item.finished ?
+                                                        item.humidity+ " %"
+                                                        :
+                                                        <CircularProgress size={20} />
+                                                }
+                                            </TableCell>
+                                        ))
+                                    }
                                 </TableRow>
 
 
@@ -174,28 +123,37 @@ export default function BoxParticularTown(props) {
                                     <TableCell component="th" scope="row">
                                         Nuage
                                     </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
+                                    {
+                                        data.map((item,i)=>(
+                                            <TableCell align="center" scope="row" className={classes.tableCellTemperature} key={i.toString()}>
+                                                {
+                                                    props.item.finished ?
+                                                        item.cloud + " %"
+                                                        :
+                                                        <CircularProgress size={20} />
+                                                }
+                                            </TableCell>
+                                        ))
+                                    }
+                                </TableRow>
 
+
+                                <TableRow>
+                                    <TableCell component="th" scope="row">
+                                        Vitesse du vent
                                     </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-
-                                    </TableCell>
-                                    <TableCell align="center" scope="row" className={classes.tableCellTemperature}>
-
-                                    </TableCell>
+                                    {
+                                        data.map((item,i)=>(
+                                            <TableCell align="center" scope="row" className={classes.tableCellTemperature} key={i.toString()}>
+                                                {
+                                                    props.item.finished ?
+                                                        item.windSpeed + " m/s"
+                                                        :
+                                                        <CircularProgress size={20} />
+                                                }
+                                            </TableCell>
+                                        ))
+                                    }
                                 </TableRow>
 
 

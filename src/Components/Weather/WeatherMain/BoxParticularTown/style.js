@@ -4,24 +4,18 @@ import React from "react";
 
 
 const useStyles = makeStyles((theme) => ({
+    paper:{
+        marginBottom:'10px',
+    },
     table: {
-
-
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('lg')]: {
             tableLayout: 'fixed',
             width: '1250px !important',
         },
 
 
     },
-    tableContainer: {
-        [theme.breakpoints.down('lg')]: {
 
-        },
-        [theme.breakpoints.up('lg')]: {
-
-        },
-    },
     tabBody: {
 
         '& > :nth-child(odd)': {

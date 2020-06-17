@@ -3,6 +3,12 @@ import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
 
+    body:{
+        backgroundColor:' rgb(125,0,125)',
+    },
+    buttonParticularTown:{
+        marginLeft:'15px',
+    },
     container: {
         marginTop: '50px',
     },
