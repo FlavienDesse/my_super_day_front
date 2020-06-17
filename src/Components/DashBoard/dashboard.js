@@ -4,21 +4,22 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
-import  MainListItemsSideBar from './list'
+import MainListItemsSideBar from './list'
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import {useTheme}   from '@material-ui/core/styles';
-import WeatherMain from '../Weather/WeatherMain/weatherMain';
+import {useTheme} from '@material-ui/core/styles';
 import useStyles from "./style";
+import Button from "@material-ui/core/Button";
+
+import {Link, useNavigation} from "react-navi";
 
 
-
-
-function Dashboard(props) {
-    const { window } = props;
+export function Dashboard(props) {
+    const history = useNavigation();
+    const {window} = props;
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -28,15 +29,12 @@ function Dashboard(props) {
     };
 
 
-
-
-
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
         <div className={classes.root}>
-            <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar} >
+            <CssBaseline/>
+            <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -45,11 +43,18 @@ function Dashboard(props) {
                         onClick={handleDrawerToggle}
                         className={classes.menuButton}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" noWrap>
-                       {titleName}
+                    <Typography variant="h6" noWrap className={classes.title}>
+                        {titleName}
                     </Typography>
+
+                    <Button variant="contained" onClick={() => {
+                        props.authService.deconnected();
+                        history.navigate('/')
+
+                    }}>Se déconnecter</Button>
+
                 </Toolbar>
             </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">
@@ -86,12 +91,9 @@ function Dashboard(props) {
                 </Hidden>
             </nav>
             <main className={classes.content}>
-                <div>
-                    <WeatherMain/>
-                </div>
+                {props.children}
             </main>
         </div>
+
     );
 }
-
-export default Dashboard;
