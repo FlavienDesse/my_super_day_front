@@ -14,12 +14,12 @@ import Alert from '@material-ui/lab/Alert';
 import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
-import {useHistory} from "react-navi";
+import {useNavigation} from "react-navi";
 import { Link} from 'react-navi';
 
 export function SignIn({authService}) {
 
-    let history = useHistory()
+    let history = useNavigation()
     const classes = useStyles();
     const refTextFieldUsername = React.createRef();
     const refTextFieldPassword = React.createRef();
@@ -32,8 +32,8 @@ export function SignIn({authService}) {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                username: username,
-                password: password,
+                username: encodeURI( username),
+                password: encodeURI(password),
 
             }),
 
@@ -56,7 +56,7 @@ export function SignIn({authService}) {
                             if (data.accessToken) {
                                 authService.login(data)
 
-                                history.push("/mysuperday/dashboard")
+                                history.navigate("/mysuperday/dashboard")
                             }
 
 

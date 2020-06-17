@@ -64,7 +64,7 @@ export  function SignUp() {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                address: value,
+                address: encodeURI(value),
             }),
 
         };
@@ -91,13 +91,12 @@ export  function SignUp() {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                email: email,
-                password:password,
-                username:username,
-                homeAddress:homeAddress,
-                workAddress:workAddress,
-                birthDate:birthDate
-
+                email:  encodeURI(email),
+                password: encodeURI(password),
+                username: encodeURI(username),
+                homeAddress: encodeURI(homeAddress),
+                workAddress: encodeURI(workAddress),
+                birthDate: encodeURI(birthDate)
             }),
 
         };
@@ -241,7 +240,7 @@ export  function SignUp() {
                         autoFocus
                         inputRef={refTextFieldUsername}
                         helperText={errorMessageUsername}
-                        error={errorMessageUsername}
+                        error={!!errorMessageUsername}
                     />
                     <TextField
                         variant="outlined"
@@ -255,7 +254,7 @@ export  function SignUp() {
                         autoFocus
                         inputRef={refTextFieldMail}
                         helperText={errorMessageMail}
-                        error={errorMessageMail}
+                        error={!!errorMessageMail}
                     />
                     <TextField
                         variant="outlined"
@@ -270,7 +269,7 @@ export  function SignUp() {
                         autoFocus
                         inputRef={refTextFieldPassword}
                         helperText={errorMessagePassword}
-                        error={errorMessagePassword}
+                        error={!!errorMessagePassword}
                     />
                     <TextField
                         variant="outlined"
@@ -284,7 +283,7 @@ export  function SignUp() {
                         autoComplete="current-password"
                         inputRef={refTextFieldPasswordRetry}
                         helperText={errorMessagePasswordRetry}
-                        error={errorMessagePasswordRetry}
+                        error={!!errorMessagePasswordRetry ? true : false}
 
                     />
                     <MuiPickersUtilsProvider  utils={MomentUtils} locale="fr">
@@ -316,7 +315,7 @@ export  function SignUp() {
                                        id="address"
                                        inputRef={refTextFieldAddressHome}
                                        helperText={errorMessageAddressHome}
-                                       error={errorMessageAddressHome}/>
+                                       error={!!errorMessageAddressHome}/>
                         }
                     />
 
@@ -334,7 +333,7 @@ export  function SignUp() {
                                        id="addressWork"
                                        inputRef={refTextFieldAddressWork}
                                        helperText={errorMessageAddressWork}
-                                       error={errorMessageAddressWork}/>
+                                       error={!!errorMessageAddressWork}/>
                         }
                     />
 

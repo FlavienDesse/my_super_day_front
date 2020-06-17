@@ -19,13 +19,11 @@ export const authService = {
         })
     },
     deconnected() {
-        console.log(window.localStorage)
         delete this.currentUser
         window.localStorage.clear();
         if (this.callback) {
             this.callback(undefined)
         }
-        console.log(window.localStorage)
     },
 
     subscribe(callback) {

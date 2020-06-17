@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
-import France from "@svg-maps/france.regions";
+import React, {useEffect} from "react";
+
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./style";
 import BoxParticularTown from "./BoxParticularTown/boxParticularTown";
@@ -8,61 +8,8 @@ import AddIcon from '@material-ui/icons/Add';
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete"
 
-France.locations.push({
-    name: "Paris",
-    id: "ville paris",
-    path: 'M305,150 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-}, {
-    name: "Lyon",
-    id: "ville lyon",
-    path: 'M370,350 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-}, {
-    name: "Bordeaux",
-    id: "ville bordeaux",
-    path: 'M170,370 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-}, {
-    name: "Brest",
-    id: "ville brest",
-    path: 'M20,170 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-}, {
-    name: "Lille",
-    id: "ville lille",
-    path: 'M325,30 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-}, {
-    name: "Marseille",
-    id: "ville marseille",
-    path: 'M420,470 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-}, {
-    name: "Strasbourg",
-    id: "ville strasbourg",
-    path: 'M520,170 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-}, {
-    name: "Le Havre",
-    id: "ville havre",
-    path: 'M210,110 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-}, {
-    name: "Perpignan",
-    id: "ville perpignan",
-    path: 'M330,500 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-}, {
-    name: "Orléans",
-    id: "ville orléans",
-    path: 'M275,220 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-}, {
-    name: "Nantes",
-    id: "ville nantes",
-    path: 'M130,260 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-}, {
-    name: "Dijon",
-    id: "ville dijon",
-    path: 'M400,260 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-}, {
-    name: "Ajaccio",
-    id: "ville ajaccio",
-    path: 'M570,550 a12,12 0 1,0 24,0 a 12,12 0 1,0 -24,0',
-})
 
-function WeatherMain() {
+export function Weather() {
 
 
     function couleur(temperature) {
@@ -87,7 +34,7 @@ function WeatherMain() {
             return "rgb(107, 218, 255)";
         } else if ((temperature < -2) && (temperature > 0)) {
             return "rgb(89, 213, 255)";
-        } else if (temperature == 0) {
+        } else if (temperature === 0) {
             return "rgb(75, 210, 255)";
         } else if ((temperature > 0) && (temperature <= 2)) {
             return "rgb(121, 221, 255)";
@@ -147,21 +94,7 @@ function WeatherMain() {
     const [selectPredictionsHome, setSelectPredictionsHome] = React.useState([])
     const [lastChoicePrediction, setLastChoicePrediction] = React.useState("")
 
-    const [allDataTown, setAllDataTown] = React.useState({
-        Lille_France: {},
-        Paris_France: {},
-        Dijon_France: {},
-        Strasbourg_France: {},
-        Bordeaux_France: {},
-        Lyon_France: {},
-        Ajaccio_France: {},
-        Nantes_France: {},
-        Orleans_France: {},
-        Perpignan_France: {},
-        Le_Havre_France: {},
-        Brest_France: {},
-        Marseille_France: {},
-    });
+
     const [allDataParticularTown, setAllDataParticularTown] = React.useState([
             {
                 finished: false,
@@ -198,7 +131,6 @@ function WeatherMain() {
         fetch(encodeURI("http://localhost:9000/mysuperday/api/meteo?address=" +name))
             .then((res) => {
 
-                console.log(res)
 
                 return res.json()
             })
@@ -240,15 +172,10 @@ function WeatherMain() {
                     setAllDataParticularTown(tempaAlDataParticularTown)
                 })
         }
-    }, [])
-
+    }, [allDataParticularTown])
 
     const classes = useStyles();
-    const refGridSvg = useRef();
-    const [sizeSvg, setSizeSvg] = useState({
-        width: 700,
-        height: 500,
-    });
+
 
     function deleteTown(i){
 
@@ -309,7 +236,6 @@ function WeatherMain() {
                         addParticularTown(lastChoicePrediction, allDataParticularTown.length)
                     }
 
-
                 }}>
                     <AddIcon/>
                 </Fab>
@@ -336,4 +262,3 @@ function WeatherMain() {
 
 }
 
-export default WeatherMain;

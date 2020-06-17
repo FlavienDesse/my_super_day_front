@@ -21,7 +21,6 @@ export default function getUserBoard() {
         .then(response => {
                return response.json()
                     .then(data => {
-                        console.log(data)
                         if(response.status===403 ||response.status===401||response.status===500 ){
                             return false;
                         }

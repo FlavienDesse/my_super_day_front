@@ -1,6 +1,4 @@
 import {makeStyles} from '@material-ui/core/styles';
-import TableBody from "@material-ui/core/TableBody";
-import React from "react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,16 +22,14 @@ const useStyles = makeStyles((theme) => ({
             width: '1250px !important',
         },
         '&  td:nth-child(n):not(:last-child) ': {
-            borderRight: '2px solid ' + 'rgba(200,200,200)',
+            borderRight: '2px solid rgba(200,200,200)',
         },
         '&  th:nth-child(n):not(:last-child) ': {
-            borderRight: '2px solid ' + 'rgba(200,200,200)',
-
+            borderRight: '2px solid rgba(200,200,200)',
         },
         '&  th:nth-child(n):not(:first-child) ': {
-            borderBottom: 'solid 2px' + 'rgba(200,200,200)',
+            borderBottom: '2px solid rgba(200,200,200)',
         },
-
 
     },
 

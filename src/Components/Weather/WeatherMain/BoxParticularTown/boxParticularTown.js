@@ -14,11 +14,6 @@ import moment from "moment";
 import 'moment/locale/fr';
 import HighlightOffSharpIcon from '@material-ui/icons/HighlightOffSharp';
 
-function createData(name, calories, fat, carbs, protein) {
-    return {name, calories, fat, carbs, protein};
-}
-
-
 
 
 function ArrayTemperature(props) {
@@ -41,23 +36,12 @@ function ArrayTemperature(props) {
     )
 }
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 
 
 
 export default function BoxParticularTown(props) {
     moment.locale('fr')
     let data = props.item.finished ? props.item.data.daily : new Array(7).fill(0) ;
-    String.prototype.capitalize = function() {
-        return this.charAt(0).toUpperCase() + this.slice(1)
-    };
 
     const classes = useStyles();
     const actualDate = moment();
@@ -83,11 +67,11 @@ export default function BoxParticularTown(props) {
                                     {
                                         data.map((item,i)=>(
 
-                                            <TableCell align="center">
-                                                <p className={classes.day}>  {i == 0 ? "Aujourd'hui" : actualDate.add(1, 'days').format('dddd').capitalize()}  </p>
+                                            <TableCell align="center" key={i.toString()}>
+                                                <p className={classes.day}>  {i === 0 ? "Aujourd'hui" : actualDate.add(1, 'days').format('dddd').charAt(0).toUpperCase() + actualDate.format('dddd').slice(1)}  </p>
                                                 {
                                                     props.item.finished ?
-                                                     <img src={'http://openweathermap.org/img/wn/'+item.weather.icon+'@2x.png'} width='50' height='50'/>
+                                                     <img alt={"Chargement"} src={'http://openweathermap.org/img/wn/'+item.weather.icon+'@2x.png'} width='50' height='50'/>
                                                         :
                                                         props.item.error ?
                                                             <span className={classes.red}>  Erreur de chargement</span>

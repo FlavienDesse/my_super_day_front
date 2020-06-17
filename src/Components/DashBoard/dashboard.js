@@ -14,7 +14,7 @@ import {useTheme} from '@material-ui/core/styles';
 import useStyles from "./style";
 import Button from "@material-ui/core/Button";
 
-import {Link, useNavigation} from "react-navi";
+import { useNavigation} from "react-navi";
 
 
 export function Dashboard(props) {

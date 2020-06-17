@@ -30,7 +30,8 @@ export const Biorythm = () => {
     const classes = useStyles();
 
 
-    const chart = () => {
+
+    const chart  = () =>  {
         setChartData({
             labels: label,
 
