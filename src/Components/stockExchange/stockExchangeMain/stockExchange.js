@@ -9,7 +9,7 @@ export default function StockExchange() {
     const classes = useStyles();
     const [allShare, setAllShare] = React.useState([
             new Share("BNP", 10, 20, 5, 15),
-            new Share("Mop", 10, 20, 5, 15)
+            new Share("Kerlink", 10, 20, -2, 15)
 
         ]
     );
@@ -28,23 +28,39 @@ export default function StockExchange() {
                 {
                     allShare.map((item, i) =>
                         <Grid item xs={12}>
-                            <Paper>
-                                <Grid item xs={5}>
-                                    <p className={classes.paragraphe}>
+                            <Paper className={classes.paper}>
+                                <Grid item xs={5} className={classes.data}>
+                                    <p className={classes.shareTitle}>
                                         {item.name}
                                     </p>
-                                    <p className={classes.paragraphe}>
-                                        Prix actuel : {item.lastPrice}
-                                    </p>
-                                    <p className={classes.paragraphe}>
-                                        Prix + bas : {item.lowPrice}
-                                    </p>
-                                    <p className={classes.paragraphe}>
-                                       {item.highPrice}
-                                    </p>
-                                    <p className={classes.paragraphe}>
-                                       {item.dayPercentChange > 0? <span className={classes.green}> {item.dayPercentChange}</span> : <span className={classes.red}>{item.dayPercentChange} </span> }
-                                    </p>
+                                    <Grid container>
+                                        <Grid item xs={6}>
+                                            <p>
+                                                <p className={classes.infoTitle}>Prix actuel : </p>
+                                                <p className={classes.infoNumber}>{item.lastPrice}</p>
+                                            </p >
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <p>
+                                                <p className={classes.infoTitle}>Variation du jour : </p>
+                                                <p className={classes.infoNumber}>{item.dayPercentChange > 0 ?
+                                                    <span className={classes.green}> {item.dayPercentChange} %</span> :
+                                                    <span className={classes.red}>{item.dayPercentChange} %</span>}</p>
+                                            </p>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <p>
+                                                <p className={classes.infoTitle}>Prix + haut : </p>
+                                                <p className={classes.infoNumber}>{item.highPrice}</p>
+                                            </p>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <p>
+                                                <p className={classes.infoTitle}>Prix + bas : </p>
+                                                <p className={classes.infoNumber}>{item.lowPrice}</p>
+                                            </p>
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                                 <Grid item xs={7}>
                                 </Grid>
