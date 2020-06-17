@@ -12,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
 import 'moment/locale/fr';
+import HighlightOffSharpIcon from '@material-ui/icons/HighlightOffSharp';
 
 function createData(name, calories, fat, carbs, protein) {
     return {name, calories, fat, carbs, protein};
@@ -21,6 +22,7 @@ function createData(name, calories, fat, carbs, protein) {
 
 
 function ArrayTemperature(props) {
+
     return (
         <Grid container>
             <Grid item xs={6}>
@@ -29,10 +31,10 @@ function ArrayTemperature(props) {
             <Grid item xs={6}>
                 Soir
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={6} style={{color : props.couleur(props.data.temperature.morn),fontWeight:"bold", }}>
                 {props.data.temperature.morn}°C
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={6}  style={{color : props.couleur(props.data.temperature.morn),fontWeight:"bold", }}>
                 {props.data.temperature.eve}°C
             </Grid>
         </Grid>
@@ -52,16 +54,19 @@ const rows = [
 
 export default function BoxParticularTown(props) {
     moment.locale('fr')
-
     let data = props.item.finished ? props.item.data.daily : new Array(7).fill(0) ;
     String.prototype.capitalize = function() {
         return this.charAt(0).toUpperCase() + this.slice(1)
     };
-    console.log(data[0])
+
     const classes = useStyles();
     const actualDate = moment();
     return (
         <Paper elevation={3} className={classes.paper}>
+            <div onClick={()=>props.deleteTown(props.i)} className={classes.buttonClose}>
+                <HighlightOffSharpIcon/>
+            </div>
+
             <Grid container className={classes.container}>
                 <Grid item xs={12}>
                     <TableContainer className={classes.tableContainer}>
@@ -69,6 +74,7 @@ export default function BoxParticularTown(props) {
                             <TableHead className={classes.tabHead}>
                                 <TableRow>
                                     <TableCell>
+
                                         <Typography variant="h5" component="h1" className={classes.title}>
                                             {props.item.name}
                                         </Typography>
@@ -108,7 +114,7 @@ export default function BoxParticularTown(props) {
                                             <TableCell align="center" scope="row" className={classes.tableCellTemperature} key={i.toString()}>
                                                 {
                                                     props.item.finished ?
-                                                        <ArrayTemperature data={item}>
+                                                        <ArrayTemperature couleur={props.couleur} data={item}>
                                                         </ArrayTemperature>
                                                         :
                                                         props.item.error ?
