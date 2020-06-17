@@ -4,9 +4,6 @@ const drawerWidth = 240;
 const drawerHeight = 64;
 const sizeButtonHome = 32;
 const useStyles = makeStyles((theme) => ({
-  title:{
-    flexGrow:1,
-  },
   homeDivButton:{
     height:drawerHeight,
     textAlign:'center',
@@ -15,14 +12,7 @@ const useStyles = makeStyles((theme) => ({
   homeButton:{
     height:sizeButtonHome,
   },
-  link:{
-    color:"inherit",
-    '&:link':{
-      textDecoration:'none',
 
-    },
-
-  },
   root: {
     display: 'flex',
   },
@@ -52,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    marginTop:drawerHeight+20,
     padding: theme.spacing(3),
   },
 }));

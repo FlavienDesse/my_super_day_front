@@ -16,95 +16,54 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import HomeIcon from '@material-ui/icons/Home';
-import { Link } from 'react-navi'
 
 
 
-function MainListItemsSideBar(props) {
-    let url  = "/mysuperday/dashboard";
+function MainListItemsSideBar(props){
 
     return (
-        <div>
-            <Link href={url + '/'} className={props.style.link}>
-                <div className={props.style.homeDivButton} onClick={() => {
-                    props.setTitleName("Vue d'ensemble")
-                }}>
-                    <HomeIcon className={props.style.homeButton}/>
-                </div>
-            </Link>
+        <div >
+            <div className={props.style.homeDivButton} onClick={()=> {props.setTitleName("Vue d'ensemble")}}>
+                <HomeIcon  className={props.style.homeButton} />
+            </div>
 
-            <div className={props.style.toolbar}/>
+            <div className={props.style.toolbar} />
             <Divider/>
+            <List >
+                <ListItem button onClick={()=> {props.setTitleName("Horoscope")}}  >
+                    <ListItemIcon> <FlareIcon/></ListItemIcon>
+                    <ListItemText primary={"Horosocope"} />
+                </ListItem>
 
-
-            <List>
-                <Link href={`${url}/horoscope`} className={props.style.link}>
-                    <ListItem button onClick={() => {
-                        props.setTitleName("Horoscope")
-                    }}>
-                        <ListItemIcon> <FlareIcon/></ListItemIcon>
-                        <ListItemText primary={"Horoscope"}/>
-                    </ListItem>
-                </Link>
-                <Link href={`${url}/biorythme`} className={props.style.link}>
-                    <ListItem button onClick={() => {
-                        props.setTitleName("Biorythme")
-                    }}>
-                        <ListItemIcon> <FingerprintIcon/></ListItemIcon>
-                        <ListItemText primary={"Biorythme"}/>
-                    </ListItem>
-                </Link>
-                <Link href={`${url}/traducteur`} className={props.style.link}>
-                    <ListItem button onClick={() => {
-                        props.setTitleName("Traducteur")
-                    }}>
-                        <ListItemIcon> <TranslateIcon/></ListItemIcon>
-                        <ListItemText primary={"Traducteur"}/>
-                    </ListItem>
-                </Link>
-                <Link href={`${url}/agenda`} className={props.style.link}>
-                    <ListItem button onClick={() => {
-                        props.setTitleName("Agenda")
-                    }}>
-                        <ListItemIcon> <ScheduleIcon/></ListItemIcon>
-                        <ListItemText primary={"Agenda"}/>
-                    </ListItem>
-                </Link>
-                <Link href={`${url}/calculatrice`} className={props.style.link}>
-                    <ListItem button onClick={() => {
-                        props.setTitleName("Calculatrice")
-                    }}>
-                        <ListItemIcon> <ExposureIcon/></ListItemIcon>
-                        <ListItemText primary={"Calculatrice"}/>
-                    </ListItem>
-                </Link>
-                <Link href={`${url}/blocNote`} className={props.style.link}>
-                    <ListItem button onClick={(e) => {
-                        props.setTitleName("Bloc notes")
-                    }}>
-                        <ListItemIcon> <AssignmentIcon/></ListItemIcon>
-                        <ListItemText primary={"Bloc notes"}/>
-                    </ListItem>
-                </Link>
-                <Link href={`${url}/meteo`} className={props.style.link}>
-                    <ListItem button onClick={(e) => {
-                        props.setTitleName("Météo")
-                    }}>
-                        <ListItemIcon> <WbSunnyIcon/></ListItemIcon>
-                        <ListItemText primary={"Météo"}/>
-                    </ListItem>
-                </Link>
-                <Link href={`${url}/bourse`} className={props.style.link}>
-                    <ListItem button onClick={(e) => {
-                        props.setTitleName("Bourse")
-                    }}>
-                        <ListItemIcon> <AccountBalanceIcon/></ListItemIcon>
-                        <ListItemText primary={"Bourse"}/>
-                    </ListItem>
-                </Link>
+                <ListItem button onClick={()=> {props.setTitleName("Biorythme")}}>
+                    <ListItemIcon> <FingerprintIcon/></ListItemIcon>
+                    <ListItemText primary={"Biorythme"}/>
+                </ListItem>
+                <ListItem button onClick={()=> {props.setTitleName("Traducteur")}}>
+                    <ListItemIcon> <TranslateIcon/></ListItemIcon>
+                    <ListItemText primary={"Traducteur"}/>
+                </ListItem>
+                <ListItem button onClick={()=> {props.setTitleName("Agenda")}}>
+                    <ListItemIcon> <ScheduleIcon/></ListItemIcon>
+                    <ListItemText primary={"Agenda"}/>
+                </ListItem>
+                <ListItem button onClick={()=> {props.setTitleName("Calculatrice")}}>
+                    <ListItemIcon> <ExposureIcon/></ListItemIcon>
+                    <ListItemText primary={"Calculatrice"}/>
+                </ListItem>
+                <ListItem button onClick={(e)=> {props.setTitleName("Bloc notes")}}>
+                    <ListItemIcon> <AssignmentIcon/></ListItemIcon>
+                    <ListItemText primary={"Bloc notes"}/>
+                </ListItem>
+                <ListItem button onClick={(e)=> {props.setTitleName("Météo")}}>
+                    <ListItemIcon> <WbSunnyIcon/></ListItemIcon>
+                    <ListItemText primary={"Météo"}/>
+                </ListItem>
+                <ListItem button onClick={(e)=> {props.setTitleName("Bourse")}}>
+                    <ListItemIcon> <AccountBalanceIcon/></ListItemIcon>
+                    <ListItemText primary={"Bourse"}/>
+                </ListItem>
             </List>
-
-
         </div>
     );
 
