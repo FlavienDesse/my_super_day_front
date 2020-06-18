@@ -7,6 +7,8 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete"
+import {authHeader} from "../../../Controller/CheckConnected";
+import ModelSaveFile from "../../NoteBlock/NoteBlockMain/modelSavefile";
 
 
 export function Weather() {
@@ -127,10 +129,15 @@ export function Weather() {
 
         await setAllDataParticularTown(tempAllDataParticularTown.slice())
 
-
-        fetch(encodeURI("http://localhost:9000/mysuperday/api/meteo?address=" +name))
+        const requestOptions = {
+            method: 'POST',
+            headers:{'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                address: encodeURI(name),
+            }),
+        };
+        fetch(`${window.url}/mysuperday/api/meteo/getParticularTown`,requestOptions)
             .then((res) => {
-
 
                 return res.json()
             })
@@ -151,8 +158,16 @@ export function Weather() {
     }
 
     useEffect(() => {
+
         for (let i = 0; i < allDataParticularTown.length; i++) {
-            fetch( encodeURI("http://localhost:9000/mysuperday/api/meteo?address=" +allDataParticularTown[i].name))
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    address: encodeURI(+allDataParticularTown[i].name),
+                }),
+            };
+            fetch( `${window.url}/mysuperday/api/meteo/getParticularTown`,requestOptions)
                 .then((res) => {
 
                     return res.json()

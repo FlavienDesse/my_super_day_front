@@ -1,9 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-    container:{
-        marginTop:'70px',
-    },
+
     gridContainer:{
         marginTop:'50px !important',
         marginBottom:'100px !important',

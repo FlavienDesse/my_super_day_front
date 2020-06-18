@@ -9,9 +9,7 @@ const useStyles = makeStyles((theme) => ({
     buttonParticularTown:{
         marginLeft:'15px',
     },
-    container: {
-        marginTop: '50px',
-    },
+
     svg: {
         '& svg [id~=ville]': {
             fill: "#efebe9",

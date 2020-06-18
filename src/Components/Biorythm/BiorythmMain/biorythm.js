@@ -11,10 +11,11 @@ export const Biorythm = () => {
     let label = [];
     let date = new Date();
     const [chartData, setChartData] = React.useState({});
-    const [numDaySinceBirth,setNumDaySinceBirth]  = React.useState(-1)
+    const [numDaySinceBirth, setNumDaySinceBirth] = React.useState(-1)
+    let numDayDisplay = 30;
 
 
-    useEffect(()=>{
+    useEffect(() => {
         const requestOptions = {
             method: 'POST',
             headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
@@ -26,32 +27,34 @@ export const Biorythm = () => {
         fetch(`${window.url}/mysuperday/api/biorythme/getNumberDaySinceBirth`, requestOptions).then((res) => {
             return res.json()
         }).then((data) => {
-            console.log(data)
+
             setNumDaySinceBirth(data.resultat)
+            date.setDate(date.getDate() - numDayDisplay / 2);
+            for (let i = 0; i < numDayDisplay; i++) {
+
+                date.setDate(date.getDate() + 1);
+                let copyDate = new Date(date.getTime());
+                let day = copyDate.getUTCDate();
+                let month = copyDate.getUTCMonth() + 1;
+
+                label.push(day + '/' + month);
+
+            }
+
+
+
+            chart();
+
+
         })
-    },[])
 
-
-    let numDayDisplay = 30;
-
-    date.setDate(date.getDate() - numDayDisplay / 2);
-    for (let i = 0; i < numDayDisplay; i++) {
-
-        date.setDate(date.getDate() + 1);
-        let copyDate = new Date(date.getTime());
-        let day = copyDate.getUTCDate();
-        let month = copyDate.getUTCMonth() + 1;
-
-        label.push(day + '/' + month);
-
-    }
+    }, [])
 
 
     const classes = useStyles();
 
 
-
-    const chart  = () =>  {
+    const chart = () => {
         setChartData({
             labels: label,
 
@@ -94,36 +97,29 @@ export const Biorythm = () => {
     };
 
 
-    Chart.pluginService.register({
-
-        beforeUpdate: function (chart) {
-            var data = chart.config.data;
-            for (var i = 0; i < data.datasets.length; i++) {
-                for (var j = 0; j < data.labels.length; j++) {
-                    let res = numDaySinceBirth + j - numDayDisplay / 2
-                    var fct = data.datasets[i].function;
-                    var y = fct(res);
-                    data.datasets[i].data.push(y);
-                }
-            }
-        }
-    });
-    useEffect(() => {
-        chart();
-    }, []);
-
-
     return (
         <div className={classes.container}>
             {
                 numDaySinceBirth != -1 ?
                     <Grid container spacing={3}>
-                        <Grid item xs={12}>
 
-                        </Grid>
                         <Grid item md={8} sm={12}>
 
-                            <Line style={{width: "100%"}} data={chartData} options={{
+                            <Line style={{width: "100%"}} plugins={[{
+                                beforeUpdate: function (chart, options) {
+                                    var data = chart.config.data;
+                                    for (var i = 0; i < data.datasets.length; i++) {
+                                        for (var j = 0; j < data.labels.length; j++) {
+                                            let res = numDaySinceBirth + j - numDayDisplay / 2
+                                            var fct = data.datasets[i].function;
+                                            var y = fct(res);
+                                            data.datasets[i].data.push(y);
+                                        }
+                                    }
+                                }
+
+                            }]} data={chartData} options={{
+
                                 sampleSize: 50000,
                                 responsive: true,
                                 title: {text: 'Votre biorythme actuel', display: true},
@@ -167,23 +163,25 @@ export const Biorythm = () => {
 
 
                         </Grid>
-                        <Grid item md={4}  sm={12} className={classes.annotationTexte}>
+                        <Grid item md={4} sm={12} className={classes.annotationTexte}>
 
-                            <p>Votre biorythme <span className={classes.annotationTextPhysique}> Physique </span> est à <span
-                                className={classes.annotationTextPhysique}> {Math.round(100 * Math.sin((2 * Math.PI * ((numDaySinceBirth - 1) % 23) / 23)))}%</span>
+                            <p>Votre biorythme <span className={classes.annotationTextPhysique}> Physique </span> est
+                                à <span
+                                    className={classes.annotationTextPhysique}> {Math.round(100 * Math.sin((2 * Math.PI * ((numDaySinceBirth - 1) % 23) / 23)))}%</span>
                             </p>
-                            <p>Votre biorythme <span className={classes.annotationTextEmotionnel}> Emotionnel </span>est à <span
-                                className={classes.annotationTextEmotionnel}> {Math.round(100 * Math.sin((2 * Math.PI * ((numDaySinceBirth - 1) % 28) / 28)))}%</span>
+                            <p>Votre biorythme <span className={classes.annotationTextEmotionnel}> Emotionnel </span>est
+                                à <span
+                                    className={classes.annotationTextEmotionnel}> {Math.round(100 * Math.sin((2 * Math.PI * ((numDaySinceBirth - 1) % 28) / 28)))}%</span>
                             </p>
-                            <p>Votre biorythme <span className={classes.annotationTextIntellectuel}> Intellectuel </span> est
+                            <p>Votre biorythme <span
+                                className={classes.annotationTextIntellectuel}> Intellectuel </span> est
                                 à <span
                                     className={classes.annotationTextIntellectuel}> {Math.round(100 * Math.sin((2 * Math.PI * ((numDaySinceBirth - 1) % 33) / 33)))}%</span>
                             </p>
                         </Grid>
                     </Grid> :
                     <CircularProgress/>
-                }
-
+            }
 
 
         </div>

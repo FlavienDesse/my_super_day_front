@@ -35,6 +35,23 @@ export default compose(
                 :
                 redirect('/mysuperday/users/signin')
         ),
+        '/mysuperday/dashboard/blocNote': map(async (request, context) =>
+            await context.authService.isConnected() ? route({
+
+                    getView:
+                        async (req, context) => {
+                            const {Dashboard} = await import('../Components/DashBoard/dashboard')
+                            const {NoteBlock} = await import('../Components/NoteBlock/NoteBlockMain/noteBlock')
+                            return (
+                                <Dashboard  authService={context.authService}>
+                                    <NoteBlock authService={context.authService}/>
+                                </Dashboard>
+                            )
+                        },
+                })
+                :
+                redirect('/mysuperday/users/signin')
+        ),
         '/mysuperday/dashboard/calculatrice': map(async (request, context) =>
             await context.authService.isConnected() ? route({
 

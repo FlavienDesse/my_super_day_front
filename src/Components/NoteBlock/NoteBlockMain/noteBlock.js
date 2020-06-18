@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import useStyles from "./style";
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/Button';
@@ -9,11 +9,10 @@ import Paper from '@material-ui/core/Paper';
 import Rendersavenote from "./renderSaveNote";
 import SimpleModal from "./modalSaveNote";
 import ModelSaveFile from "./modelSavefile";
+import {authHeader} from "../../../Controller/CheckConnected";
 
 
-
-
-function NoteBlock(props) {
+export function NoteBlock(props) {
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -28,6 +27,25 @@ function NoteBlock(props) {
         setOpen(false);
     };
 
+    useEffect(() => {
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id_user: encodeURI(JSON.parse(window.localStorage.getItem('users')).id),
+            }),
+        };
+        fetch(`${window.url}/mysuperday/api/blocNotes/getAllNotes`,requestOptions).then((res)=>{
+            return res.json()
+        }).then((data)=>{
+            let temp = []
+            for (const elem of data){
+                temp.push(new ModelSaveFile(elem.title,elem.value))
+            }
+
+            setAllSaveFile(temp)
+        });
+    },[])
 
     function deleteNote (i) {
 
@@ -36,15 +54,6 @@ function NoteBlock(props) {
         setAllSaveFile(temp)
     }
 
-    fetch('http://locahost:9000/mysuperday/api/blocNotes/getAllNotes').then((res)=>{
-        return res.json()
-    }).then((data)=>{
-        let temp = []
-        for (const elem of data){
-            temp.push(new ModelSaveFile(data.title,data.value))
-        }
-        setAllSaveFile(temp)
-    });
 
 
     return (
@@ -86,7 +95,7 @@ function NoteBlock(props) {
                 </Grid>
                 {
                     allSaveFile.map((item, i) => 
-                            <Rendersavenote  pos={i} deleteNote={deleteNote} name={item.name} value={item.value}>
+                            <Rendersavenote  key={i.toString()} pos={i} deleteNote={deleteNote} name={item.name} value={item.value}>
 
                             </Rendersavenote>
 
@@ -101,4 +110,3 @@ function NoteBlock(props) {
 
 }
 
-export default NoteBlock;
