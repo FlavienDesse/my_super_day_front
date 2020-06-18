@@ -172,7 +172,7 @@ export function Weather() {
                     setAllDataParticularTown(tempaAlDataParticularTown)
                 })
         }
-    }, [allDataParticularTown])
+    }, [])
 
     const classes = useStyles();
 
