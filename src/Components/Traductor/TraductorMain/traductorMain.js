@@ -22,8 +22,148 @@ export function TraductorMain() {
             id: "fr"
         },
         {
+            show: "Anglais",
+            id: "en"
+        },
+        {
             show: "Allemand",
             id: "de"
+        },
+        {
+            show: "Italien",
+            id: "it"
+        },
+        {
+            show: "Espagnol",
+            id: "es"
+        },
+        {
+            show: "Portugais",
+            id: "pt"
+        },
+        {
+            show: "Russe",
+            id: "ru"
+        },
+        {
+            show: "Roumain",
+            id: "ro"
+        },
+        {
+            show: "Arabe",
+            id: "ar"
+        },
+        {
+            show: "Turc",
+            id: "tr"
+        },
+        {
+            show: "Chinois",
+            id: "zh"
+        },
+        {
+            show: "Japonais",
+            id: "ja"
+        },
+        {
+            show: "Coréen",
+            id: "ko"
+        },
+        {
+            show: "Vietnamien",
+            id: "vi"
+        },
+        {
+            show: "Danois",
+            id: "da"
+        },
+        {
+            show: "Néerlandais",
+            id: "nl"
+        },
+        {
+            show: "Finnois",
+            id: "fi"
+        },
+        {
+            show: "Islandais",
+            id: "is"
+        },
+        {
+            show: "Norvégien",
+            id: "no"
+        },
+        {
+            show: "Suédois",
+            id: "sv"
+        },
+        {
+            show: "Ukrainien",
+            id: "uk"
+        },
+        {
+            show: "Polonais",
+            id: "pl"
+        },
+        {
+            show: "Grec",
+            id: "el"
+        },
+        {
+            show: "Hongrois",
+            id: "hu"
+        },
+        {
+            show: "Lituanien",
+            id: "lt"
+        },
+        {
+            show: "Letton",
+            id: "lv"
+        },
+        {
+            show: "Estonien",
+            id: "et"
+        },
+        {
+            show: "croate",
+            id: "hr"
+        },
+        {
+            show: "Tchèque",
+            id: "cs"
+        },
+        {
+            show: "Slovaque",
+            id: "sk"
+        },
+        {
+            show: "Serbe",
+            id: "sr"
+        },
+        {
+            show: "Slovène",
+            id: "sl"
+        },
+        {
+            show: "Latin",
+            id: "la"
+        },
+        {
+            show: "Hébreu",
+            id: "he"
+        },
+        {
+            show: "Espéranto",
+            id: "eo"
+        },
+        {
+            show: "Arménien",
+            id: "hy"
+        },
+        {
+            show: "Albanais",
+            id: "sq"
         },
     ];
 
