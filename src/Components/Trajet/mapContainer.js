@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+require('dotenv').config()
+
+
+
+const googleKey = process.env.GOOGLE_KEY
 
 const mapStyles = {
     width: '50%',
@@ -8,13 +13,17 @@ const mapStyles = {
 
 function MapContainer(props)  {
         return (
+
+
             <Map
+                n
+                visible={props.data.visible}
                 google={props.google}
-                zoom={14}
+                zoom={props.zoom}
                 style={mapStyles}
-                initialCenter={{ lat: props.data.currentLatitude, lng: props.data.currentLongitude}}
+                center={{ lat: props.data.latitudeDestination, lng: props.data.longitudeDestination}}
             >
-                <Marker position={{ lat: 50.6342719, lng: 3.0487597}} />
+
             </Map>
 
         );
@@ -22,5 +31,5 @@ function MapContainer(props)  {
 }
 
 export default GoogleApiWrapper({
-    apiKey: 'AIzaSyCDa_5CfpTTBeNY0PFremSA5i_1zqaGnEU'
-})(MapContainer);
+    apiKey: googleKey
+})(MapContainer)
