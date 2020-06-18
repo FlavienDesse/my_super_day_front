@@ -3,10 +3,7 @@ import useStyles from "./style";
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/Button";
-import SaveIcon from "@material-ui/icons/Save";
 import TextField from "@material-ui/core/TextField";
-import Rendersavenote from "./renderSaveNote";
 import ModelSaveFile from "./modelSavefile";
 
 

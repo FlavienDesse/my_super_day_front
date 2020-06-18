@@ -8,8 +8,9 @@ import Grid from "@material-ui/core/Grid";
 import Paper from '@material-ui/core/Paper';
 import Rendersavenote from "./renderSaveNote";
 import SimpleModal from "./modalSaveNote";
-import ModelSavefile from "./modelSavefile";
-import NoteBlockWIdget from "../NoteBlockWidget/noteBlockWIdget";
+import ModelSaveFile from "./modelSavefile";
+
+
 
 
 function NoteBlock(props) {
@@ -32,9 +33,18 @@ function NoteBlock(props) {
 
         let temp = allSaveFile.slice();
         temp.splice(i,1);
-        console.log(temp)
         setAllSaveFile(temp)
     }
+
+    fetch('http://locahost:9000/mysuperday/api/blocNotes/getAllNotes').then((res)=>{
+        return res.json()
+    }).then((data)=>{
+        let temp = []
+        for (const elem of data){
+            temp.push(new ModelSaveFile(data.title,data.value))
+        }
+        setAllSaveFile(temp)
+    });
 
 
     return (
@@ -43,7 +53,7 @@ function NoteBlock(props) {
             <SimpleModal  allSaveFile={allSaveFile} valueTextFieldNote={refTextFieldNote.current} setAllSaveFile={setAllSaveFile} handleOpen={handleOpen} handleClose={handleClose} open={open}>
             </SimpleModal>
             <Grid container justify={"center"}>
-                <Grid item xs={4} alignContent={'center'} className={classes.title}>
+                <Grid item xs={4}  className={classes.title}>
                     <Paper variant={'elevation'} elevation={5} color={"primary"}>
                         Generation d'une nouvelle note
                     </Paper>
@@ -57,12 +67,12 @@ function NoteBlock(props) {
 
                         />
                     </Grid>
-                    <Grid item xs={'auto'} spacing={0}>
+                    <Grid item xs={'auto'} >
                         <IconButton aria-label="save">
                             <SaveIcon onClick={() => handleOpen()}  style={{fontSize: 29}} color={"primary"}/>
                         </IconButton>
                     </Grid>
-                    <Grid item xs={'auto'} spacing={0}>
+                    <Grid item xs={'auto'} >
                         <IconButton aria-label="delete">
                             <DeleteIcon onClick={() => refTextFieldNote.current.value = ""} style={{fontSize: 29}}
                                         color={"secondary"}/>
@@ -85,9 +95,7 @@ function NoteBlock(props) {
                 }
 
             </Grid>
-            <NoteBlockWIdget>
 
-            </NoteBlockWIdget>
         </div>);
 
 

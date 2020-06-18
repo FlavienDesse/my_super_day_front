@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
     },
+    editIcon:{
+        fill: 'rgba(255,140,0)'
+    }
 }));
 
 export default useStyles;

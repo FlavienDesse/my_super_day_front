@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import useStyles from "./style";
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/Button';
@@ -6,6 +6,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import Grid from "@material-ui/core/Grid";
 import EditIcon from '@material-ui/icons/Edit';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { orange } from '@material-ui/core/colors';
 
 
 function Rendersavenote(props) {
@@ -17,7 +19,7 @@ function Rendersavenote(props) {
 
 
 
-    return (
+        return (
         <Grid item xs={12} className={classes.gridContainerSavedNote}>
             <Grid container spacing={0} justify={'center'} alignItems={"center"}>
 
@@ -46,13 +48,15 @@ function Rendersavenote(props) {
                     </IconButton>
                 </Grid>
                 <Grid item xs={'auto'} spacing={0}>
-                    <IconButton aria-label="save" onClick={()=>{
-                        setSaveIsDisabled(!saveIsDisabled);
-                        setIsWritable(!isWritable);
-                        setModifyIsDisabled(!modifyIsDisabled);
-                    }} disabled={modifyIsDisabled}>
-                        <EditIcon style={{fontSize: 29}} />
-                    </IconButton>
+
+                        <IconButton aria-label="save" onClick={()=>{
+                            setSaveIsDisabled(!saveIsDisabled);
+                            setIsWritable(!isWritable);
+                            setModifyIsDisabled(!modifyIsDisabled);
+                        }} disabled={modifyIsDisabled}>
+                                <EditIcon className={classes.editIcon}/>
+                        </IconButton>
+
                 </Grid>
             </Grid>
         </Grid>
