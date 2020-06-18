@@ -40,18 +40,46 @@ export function NoteBlock(props) {
         }).then((data)=>{
             let temp = []
             for (const elem of data){
-                temp.push(new ModelSaveFile(elem.title,elem.value))
+                temp.push(new ModelSaveFile(elem.title,elem.value,elem.id))
             }
 
             setAllSaveFile(temp)
         });
     },[])
 
-    function deleteNote (i) {
 
-        let temp = allSaveFile.slice();
-        temp.splice(i,1);
-        setAllSaveFile(temp)
+    function updateNoteDB(i,newValue){
+
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id:allSaveFile[i].id,
+                newValue:newValue,
+            }),
+        };
+        fetch(`${window.url}/mysuperday/api/blocNotes/updateNote`,requestOptions).then((res)=>{
+            return res.json()
+        })
+
+    }
+
+    function deleteNote (i) {
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id:allSaveFile[i].id,
+            }),
+        };
+        fetch(`${window.url}/mysuperday/api/blocNotes/deleteNote`,requestOptions).then((res)=>{
+            return res.json()
+        }).then((data)=>{
+            let temp = allSaveFile.slice();
+            temp.splice(i,1);
+            setAllSaveFile(temp)
+        });
+
     }
 
 
@@ -95,7 +123,7 @@ export function NoteBlock(props) {
                 </Grid>
                 {
                     allSaveFile.map((item, i) => 
-                            <Rendersavenote  key={i.toString()} pos={i} deleteNote={deleteNote} name={item.name} value={item.value}>
+                            <Rendersavenote updateNoteDB={updateNoteDB} key={i.toString()} pos={i}  deleteNote={deleteNote} name={item.name} value={item.value}>
 
                             </Rendersavenote>
 

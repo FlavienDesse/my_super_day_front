@@ -24,7 +24,7 @@ function Rendersavenote(props) {
 
 
                 <Grid item xs={7}>
-                    <TextField  label={props.name} id="outlined-basic" InputProps={{readOnly: isWritable}} multiline={true}  onChange={(e)=>{
+                    <TextField label={props.name} id="outlined-basic" InputProps={{readOnly: isWritable}} multiline={true}  onChange={(e)=>{
                     
                         setValueTextField(e.currentTarget.value)
 
@@ -34,9 +34,11 @@ function Rendersavenote(props) {
                 </Grid>
                 <Grid item xs={'auto'} >
                     <IconButton aria-label="save" disabled={saveIsDisabled} onClick={()=>{
+
                         setModifyIsDisabled(!modifyIsDisabled);
                         setSaveIsDisabled(!saveIsDisabled);
                         setIsWritable(!isWritable);
+                        props.updateNoteDB(props.pos,valueTextField)
                     }}>
                         <SaveIcon style={{fontSize: 29}} color={"primary"}/>
                     </IconButton>
@@ -62,4 +64,4 @@ function Rendersavenote(props) {
     )
 }
 
-export default Rendersavenote
+export default Rendersavenote;

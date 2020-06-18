@@ -6,6 +6,14 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '120px !important',
         paddingLeft:'15px'
     },
+    divButtonTranslate:{
+      width:'100%',
+        textAlign:'center',
+    },
+    buttonTranslate:{
+        marginTop:'15px',
+        width:'50%',
+    },
     grid: {
         '&>:nth-child(-n+2)': {
             borderBottom: '0px solid grey',

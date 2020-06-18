@@ -8,7 +8,6 @@ import AddIcon from '@material-ui/icons/Add';
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete"
 import {authHeader} from "../../../Controller/CheckConnected";
-import ModelSaveFile from "../../NoteBlock/NoteBlockMain/modelSavefile";
 
 
 export function Weather() {
@@ -97,25 +96,7 @@ export function Weather() {
     const [lastChoicePrediction, setLastChoicePrediction] = React.useState("")
 
 
-    const [allDataParticularTown, setAllDataParticularTown] = React.useState([
-            {
-                finished: false,
-                name: "Paris , France",
-                error: false,
-                data: {}
-            },
-            {
-                finished: false,
-                name: "Lille , France",
-                error: false,
-                data: {}
-            },
-
-        ]
-    )
-
-
-
+    const [allDataParticularTown, setAllDataParticularTown] = React.useState([])
 
 
     async function addParticularTown(name, pos) {
@@ -124,19 +105,39 @@ export function Weather() {
             finished: false,
             name: name,
             error: false,
-            data: {}
+            data: {},
+            id: -1,
         });
+
+        async function addToDB() {
+            console.log(name)
+            const requestOptions = {
+                method: 'POST',
+                headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+                body: JSON.stringify({
+                    id_user: encodeURI(JSON.parse(window.localStorage.getItem('users')).id),
+                    address: name,
+                }),
+            };
+            fetch(`${window.url}/mysuperday/api/meteo/addTown`, requestOptions).then((res) => {
+                return res.json()
+            }).then((data) => {
+                tempAllDataParticularTown[pos].id = data.id
+            })
+        }
+
+        await addToDB();
 
         await setAllDataParticularTown(tempAllDataParticularTown.slice())
 
         const requestOptions = {
             method: 'POST',
-            headers:{'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 address: encodeURI(name),
             }),
         };
-        fetch(`${window.url}/mysuperday/api/meteo/getParticularTown`,requestOptions)
+        fetch(`${window.url}/mysuperday/api/meteo/getParticularTown`, requestOptions)
             .then((res) => {
 
                 return res.json()
@@ -159,45 +160,85 @@ export function Weather() {
 
     useEffect(() => {
 
-        for (let i = 0; i < allDataParticularTown.length; i++) {
-            const requestOptions = {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    address: encodeURI(+allDataParticularTown[i].name),
-                }),
-            };
-            fetch( `${window.url}/mysuperday/api/meteo/getParticularTown`,requestOptions)
-                .then((res) => {
 
-                    return res.json()
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id_user: encodeURI(JSON.parse(window.localStorage.getItem('users')).id),
+            }),
+        };
+        fetch(`${window.url}/mysuperday/api/meteo/getAllTown`, requestOptions).then((res) => {
+            return res.json()
+        }).then((data) => {
+
+            let res = [];
+            for (const elem of data) {
+                res.push({
+                    finished: false,
+                    name: elem.name,
+                    id: elem.id,
+                    error: false,
+                    data: {}
                 })
-                .then((data) => {
+            }
 
-                    let tempaAlDataParticularTown = allDataParticularTown.slice()
-                    tempaAlDataParticularTown[i].data = data;
-                    tempaAlDataParticularTown[i].finished = true;
+            setAllDataParticularTown(res);
 
-                    setAllDataParticularTown(tempaAlDataParticularTown)
-                })
-                .catch(function (e) {
 
-                    let tempaAlDataParticularTown = allDataParticularTown.slice()
-                    tempaAlDataParticularTown[i].error = true;
-                    setAllDataParticularTown(tempaAlDataParticularTown)
-                })
-        }
+            for (let i = 0; i < res.length; i++) {
+                const requestOptions = {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        address: encodeURI(+res[i].name),
+                    }),
+                };
+                fetch(`${window.url}/mysuperday/api/meteo/getParticularTown`, requestOptions)
+                    .then((res) => {
+
+                        return res.json()
+                    })
+                    .then((data) => {
+
+                        let tempaAlDataParticularTown = res.slice()
+                        tempaAlDataParticularTown[i].data = data;
+                        tempaAlDataParticularTown[i].finished = true;
+
+                        setAllDataParticularTown(tempaAlDataParticularTown)
+                    })
+                    .catch(function (e) {
+
+                        let tempaAlDataParticularTown = res.slice()
+                        tempaAlDataParticularTown[i].error = true;
+                        setAllDataParticularTown(tempaAlDataParticularTown)
+                    })
+            }
+
+        })
+
+
     }, [])
 
     const classes = useStyles();
 
 
-    function deleteTown(i){
-
-       let temp = allDataParticularTown.slice()
-        temp.splice(i,1);
+    function deleteTown(i) {
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id: allDataParticularTown[i].id,
+            }),
+        };
+        fetch(`${window.url}/mysuperday/api/meteo/deleteTown`, requestOptions).then((res) => {
+            return res.json()
+        });
+        let temp = allDataParticularTown.slice()
+        temp.splice(i, 1);
         setAllDataParticularTown(temp)
     }
+
     function callPredictions(value) {
 
         const requestOptions = {
@@ -259,13 +300,14 @@ export function Weather() {
             <Grid item xs={12}>
 
 
-                    {
-                        allDataParticularTown.map((item, i) =>
-                            <BoxParticularTown deleteTown={deleteTown} i={i} couleur={couleur} item={item} key={i.toString()}>
+                {
+                    allDataParticularTown.map((item, i) =>
+                        <BoxParticularTown deleteTown={deleteTown} i={i} couleur={couleur} item={item}
+                                           key={i.toString()}>
 
-                            </BoxParticularTown>
-                        )
-                    }
+                        </BoxParticularTown>
+                    )
+                }
 
 
             </Grid>

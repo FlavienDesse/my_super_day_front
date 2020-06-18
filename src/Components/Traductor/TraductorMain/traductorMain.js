@@ -240,8 +240,11 @@ export function TraductorMain() {
 
 
             </Paper>
+            <div className={classes.divButtonTranslate}>
+                <Button variant="contained" color="primary" onClick={callTrad}
+                        className={classes.buttonTranslate}> TRADUIRE </Button>
+            </div>
 
-            <Button variant="contained" onClick={callTrad}> TRADUIRE </Button>
         </div>
     )
 }

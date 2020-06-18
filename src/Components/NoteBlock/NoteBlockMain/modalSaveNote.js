@@ -5,6 +5,7 @@ import Modal from '@material-ui/core/Modal';
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import ModelSaveFile from "./modelSavefile";
+import {authHeader} from "../../../Controller/CheckConnected";
 
 
 function getModalStyle() {
@@ -27,9 +28,24 @@ export default function SimpleModal(props) {
     function addNote(){
 
         let temp = props.allSaveFile.slice()
-        temp.push(new ModelSaveFile(refTitleFieldNote.current.value,props.valueTextFieldNote.value))
-        props.setAllSaveFile(temp);
-        props.handleClose();
+
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id_user: encodeURI(JSON.parse(window.localStorage.getItem('users')).id),
+                title:refTitleFieldNote.current.value,
+                value:props.valueTextFieldNote.value
+            }),
+        };
+        fetch(`${window.url}/mysuperday/api/blocNotes/addNote`,requestOptions).then((res)=>{
+            return res.json()
+        }).then((data)=>{
+            temp.push(new ModelSaveFile(refTitleFieldNote.current.value,props.valueTextFieldNote.value,data.id))
+            props.setAllSaveFile(temp);
+            props.handleClose();
+        });
+
     }
 
 
