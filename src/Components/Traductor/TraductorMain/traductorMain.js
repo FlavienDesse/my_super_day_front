@@ -126,7 +126,7 @@ export function TraductorMain() {
             id: "et"
         },
         {
-            show: "croate",
+            show: "Croate",
             id: "hr"
         },
         {
