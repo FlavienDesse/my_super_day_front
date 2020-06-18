@@ -1,4 +1,4 @@
-function authHeader() {
+export function authHeader() {
     const user = JSON.parse(window.localStorage.getItem('users'));
 
     if (user && user.accessToken) {
@@ -9,7 +9,7 @@ function authHeader() {
     }
 }
 
-export default function getUserBoard() {
+export  function CheckConnected() {
 
     const requestOptions = {
         method: 'GET',

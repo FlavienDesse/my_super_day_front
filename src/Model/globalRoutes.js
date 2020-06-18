@@ -37,13 +37,14 @@ export default compose(
         ),
         '/mysuperday/dashboard/calculatrice': map(async (request, context) =>
             await context.authService.isConnected() ? route({
+
                     getView:
                         async (req, context) => {
                             const {Dashboard} = await import('../Components/DashBoard/dashboard')
                             const {Calculator} = await import('../Components/Calculator/CalculatorMain/calculator')
                             return (
                                 <Dashboard  authService={context.authService}>
-                                    <Calculator/>
+                                    <Calculator authService={context.authService}/>
                                 </Dashboard>
                             )
                         },

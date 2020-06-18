@@ -45,7 +45,7 @@ export default function GraphicInterface(props) {
             </Grid>
             {
                 allDataGraph.map((item, i) =>
-                    <Grid container className={classes.containerGraph}>
+                    <Grid container className={classes.containerGraph} key={i.toString()}>
                         <Grid item xs={1}>
                             <DeleteIcon
                                 onClick={() => props.deleteGraph(i)}

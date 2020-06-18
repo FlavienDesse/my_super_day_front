@@ -1,4 +1,4 @@
-import CheckConnected from "../Controller/CheckConnected";
+import {CheckConnected} from "../Controller/CheckConnected";
 
 export const authService = {
 

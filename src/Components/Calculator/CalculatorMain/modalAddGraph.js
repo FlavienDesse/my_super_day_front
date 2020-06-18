@@ -91,7 +91,7 @@ export default function ModalAddGraph(props) {
     return (
         <Grid container>
             <Grid item xs={6} >
-                <Button color={"primary"} type="button"  className={classes.buttonModalAddGaph} variant="contained"
+                <Button  color={"primary"} type="button"  className={classes.buttonModalAddGaph} variant="contained"
                         onClick={handleOpen}>
                     Ajouter un graphique
                 </Button>
@@ -140,7 +140,7 @@ export default function ModalAddGraph(props) {
                                 variant="outlined"
                             />
                         </Grid>
-                        <Grid xs={12}>
+                        <Grid item xs={12}>
                             <ExpansionPanel>
                                 <ExpansionPanelSummary
                                     expandIcon={<ExpandMoreIcon/>}
@@ -155,7 +155,7 @@ export default function ModalAddGraph(props) {
 
 
                                     {props.allFunctions.map((value, i) =>
-                                        <Grid item xs={12}>
+                                        <Grid item xs={12} key={i.toString()}>
 
                                             <FormControlLabel
                                                 control={<Checkbox checked={stateCheckBox["checked" + i]}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import useStyles from "./style";
 import Grid from "@material-ui/core/Grid";
 import CalculInterface from "./calculInterface";
@@ -12,16 +12,17 @@ import ModalAddFunctionOrVariable from "./modalAddFunctionOrVariable"
 import DeleteIcon from '@material-ui/icons/Delete';
 import PersonnalFunction from "./PersonnalFunction";
 import PersonnalVariable from "./PersonnalVariable";
-import { parser} from "mathjs";
+import {parser} from "mathjs";
+import {authHeader} from "../../../Controller/CheckConnected";
 
-export function Calculator() {
+export function Calculator(props) {
     const classes = useStyles();
 
-
+    const [isFinishedGetDb, setIsFinishedGetDb] = React.useState(false)
     const [isCalcul, setIsCalcul] = React.useState(true);
-    const [allVariables, setAllVariables] = React.useState([new PersonnalVariable("x", "x=78")]);
+    const [allVariables, setAllVariables] = React.useState([]);
     const [allFunctions, setAllFunctions] = React.useState(
-        [new PersonnalFunction("f", "f(x)=3*x","3*x")]
+        []
     );
     const [allDataGraph, setAllDataGraph] = React.useState([]);
     var parserVar = parser();
@@ -36,6 +37,51 @@ export function Calculator() {
         parserVar.evaluate(item.expression)
     );
 
+    useEffect(() => {
+
+
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id_user: encodeURI(JSON.parse(window.localStorage.getItem('users')).id),
+            }),
+        };
+
+        fetch(`${window.url}/mysuperday/api/calculatrice/getVariableFunction`, requestOptions).then((res) => {
+            return res.json()
+        }).then(function (data) {
+
+                let resultVar = [];
+                for (let elem of data.variables) {
+                    let nameNewVar = elem.match(".*[a-zA-Z].*(?==.+)")[0];
+                    parserVar.evaluate(elem)
+                    let newVar = new PersonnalVariable(nameNewVar, elem)
+                    resultVar.push(newVar)
+
+                }
+
+                let resultFun = [];
+                for (let elem of data.functions) {
+                    let nameNewFunc = elem.match("^.?(?=\\()")[0];
+                    let isFunc = elem.match("\\b^[^() ]+\\((.*)\\) *=(.+)$");
+                    parserVar.evaluate(elem);
+                    let valueNewFunc = isFunc[2];
+                    let func = new PersonnalFunction(nameNewFunc, elem, valueNewFunc);
+                    resultFun.push(func)
+
+                }
+
+                setAllFunctions(resultFun)
+                setAllVariables(resultVar)
+
+                setIsFinishedGetDb(true)
+            }
+        )
+
+
+    }, [])
+
 
     function addOneVariable(val) {
         setAllVariables(allVariables.concat(val))
@@ -48,25 +94,55 @@ export function Calculator() {
     function deleteGraph(i) {
 
 
-        let allDataGraphVar =Object.assign({}, allDataGraph);
+        let allDataGraphVar = Object.assign({}, allDataGraph);
         delete allDataGraphVar[i];
-        setAllDataGraph(Object.values( allDataGraphVar));
+        setAllDataGraph(Object.values(allDataGraphVar));
     }
 
-    function onClickDeleteFunction(i) {
+    function onClickDeleteFunction(i,expression) {
         let allFunctionsVar = allFunctions.slice();
         parserVar.remove(allFunctions[i].expression)
         allFunctionsVar.splice(i, 1)
         setAllFunctions(allFunctionsVar);
+
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id_user: encodeURI(JSON.parse(window.localStorage.getItem('users')).id),
+                variable: expression,
+            }),
+
+        };
+        fetch(`${window.url}/mysuperday/api/calculatrice/deletefunction`, requestOptions).then((res) => {
+            return res.json()
+        }).then((data) => {
+
+        })
+
     }
 
-    function onClickDeleteVariable(i) {
+    function onClickDeleteVariable(i,expression) {
 
         let allVariablesVar = allVariables.slice();
         parserVar.remove(allVariables[i].expression)
         allVariablesVar.splice(i, 1)
         setAllVariables(allVariablesVar);
 
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id_user: encodeURI(JSON.parse(window.localStorage.getItem('users')).id),
+                variable: expression,
+            }),
+
+        };
+        fetch(`${window.url}/mysuperday/api/calculatrice/deleteVariable`, requestOptions).then((res) => {
+            return res.json()
+        }).then((data) => {
+
+        })
 
     }
 
@@ -77,7 +153,9 @@ export function Calculator() {
             <Grid item xs={2} className={classes.gridFunction}>
 
                 <List>
-                    <ModalAddFunctionOrVariable allFunctions={allFunctions} isFunction={1}
+                    <ModalAddFunctionOrVariable isFinishedGetDb={isFinishedGetDb} authService={props.authService}
+                                                allFunctions={allFunctions}
+                                                isFunction={1}
                                                 classes={classes} parserVar={parserVar}
                                                 addOneFunction={addOneFunction}/>
 
@@ -86,11 +164,12 @@ export function Calculator() {
 
                         allFunctions.map((item, i) =>
 
-                            <ListItem key={i.toString()}   className={classes.listVarAndFun}>
+                            <ListItem key={i.toString()} className={classes.listVarAndFun}>
 
-                                <ListItemIcon >
+                                <ListItemIcon>
                                     <DeleteIcon onClick={() => {
-                                        onClickDeleteFunction(i)
+
+                                        onClickDeleteFunction(i,item.expression)
                                     }}/>
                                 </ListItemIcon>
                                 <ListItemText
@@ -107,15 +186,18 @@ export function Calculator() {
             <Grid item xs={8} className={classes.gridCalculator}>
                 <Paper elevation={3} className={classes.containerCalculator}>
                     {isCalcul ?
-                        <CalculInterface parserVar={parserVar} allFunctions={allFunctions} allVariables={allVariables}
+                        <CalculInterface parserVar={parserVar}
+                                         allFunctions={allFunctions} allVariables={allVariables}
                                          setIsCalcul={setIsCalcul} classes={classes}/>
                         :
 
-                        <GraphicInterface deleteGraph={deleteGraph} setAllDataGraph={setAllDataGraph} allDataGraph={allDataGraph} setIsCalcul={setIsCalcul} parserVar={parserVar} allFunctions={allFunctions} classes={classes}/>}
+                        <GraphicInterface deleteGraph={deleteGraph} setAllDataGraph={setAllDataGraph}
+                                          allDataGraph={allDataGraph} setIsCalcul={setIsCalcul} parserVar={parserVar}
+                                          allFunctions={allFunctions} classes={classes}/>}
                 </Paper>
             </Grid>
             <Grid item xs={2} className={classes.gridVariable}>
-                <ModalAddFunctionOrVariable parserVar={parserVar}
+                <ModalAddFunctionOrVariable  isFinishedGetDb={isFinishedGetDb} parserVar={parserVar}
                                             allVariables={allVariables} isFunction={0} classes={classes}
                                             addOneVariable={addOneVariable}>
 
@@ -123,11 +205,11 @@ export function Calculator() {
                 {
                     allVariables.map((item, i) =>
 
-                        <ListItem  key={i.toString()}  className={classes.listVarAndFun}>
+                        <ListItem key={i.toString()} className={classes.listVarAndFun}>
 
                             <ListItemIcon>
                                 <DeleteIcon onClick={() => {
-                                    onClickDeleteVariable(i)
+                                    onClickDeleteVariable(i,item.expression)
                                 }}/>
                             </ListItemIcon>
                             <ListItemText
