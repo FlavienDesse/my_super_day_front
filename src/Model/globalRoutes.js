@@ -19,6 +19,22 @@ export default compose(
                 :
                 redirect('/mysuperday/users/signin')
         ),
+        '/mysuperday/dashboard/traducteur': map(async (request, context) =>
+            await context.authService.isConnected() ? route({
+                    getView:
+                        async (req, context) => {
+                            const {Dashboard} = await import('../Components/DashBoard/dashboard')
+                            const {TraductorMain} = await import('../Components/Traductor/TraductorMain/traductorMain')
+                            return (
+                                <Dashboard  authService={context.authService}>
+                                    <TraductorMain/>
+                                </Dashboard>
+                            )
+                        },
+                })
+                :
+                redirect('/mysuperday/users/signin')
+        ),
         '/mysuperday/dashboard/meteo': map(async (request, context) =>
             await context.authService.isConnected() ? route({
                     getView:
