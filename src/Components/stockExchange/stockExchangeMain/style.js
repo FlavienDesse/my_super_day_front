@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
         marginTop:'20px'
     },
 
-
     data:{
         borderRight:'2px dashed grey',
     },

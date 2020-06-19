@@ -3,22 +3,18 @@ import useStyles from "./style";
 import Paper from "@material-ui/core/Paper";
 import Grid from '@material-ui/core/Grid';
 import Share from './share'
-import ComboBox from "./functions";
+import {actions} from "./shareList";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from "@material-ui/core/IconButton";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 export default function StockExchange() {
-    const transfert = {
-        Air_liquide: 360017018,
-    }
+
     const classes = useStyles();
-    const [allShare, setAllShare] = React.useState([
-            new Share("BNP", 10, 20, 5, 15),
-            new Share("Kerlink", 10, 20, -2, 15)
-        ]
-    );
+    const [allShare, setAllShare] = React.useState([]);
 
     function deleteExchange(i) {
         let temp = allShare.slice();
@@ -45,11 +41,18 @@ export default function StockExchange() {
         <div className={classes.container}>
             <Grid container spacing={2} justify="center" alignItems="center">
                 <Grid item xs={'auto'}>
-                    <ComboBox setGetValueAutoComplete={setGetValueAutoComplete}/>
+                    <Autocomplete
+                        onChange={(event, value) => setGetValueAutoComplete(value.value)}
+                        id="combo-box-demo"
+                        options={actions}
+                        getOptionLabel={(option) => option.title}
+                        style={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Ajouter une action" variant="outlined" />}
+                    />
 
                 </Grid>
                 <Grid item xs={'auto'}>
-                    <Fab color="primary" aria-label="add" onClick={() => addExchange(360017018)}>
+                    <Fab color="primary" aria-label="add" onClick={() => addExchange(getValueAutoComplete)}>
                         <AddIcon/>
                     </Fab>
                 </Grid>
