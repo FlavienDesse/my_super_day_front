@@ -15,6 +15,7 @@ import ExposureIcon from '@material-ui/icons/Exposure';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import MapIcon from '@material-ui/icons/Map';
 import HomeIcon from '@material-ui/icons/Home';
 import { Link } from 'react-navi'
 
@@ -100,6 +101,14 @@ function MainListItemsSideBar(props) {
                     }}>
                         <ListItemIcon> <AccountBalanceIcon/></ListItemIcon>
                         <ListItemText primary={"Bourse"}/>
+                    </ListItem>
+                </Link>
+                <Link href={`${url}/trajet`} className={props.style.link}>
+                    <ListItem button onClick={(e) => {
+                        props.setTitleName("Trajet")
+                    }}>
+                        <ListItemIcon> <MapIcon/></ListItemIcon>
+                        <ListItemText primary={"Trajet"}/>
                     </ListItem>
                 </Link>
             </List>

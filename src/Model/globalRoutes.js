@@ -51,6 +51,22 @@ export default compose(
                 :
                 redirect('/mysuperday/users/signin')
         ),
+        '/mysuperday/dashboard/horoscope': map(async (request, context) =>
+            await context.authService.isConnected() ? route({
+                    getView:
+                        async (req, context) => {
+                            const {Dashboard} = await import('../Components/DashBoard/dashboard')
+                            const {Horoscope} = await import('../Components/Horoscope/HoroscopeMain/horoscope')
+                            return (
+                                <Dashboard  authService={context.authService}>
+                                    <Horoscope/>
+                                </Dashboard>
+                            )
+                        },
+                })
+                :
+                redirect('/mysuperday/users/signin')
+        ),
         '/mysuperday/dashboard/blocNote': map(async (request, context) =>
             await context.authService.isConnected() ? route({
 

@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import useStyles from "./style";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {authHeader} from "../../../Controller/CheckConnected";
 
-function Horoscope(props) {
+export function Horoscope() {
     const classes = useStyles();
 
 
@@ -13,9 +13,13 @@ function Horoscope(props) {
 
 
     useEffect(() => {
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
 
+        };
 
-        fetch(`http://localhost:9000/mysuperday/api/horoscope/getAllType`).then((res) => {
+        fetch(`${window.url}/mysuperday/api/horoscope/getAllType`,requestOptions).then((res) => {
 
             return res.json()
         }).then((data) => {
@@ -32,7 +36,7 @@ function Horoscope(props) {
                     isFinished ?
 
                         allData.map((item =>(
-                            <div className={classes.horoscope}>
+                            <div className={classes.horoscope} key={item.sunsign}>
                                 <Grid item xs={12}  className={classes.titleHoroscope}>
 
                                         {item.sunsign}
@@ -55,5 +59,3 @@ function Horoscope(props) {
         </Grid>
     );
 }
-
-export default Horoscope;
