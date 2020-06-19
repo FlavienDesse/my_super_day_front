@@ -1,62 +1,54 @@
 import React from 'react';
 import useStyles from "./style";
-import GoogleMap from "./mapContainer";
+import {Map} from './mapContainer';
 import Grid from "@material-ui/core/Grid";
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-
+import {AutocompleteFunction} from "./autoComplete"
+import {FormDialog} from "./dialogsForm";
 
 
 export default function Trajet() {
 
+
     const classes = useStyles();
+    const googleKey = process.env.REACT_APP_GOOGLE_KEY.toString();
+    const googleMapURL = "https://maps.googleapis.com/maps/api/js?key="
 
-    const [longitudeDestination, setLongitudeDestination] = React.useState("");
-    const [latitudeDestination, setLatitudeDestination] = React.useState("");
-
-    const [longitudeOrigin, setLongitudeOrigin] = React.useState("");
-    const [latitudeOrigin, setLatitudeOrigin] = React.useState("");
+    const [posOrigin, setPosOrigin] = React.useState({});
+    const [posDestination, setPosDestination] = React.useState({
+        latitude: 46.227638,
+        longitude: 2.213749,
+    });
 
     const [origin, setOrigin] = React.useState("");
     const [destination, setDestination] = React.useState("");
-    const [distanceValue, setDistanceValue] = React.useState("");
-    const [durationValue, setDurationValue] = React.useState("");
     const [durationText, setDurationText] = React.useState("");
     const [distanceText, setDistanceText] = React.useState("");
-    const [visible, setVisible] = React.useState(false);
+
+    const [lastChoiceDestination, setLastChoiceDestination] = React.useState("");
+    const [lastChoiceOrigin, setLastChoiceOrigin] = React.useState("");
 
 
-    const [selectPredictionsOrigin, setSelectPredictionsOrigin] = React.useState([])
-    const [selectPredictionsDestination, setSelectPredictionsDestination] = React.useState([])
-    const [lastChoicePredictionOrigin, setLastChoicePredictionOrigin] = React.useState("")
-    const [lastChoicePredictionDestination, setLastChoicePredictionDestination] = React.useState("")
+    function MapRender() {
+
+        return (<Map
+
+            latitudeOrigin={posOrigin.latitude}
+            longitudeOrigin={posOrigin.longitude}
+            latitudeDestination={posDestination.latitude}
+            longitudeDestination={posDestination.longitude}
 
 
+            googleMapURL={googleMapURL + googleKey}
+            loadingElement={<div style={{height: `100%`}}/>}
+        />)
+    }
 
-    function callPredictions(value, setSelectPredictions) {
-
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                address: encodeURI(value)
-            }),
-
-        };
-        fetch(`http://localhost:9000/mysuperday/api/users/getAutocomplete`, requestOptions)
-            .then(response => {
-                response.json()
-                    .then(data => {
-                        setSelectPredictions(data.predictions)
-                    })
-            })
-    };
 
     function getDistance() {
-        let origin = lastChoicePredictionOrigin;
-        let destination = lastChoicePredictionDestination;
+        let origin = lastChoiceOrigin;
+        let destination = lastChoiceDestination;
 
         const requestOptions = {
             method: 'POST',
@@ -68,45 +60,42 @@ export default function Trajet() {
 
 
         };
-        fetch(encodeURI(`http://localhost:9000/mysuperday/api/trajet/infotrajet`), requestOptions)
+        fetch(`http://localhost:9000/mysuperday/api/trajet/infotrajet`, requestOptions)
             .then(response => {
                 response.json()
                     .then(data => {
 
-                        setOrigin(lastChoicePredictionOrigin);
-                        setDestination(lastChoicePredictionDestination);
-                        setDistanceValue(data.itinerary.distance.value);
+                        setOrigin(lastChoiceOrigin);
+                        setDestination(lastChoiceDestination);
                         setDistanceText(data.itinerary.distance.text);
-                        setDurationValue(data.itinerary.duration.value);
                         setDurationText(data.itinerary.duration.text);
-                        getCoordinate(destination, setLatitudeDestination, setLongitudeDestination);
-                        setVisible(true);
+                        getCoordinate(destination, setPosDestination);
+                        getCoordinate(origin, setPosOrigin);
+
+
                     })
             })
             .catch(function (e) {
 
             })
-        setSelectPredictionsOrigin([])
-        setSelectPredictionsDestination([])
-        setLastChoicePredictionOrigin("")
-        setLastChoicePredictionDestination("")
 
 
     }
 
 
-
-    function getCoordinate(address, setLatitude, setLongitude) {
+    function getCoordinate(address, setPos) {
         // Simple POST request with a JSON body using fetch
         const requestOptions = {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
         };
-        fetch(encodeURI(`https://bdoalex.com/mysuperday/api/trajet/coordinate?address=${address}`), requestOptions)
+        fetch(encodeURI(`http://localhost:9000/mysuperday/api/trajet/coordinate?address=${address}`), requestOptions)
             .then(response => response.json())
             .then(data => {
-                setLatitude(data.latitude);
-                setLongitude(data.longitude);
+                setPos({
+                    latitude: data.latitude,
+                    longitude: data.longitude,
+                })
 
             })
             .catch(function (e) {
@@ -121,42 +110,19 @@ export default function Trajet() {
         //  <SaveIcon onClick={() => handleOpen()}  style={{fontSize: 29}} color={"primary"}/>
         // </IconButton>
 
-        <Grid container className={classes.container}>
-            <Grid item xs={3}>
-                <Autocomplete
-                    onChange={(e, newValue) => setLastChoicePredictionOrigin(newValue)}
-                    options={selectPredictionsOrigin}
-                    value={lastChoicePredictionOrigin}
+        <Grid container className={classes.container}
+              justify="center"
+              alignItems="center">
 
-                    getOptionLabel={(selectPredictionsOrigin) => selectPredictionsOrigin}
-                    renderInput={(params) =>
-                        <TextField
-                            onChange={(e) => callPredictions(e.target.value, setSelectPredictionsOrigin)} {...params}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
+            <AutocompleteFunction
+                lastChoiceDestination={lastChoiceDestination}
+                lastChoiceOrigin={lastChoiceOrigin}
+                setLastChoiceDestination={setLastChoiceDestination}
+                setLastChoiceOrigin={setLastChoiceOrigin}
 
-                        />
-                    }
-                />
-                <Autocomplete
-                    onChange={(e, newValue) => setLastChoicePredictionDestination(newValue)}
-                    options={selectPredictionsDestination}
-                    value={lastChoicePredictionDestination}
-                    getOptionLabel={(selectPredictionsDestination) => selectPredictionsDestination}
-                    filterSelectedOptions
-                    renderInput={(params) =>
-                        <TextField
-                            onChange={(e) => callPredictions(e.target.value, setSelectPredictionsDestination)} {...params}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
+            />
 
-                        />
-                    }
-                />
+            <Grid item xs={6}>
                 <Button
 
                     type="submit"
@@ -168,13 +134,15 @@ export default function Trajet() {
                 >
                     Calculer
                 </Button>
-
             </Grid>
-            <Grid container={classes.container}>
-                <Grid item={3}>
-                    <Paper elevation={3} >
+
+
+            <Grid container className={classes.container} justify="center"
+                  alignItems="center">
+                <Grid item xs={6}>
+                    <Paper elevation={3}>
                         <Grid item xs={12}>
-                            Origin : {origin}
+                            Origine : {origin}
                         </Grid>
                         <Grid item xs={12}>
                             Desination : {destination}
@@ -182,17 +150,16 @@ export default function Trajet() {
                         <Grid item xs={12}>
                             Temps de trajet : {durationText}
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} >
                             Distance :{distanceText}
                         </Grid>
                     </Paper>
 
-                    <Grid item={12}>
-                        <GoogleMap data={{
-                            latitudeDestination:latitudeDestination,
-                            longitudeDestination:longitudeDestination,
-                            visible:visible,
-                        }}/>
+                    <Grid item xs={12} className={classes.map}>
+
+                        <MapRender>
+
+                        </MapRender>
                     </Grid>
                 </Grid>
             </Grid>
