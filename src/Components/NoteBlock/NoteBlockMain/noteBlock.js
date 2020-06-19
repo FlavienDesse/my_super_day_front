@@ -53,14 +53,14 @@ function NoteBlock(props) {
             <SimpleModal  allSaveFile={allSaveFile} valueTextFieldNote={refTextFieldNote.current} setAllSaveFile={setAllSaveFile} handleOpen={handleOpen} handleClose={handleClose} open={open}>
             </SimpleModal>
             <Grid container justify={"center"}>
-                <Grid item xs={4}  className={classes.title}>
+                <Grid item xs={8} md={4}  className={classes.title}>
                     <Paper variant={'elevation'} elevation={5} color={"primary"}>
                         Generation d'une nouvelle note
                     </Paper>
                 </Grid>
-                <Grid container item xs={12} spacing={0} justify={'center'} alignItems={"center"}
+                <Grid container spacing={0} justify={'center'} alignItems={"center"}
                       className={classes.gridContainer}>
-                    <Grid item xs={7}>
+                    <Grid item xs={12} md={7}>
                         <TextField inputRef={refTextFieldNote} id="outlined-basic" placeholder={'Nouvelle note'}
                                    multiline={true} rows={3} className={classes.inputSaveFile} variant="outlined"
                                    size="small"
@@ -79,7 +79,7 @@ function NoteBlock(props) {
                         </IconButton>
                     </Grid>
                 </Grid>
-                <Grid item xs={3} className={classes.title}>
+                <Grid item xs={6} md={3} className={classes.title}>
                     <Paper variant={'elevation'} elevation={5} color={"primary"}>
                         Consultation des notes
                     </Paper>

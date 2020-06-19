@@ -6,8 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import Grid from "@material-ui/core/Grid";
 import EditIcon from '@material-ui/icons/Edit';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { orange } from '@material-ui/core/colors';
+
 
 
 function Rendersavenote(props) {
@@ -24,7 +23,7 @@ function Rendersavenote(props) {
             <Grid container spacing={0} justify={'center'} alignItems={"center"}>
 
 
-                <Grid item xs={7}>
+                <Grid item xs={12} md={7}>
                     <TextField  label={props.name} id="outlined-basic" InputProps={{readOnly: isWritable}} multiline={true}  onChange={(e)=>{
                     
                         setValueTextField(e.currentTarget.value)
@@ -33,7 +32,7 @@ function Rendersavenote(props) {
                                variant="outlined" size="small"
                     />
                 </Grid>
-                <Grid item xs={'auto'} spacing={0}>
+                <Grid item xs={'auto'} md={'auto'} spacing={0}>
                     <IconButton aria-label="save" disabled={saveIsDisabled} onClick={()=>{
                         setModifyIsDisabled(!modifyIsDisabled);
                         setSaveIsDisabled(!saveIsDisabled);
@@ -42,12 +41,12 @@ function Rendersavenote(props) {
                         <SaveIcon style={{fontSize: 29}} color={"primary"}/>
                     </IconButton>
                 </Grid>
-                <Grid item xs={'auto'} spacing={0}>
+                <Grid item xs={'auto'} md={'auto'} spacing={0}>
                     <IconButton aria-label="delete" onClick={()=>props.deleteNote(props.pos)}>
                         <DeleteIcon style={{fontSize: 29}} color={"secondary"}/>
                     </IconButton>
                 </Grid>
-                <Grid item xs={'auto'} spacing={0}>
+                <Grid item xs={'auto'} md={'auto'} spacing={0}>
 
                         <IconButton aria-label="save" onClick={()=>{
                             setSaveIsDisabled(!saveIsDisabled);
