@@ -1,97 +1,78 @@
-//import ' ~ react-agenda / build / styles.css '  ;
-//import ' ~ react-datetime / css / react-datetime.css '  ;
-import React from "react";
-import useStyles from "./style";
-
-import {ReactAgenda, ReactAgendaCtrl, guid, Modal} from 'react-agenda';
-import 'moment/locale/fr';
+import React from 'react'
+import BigCalendar from 'react-big-calendar'
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import moment from "moment";
+import 'moment/locale/fr'  // without this line it didn't work
 
 
 
-export default function Agenda() {
-    const classes = useStyles();
+function Calendar (){
 
 
-    let colors = {
-        'color-1': "rgba(102, 195, 131 , 1)",
-        "color-2": "rgba(242, 177, 52, 1)",
-        "color-3": "rgba(235, 85, 59, 1)"
+    moment.locale("fr");
+
+
+    const messages = {
+        allDay: 'journée',
+        previous: 'précédent',
+        next: 'suivant',
+        today: 'aujourd\'hui',
+        month: 'mois',
+        week: 'semaine',
+        day: 'jour',
+        agenda: 'agenda',
+        work_week: '',
+        date: 'date',
+        time: 'heure',
+        event: 'événement', // Or anything you want
+        showMore: total => `+ ${total} événement(s) supplémentaire(s)`
     }
 
-    let now = new Date();
 
-    let items = [
+
+    const now = new Date()
+    const allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
+
+    const events= [
         {
-            _id: guid(),
-            name: 'RDV PDD',
-            startDateTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0),
-            endDateTime: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 19, 0),
-            classes: 'color-1'
+            id: 0,
+            title: 'All Day Event very long title',
+            start: new Date(),
+            end:new Date(2020,6,19),
         },
-        {
-            _id: guid(),
-            name: 'Projet info',
-            startDateTime: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 14, 0),
-            endDateTime: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 17, 30),
-            classes: 'color-2 color-3'
 
-        },
-        {
-            _id: guid(),
-            name: 'Projet info',
-            startDateTime: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 14, 0),
-            endDateTime: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 17, 30),
-            classes: 'color-2 color-3'
-
-        },
-    ];
-    
-    let state = {
-        items: items,
-        selected: [],
-        cellHeight: 30,
-        showModal: false,
-        locale: "fr",
-        rowsPerHour: 2,
-        numberOfDays: 7,
-        startDate: new Date()
-    }
+    ]
 
 
-    function handleCellSelection(item) {
-        console.log('handleCellSelection', item)
-    }
+    BigCalendar.momentLocalizer(moment)
 
-    function handleItemEdit(item) {
-        console.log('handleItemEdit', item)
-    }
+    const ColoredDateCellWrapper = ({ children }) =>
+        React.cloneElement(React.Children.only(children), {
+            style: {
+                backgroundColor: 'pink',
+            },
+        })
 
-    function handleRangeSelection(item) {
-        console.log('handleRangeSelection', item)
-    }
 
     return (
-    <div className={classes.agenda}>
+        <div >
+            <BigCalendar
+                toolbar={true}
+                events={events}
+                step={60}
+                showMultiDayTimes
+                views={allViews}
+                messages={messages}
+                components={{
+                    timeSlotWrapper: ColoredDateCellWrapper,
+                }}
+               // view={"week"}
+                views={{ month: true, week: false, day: false, agenda: false, }}
+            />
+        </div>
+        )
 
-
-            <ReactAgenda
-                minDate={now}
-                maxDate={new Date(now.getFullYear(), now.getMonth() + 3)}
-                disablePrevButton={false}
-                startDate={state.startDate}
-                cellHeight={state.cellHeight}
-                locale={state.locale}
-                items={state.items}
-                numberOfDays={state.numberOfDays}
-                rowsPerHour={state.rowsPerHour}
-                itemColors={colors}
-                autoScale={false}
-
-                fixedHeader={true}
-                onItemEdit={handleItemEdit}
-                onCellSelect={handleCellSelection}
-                onRangeSelection={handleRangeSelection}/>
-    </div>
-    );
 
 }
+
+export default Calendar
