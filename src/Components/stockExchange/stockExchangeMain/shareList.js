@@ -1,10 +1,8 @@
-import React from 'react';
-
 export const actions = [
     { title: 'CAC 40', value: '360015511'},
     { title: 'Accor', value: '360015751'},
     { title: 'Air Liquid', value: '360017018'},
-    { title: 'Airbus', value: '360114899'},
+    { title: 'AIRBUS', value: '360114899'},
     { title: 'ArcelorMittal', value: '11895'},
     { title: 'Atos', value: '360115841'},
     { title: 'AXA', value: '360017035'},
@@ -24,6 +22,25 @@ export const actions = [
     { title: 'LVMH', value: '360017053'},
     { title: 'Michelin', value: '360017056'},
     { title: 'Orange', value: '360099258'},
+    { title: 'Pernod Ricard', value: '360017067'},
+    { title: 'Peugeot', value: '360015801'},
+    { title: 'Publicis Groupe', value: '360114907'},
+    { title: 'Renault', value: '360017068'},
+    { title: 'Safran', value: '360114909'},
+    { title: 'Saint-Gobain', value: '360111223'},
+    { title: 'Sanofi', value: '360114910'},
+    { title: 'Schneider Electric', value: '360017074'},
+    { title: 'Société Générale', value: '360017048'},
+    { title: 'Sodexo', value: '360114912'},
+    { title: 'STMicroelectronics', value: '360114913'},
+    { title: 'Thales', value: '360017049'},
+    { title: 'Total', value: '360105223'},
+    { title: 'UNIBAIL-RODAMCO-WESTFIELD', value: '360115972'},
+    { title: 'Veolia Environnement', value: '360115976'},
+    { title: 'VINCI', value: '360115975'},
+    { title: 'Vivendi', value: '360099251'},
+    { title: 'Worldline', value: '360139062'},
     { title: 'Kerlink', value: '590790417'},
     { title: 'Cellectis', value: '360210881'},
+
 ];

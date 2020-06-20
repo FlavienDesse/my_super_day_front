@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import useStyles from "./style";
 import Paper from "@material-ui/core/Paper";
 import Grid from '@material-ui/core/Grid';
@@ -23,6 +23,28 @@ export default function StockExchange() {
 
     }
 
+    async function  refreshValue(){
+        let result =[]
+        for (const elem of allShare){
+           await fetch("https://bdoalex.com/mysuperday/api/bourse?action=" + elem.id)
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    result.push(new Share(elem.id,data.name, data.lowPrice, data.highPrice, data.dayChangePercentage, data.lastPrice))
+
+                })
+        }
+        console.log(result)
+        setAllShare(result)
+    }
+
+    useEffect(()=>{
+        const interval = setInterval(refreshValue,300000);
+        return ()=>clearInterval(interval)
+    })
+
+
     function addExchange(value) {
 
         fetch("https://bdoalex.com/mysuperday/api/bourse?action=" + value)
@@ -31,10 +53,11 @@ export default function StockExchange() {
             })
             .then((data) => {
                 let newPush = allShare.slice();
-                newPush.push(new Share(data.name, data.lowPrice, data.highPrice, data.dayChangePercentage, data.lastPrice))
+                newPush.push(new Share(value,data.name, data.lowPrice, data.highPrice, data.dayChangePercentage, data.lastPrice))
                 setAllShare(newPush);
             })
     }
+
 
     const [getValueAutoComplete, setGetValueAutoComplete] = React.useState("")
     return (
@@ -42,7 +65,9 @@ export default function StockExchange() {
             <Grid container spacing={2} justify="center" alignItems="center">
                 <Grid item xs={'auto'}>
                     <Autocomplete
-                        onChange={(event, value) => setGetValueAutoComplete(value.value)}
+                        onChange={(event, value) =>{
+                            setGetValueAutoComplete(value === null ? "" : value.value)}
+                        }
                         id="combo-box-demo"
                         options={actions}
                         getOptionLabel={(option) => option.title}
@@ -60,7 +85,7 @@ export default function StockExchange() {
             <Grid container justify="center">
                 {
                     allShare.map((item, i) =>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} key={i.toString()}>
                             <Paper className={classes.paper}>
                                 <Grid container alignItems="center" className={classes.gridItem}>
                                     <Grid item xs={5} className={classes.data}>
@@ -103,8 +128,8 @@ export default function StockExchange() {
                                             <Grid item xs={11}>
                                             </Grid>
                                             <Grid item xs={1}>
-                                                <IconButton>
-                                                    <CloseIcon onClick={() => deleteExchange(i)}/>
+                                                <IconButton  onClick={() => deleteExchange(i)}>
+                                                    <CloseIcon/>
                                                 </IconButton>
                                             </Grid>
                                         </Grid>
