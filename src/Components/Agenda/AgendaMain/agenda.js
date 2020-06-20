@@ -13,12 +13,16 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import useStyles from "./style";
+import ModalEdit from "./modalEditEvent";
+
 
 function Calendar() {
     const classes = useStyles()
     const [dateStart, setDateStart] = React.useState(new Date())
     const [dateEnd, setDateEnd] = React.useState(new Date())
     const [text, setText] = React.useState("")
+    const [openModalEvent, setOpenModalEvent] = React.useState(false);
+    const [eventDoubleclickOnEvent,setEventDoubleclickOnEvent]= React.useState({});
 
     moment.locale("fr");
 
@@ -40,24 +44,34 @@ function Calendar() {
     }
 
 
-    const now = new Date()
-    const allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
-
     const [events, setEvents] = React.useState([])
 
     BigCalendar.momentLocalizer(moment)
 
-    const ColoredDateCellWrapper = ({children}) =>
-        React.cloneElement(React.Children.only(children), {
-            style: {
-                backgroundColor: 'pink',
-            },
-        })
+    const handleOpen = () => {
+        setOpenModalEvent(true);
+
+    };
+    const handleClose = () => {
+        setOpenModalEvent(false);
+
+    };
+
+
+
 
 
     return (
         <div>
+
+
+
             <BigCalendar
+
+                onDoubleClickEvent={(e) => {
+                    setEventDoubleclickOnEvent(e)
+                    handleOpen()
+                }}
                 toolbar={true}
                 events={events}
                 step={60}
@@ -65,12 +79,10 @@ function Calendar() {
                 startAccessor={"start"}
                 endAccessor={"end"}
                 messages={messages}
-                components={{
-                    timeSlotWrapper: ColoredDateCellWrapper,
-                }}
                 defaultView={"week"}
-                //defaultView={"day"}
+                defaultDate={moment().toDate()}
                 views={{month: true, week: true, day: true, agenda: true,}}
+                style={{height: 500}}
             />
 
             <Grid container spacing={4} className={classes.gridAddEvent} direction="row" justify="flex-start"
@@ -129,10 +141,13 @@ function Calendar() {
 
 
                         newEvent.push({
+                            id: newEvent.length,
+                            pos: newEvent.length,
                             title: text,
-                            start: dateStart,
-                            end: dateEnd,
+                            start: new Date(dateStart),
+                            end: new Date(dateEnd),
                         })
+
 
                         setEvents(newEvent)
                     }
@@ -143,6 +158,7 @@ function Calendar() {
                 </Grid>
             </Grid>
 
+            <ModalEdit openModalEvent={openModalEvent} handleClose={handleClose} eventDoubleclickOnEvent={eventDoubleclickOnEvent}  events={events} setEvents={setEvents}/>
 
         </div>
     )
