@@ -3,7 +3,6 @@ import useStyles from "./style";
 import {Line} from 'react-chartjs-2';
 import {annotation} from 'chartjs-plugin-annotation'
 import Grid from "@material-ui/core/Grid";
-import Chart from 'chart.js';
 import {authHeader} from "../../../Controller/CheckConnected";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -100,7 +99,7 @@ export const Biorythm = () => {
     return (
         <div className={classes.container}>
             {
-                numDaySinceBirth != -1 ?
+                numDaySinceBirth !== -1 ?
                     <Grid container spacing={3}>
 
                         <Grid item md={8} sm={12}>

@@ -1,11 +1,12 @@
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {KeyboardDateTimePicker, MuiPickersUtilsProvider, validate} from "@material-ui/pickers";
+import {KeyboardDateTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import Button from "@material-ui/core/Button";
 import React from "react";
 import useStyles from "./style";
 import Modal from "@material-ui/core/Modal";
+import {authHeader} from "../../../Controller/CheckConnected";
 
 
 export default function ModalEdit(props) {
@@ -14,36 +15,73 @@ export default function ModalEdit(props) {
     let eventDoubleclickOnEvent = props.eventDoubleclickOnEvent
     const [dateStartEdit, setDateStartEdit] = React.useState(new Date())
     const [dateEndEdit, setDateEndEdit] = React.useState(new Date())
-    const [isTextFieldOnError,setIsTextFieldOnError] = React.useState(false)
+
 
     const [textEdit, setTextEdit] = React.useState("")
 
     function deleteEvent(){
-        let temp = props.events.slice();
-        temp.splice(eventDoubleclickOnEvent.pos,1)
-        props.setEvents(temp)
-        props.handleClose();
+
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id: eventDoubleclickOnEvent.id,
+            }),
+        };
+        fetch(`${window.url}/mysuperday/api/agenda/deleteEvent`, requestOptions).then((res)=>{
+            return res.json()
+        }).then((data)=>{
+            if(data.ok === true){
+                let temp = props.events.slice();
+                temp.splice(eventDoubleclickOnEvent.pos,1)
+                props.setEvents(temp)
+                props.handleClose();
+            }
+
+        })
+
+
+
     }
 
 
     function checkIfValid() {
-
-        if(textEdit===""){
-            setIsTextFieldOnError(true)
-        }else {
-
-
-
-
-            props.events[eventDoubleclickOnEvent.pos]={
-                id:  props.events[eventDoubleclickOnEvent.pos].id,
-                pos:  props.events[eventDoubleclickOnEvent.pos].pos,
-                title: textEdit,
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id:eventDoubleclickOnEvent.id,
+                title: encodeURI(textEdit),
                 start: new Date(dateStartEdit),
                 end: new Date(dateEndEdit),
+            }),
+        };
+        fetch(`${window.url}/mysuperday/api/agenda/updateEvent`, requestOptions).then((res)=>{
+            return res.json()
+        }).then((data)=>{
+
+            if(data.ok===true){
+                props.events[eventDoubleclickOnEvent.pos]={
+                    id:  props.events[eventDoubleclickOnEvent.pos].id,
+                    pos:  props.events[eventDoubleclickOnEvent.pos].pos,
+                    title: textEdit,
+                    start: new Date(dateStartEdit),
+                    end: new Date(dateEndEdit),
+                }
+                props.handleClose();
             }
-            props.handleClose();
-        }
+
+        })
+
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -62,17 +100,15 @@ export default function ModalEdit(props) {
                       alignItems="center">
                     <Grid item xs={12}>
                         <TextField
-                            onClick={()=>setIsTextFieldOnError(false)}
                             variant="outlined"
                             margin="normal"
                             required
                             fullWidth
                             name="addLabel"
-                            label={eventDoubleclickOnEvent.title}
+                            label="Veuillez ajouter un libellé"
                             type="text"
                             id="addLabel"
                             onChange={(e) => setTextEdit(e.target.value)}
-                            error={isTextFieldOnError}
                         />
 
                     </Grid>

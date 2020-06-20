@@ -277,6 +277,7 @@ export function Weather() {
                     renderInput={(params) =>
                         <TextField onChange={(e) => callPredictions(e.target.value)} {...params}
                                    variant="outlined"
+                                   label={"Ajouter une ville"}
                                    margin="normal"
                                    required
                                    fullWidth

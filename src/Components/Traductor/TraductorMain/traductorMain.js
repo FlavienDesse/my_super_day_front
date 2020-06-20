@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import useStyles from './style'
 import Grid from "@material-ui/core/Grid";
 import InputBase from "@material-ui/core/InputBase";

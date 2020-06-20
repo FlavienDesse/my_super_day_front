@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginTop:drawerHeight+20,
     padding: theme.spacing(3),
-    marginTop:'50px',
   },
 }));
 

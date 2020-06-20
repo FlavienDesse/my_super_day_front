@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import BigCalendar from 'react-big-calendar'
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
@@ -14,15 +14,16 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import useStyles from "./style";
 import ModalEdit from "./modalEditEvent";
+import {authHeader} from "../../../Controller/CheckConnected";
 
 
-function Calendar() {
+export function Agenda() {
     const classes = useStyles()
     const [dateStart, setDateStart] = React.useState(new Date())
     const [dateEnd, setDateEnd] = React.useState(new Date())
     const [text, setText] = React.useState("")
     const [openModalEvent, setOpenModalEvent] = React.useState(false);
-    const [eventDoubleclickOnEvent,setEventDoubleclickOnEvent]= React.useState({});
+    const [eventDoubleclickOnEvent, setEventDoubleclickOnEvent] = React.useState({});
 
     moment.locale("fr");
 
@@ -58,12 +59,74 @@ function Calendar() {
     };
 
 
+    useEffect(() => {
+            const requestOptions = {
+                method: 'POST',
+                headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+                body: JSON.stringify({
+                    id_users: encodeURI(JSON.parse(window.localStorage.getItem('users')).id),
+                }),
+            };
+            fetch(`${window.url}/mysuperday/api/agenda/getAllEvent`, requestOptions).then((res) => {
+                return res.json()
+            }).then((data) => {
+                let res = [];
+                for (const elem of data) {
+                    res.push({
+                        title: elem.title,
+                        start: new Date(elem.start),
+                        id: elem.id,
+                        end:new Date(elem.end),
+                        pos:res.length,
+                    })
+                }
+                console.log(res)
+                setEvents(res)
 
+            })
+        }
+        , [])
+
+    function addEvent() {
+
+
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id_users: encodeURI(JSON.parse(window.localStorage.getItem('users')).id),
+                title: encodeURI(text),
+                start: new Date(dateStart),
+                end: new Date(dateEnd),
+            }),
+        };
+        fetch(`${window.url}/mysuperday/api/agenda/addEvent`, requestOptions).then((res) => {
+            return res.json()
+        }).then((data) => {
+
+            let newEvent = events.slice()
+
+
+            newEvent.push({
+                id: data.id,
+                pos: newEvent.length,
+                title: text,
+                start: new Date(dateStart),
+                end: new Date(dateEnd),
+            })
+
+
+            setEvents(newEvent)
+
+
+        })
+
+
+    }
 
 
     return (
         <div>
-
 
 
             <BigCalendar
@@ -74,10 +137,7 @@ function Calendar() {
                 }}
                 toolbar={true}
                 events={events}
-                step={60}
-                showMultiDayTimes
-                startAccessor={"start"}
-                endAccessor={"end"}
+                step={30}
                 messages={messages}
                 defaultView={"week"}
                 defaultDate={moment().toDate()}
@@ -137,19 +197,7 @@ function Calendar() {
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Button color="primary" variant="contained" className={classes.buttonAdd} onClick={() => {
-                        let newEvent = events.slice()
-
-
-                        newEvent.push({
-                            id: newEvent.length,
-                            pos: newEvent.length,
-                            title: text,
-                            start: new Date(dateStart),
-                            end: new Date(dateEnd),
-                        })
-
-
-                        setEvents(newEvent)
+                        addEvent()
                     }
 
                     }>
@@ -158,7 +206,8 @@ function Calendar() {
                 </Grid>
             </Grid>
 
-            <ModalEdit openModalEvent={openModalEvent} handleClose={handleClose} eventDoubleclickOnEvent={eventDoubleclickOnEvent}  events={events} setEvents={setEvents}/>
+            <ModalEdit openModalEvent={openModalEvent} handleClose={handleClose}
+                       eventDoubleclickOnEvent={eventDoubleclickOnEvent} events={events} setEvents={setEvents}/>
 
         </div>
     )
@@ -166,4 +215,3 @@ function Calendar() {
 
 }
 
-export default Calendar

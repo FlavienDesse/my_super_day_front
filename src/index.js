@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './Components/DashBoard/dashboard';
+import App from './app'
+import {BrowserRouter as Router} from "react-router-dom";
+
+
 ReactDOM.render(
-
-    <App />
-
-
-  ,
-  document.getElementById('root')
+        <Router>
+            <App></App>
+        </Router>
+    ,
+    document.getElementById('root')
 );
-
