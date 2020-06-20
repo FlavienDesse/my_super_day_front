@@ -23,13 +23,12 @@ export function Horoscope() {
 
             return res.json()
         }).then((data) => {
-            console.log(data)
             setAllData(data)
             setIsFinished(true)
         });
     }, [])
     return (
-        <Grid container>
+        <Grid container className={classes.container}>
 
 
                 {

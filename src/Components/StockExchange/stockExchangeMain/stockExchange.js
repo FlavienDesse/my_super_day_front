@@ -11,7 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-export default function StockExchange() {
+export function StockExchange() {
 
     const classes = useStyles();
     const [allShare, setAllShare] = React.useState([]);

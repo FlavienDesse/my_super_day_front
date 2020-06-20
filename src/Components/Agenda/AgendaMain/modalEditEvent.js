@@ -119,7 +119,8 @@ export default function ModalEdit(props) {
                                 minDate={new Date()}
                                 margin="normal"
                                 label="Début de l'évènement"
-                                format="DD/MM/yyyy , h:mm"
+                                autoOk
+                                ampm={false}
                                 onChange={(e) => setDateStartEdit(e)}
                                 value={dateStartEdit}
                                 KeyboardButtonProps={{
@@ -135,7 +136,8 @@ export default function ModalEdit(props) {
                                 minDate={dateStartEdit}
                                 margin="normal"
                                 label="Fin de l'évènement"
-                                format="DD/MM/yyyy , h:mm"
+                                autoOk
+                                ampm={false}
                                 onChange={(e) => setDateEndEdit(e)}
                                 value={dateEndEdit}
                                 KeyboardButtonProps={{

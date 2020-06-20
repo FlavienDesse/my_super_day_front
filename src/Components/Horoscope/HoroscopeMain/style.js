@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     horoscope:{
-        marginTop:'50px',
+        marginBottom:'50px',
     },
     titleHoroscope:{
         fontWeight:'bold',

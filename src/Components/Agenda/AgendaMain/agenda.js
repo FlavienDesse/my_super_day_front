@@ -19,11 +19,21 @@ import {authHeader} from "../../../Controller/CheckConnected";
 
 export function Agenda() {
     const classes = useStyles()
-    const [dateStart, setDateStart] = React.useState(new Date())
+    const [dateStart, setDateStart] = React.useState(new Date(moment().toDate()))
     const [dateEnd, setDateEnd] = React.useState(new Date())
     const [text, setText] = React.useState("")
     const [openModalEvent, setOpenModalEvent] = React.useState(false);
     const [eventDoubleclickOnEvent, setEventDoubleclickOnEvent] = React.useState({});
+
+
+    const handleChandeDatePickerStart = (e) =>{
+        setDateStart(e)
+    }
+
+    const handleChandeDatePickerEnd= (e) =>{
+        setDateEnd(e)
+    }
+
 
     moment.locale("fr");
 
@@ -80,7 +90,6 @@ export function Agenda() {
                         pos:res.length,
                     })
                 }
-                console.log(res)
                 setEvents(res)
 
             })
@@ -95,7 +104,7 @@ export function Agenda() {
             headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
             body: JSON.stringify({
                 id_users: encodeURI(JSON.parse(window.localStorage.getItem('users')).id),
-                title: encodeURI(text),
+                title: text,
                 start: new Date(dateStart),
                 end: new Date(dateEnd),
             }),
@@ -137,7 +146,7 @@ export function Agenda() {
                 }}
                 toolbar={true}
                 events={events}
-                step={30}
+                step={60}
                 messages={messages}
                 defaultView={"week"}
                 defaultDate={moment().toDate()}
@@ -169,8 +178,10 @@ export function Agenda() {
                             minDate={new Date()}
                             margin="normal"
                             label="Début de l'évènement"
-                            format="DD/MM/yyyy , h:mm"
-                            onChange={(e) => setDateStart(e)}
+                            autoOk
+                            ampm={false}
+                            showMultiDayTimes
+                            onChange={handleChandeDatePickerStart}
                             value={dateStart}
                             KeyboardButtonProps={{
                                 'aria-label': 'change date',
@@ -185,8 +196,9 @@ export function Agenda() {
                             minDate={dateStart}
                             margin="normal"
                             label="Fin de l'évènement"
-                            format="DD/MM/yyyy , h:mm"
-                            onChange={(e) => setDateEnd(e)}
+                            autoOk
+                            ampm={false}
+                            onChange={handleChandeDatePickerEnd}
                             value={dateEnd}
                             KeyboardButtonProps={{
                                 'aria-label': 'change date',
