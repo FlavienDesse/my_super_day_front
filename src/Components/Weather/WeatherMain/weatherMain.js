@@ -249,7 +249,7 @@ export function Weather() {
             }),
 
         };
-        fetch(`http://localhost:9000/mysuperday/api/users/getAutocomplete`, requestOptions)
+        fetch(`${window.url}/mysuperday/api/users/getAutocomplete`, requestOptions)
             .then(response => {
                 response.json()
                     .then(data => {
