@@ -19,7 +19,6 @@ export function CheckConnected() {
     return fetch(`${window.url}/mysuperday/api/users/verifyToken`, requestOptions)
 
         .then( (response) => {
-
             if (response.status === 403 || response.status === 401 || response.status === 500) {
                 return false;
             }

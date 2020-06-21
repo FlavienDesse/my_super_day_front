@@ -4,7 +4,7 @@ import React from 'react'
 export default compose(
     mount({
         '/mysuperday/dashboard/biorythme': map(async (request, context) =>
-            await context.authService.isConnected() ? route({
+            ( await context.authService.isConnected()) ? route({
                     getView:
                         async (req, context) => {
                             const {Dashboard} = await import('../Components/DashBoard/dashboard')
@@ -20,7 +20,7 @@ export default compose(
                 redirect('/mysuperday/users/signin')
         ),
         '/mysuperday/dashboard/agenda': map(async (request, context) =>
-            await context.authService.isConnected() ? route({
+            ( await context.authService.isConnected()) ? route({
                     getView:
                         async (req, context) => {
                             const {Dashboard} = await import('../Components/DashBoard/dashboard')
@@ -36,7 +36,7 @@ export default compose(
                 redirect('/mysuperday/users/signin')
         ),
         '/mysuperday/dashboard/bourse': map(async (request, context) =>
-            await context.authService.isConnected() ? route({
+            ( await context.authService.isConnected()) ? route({
                     getView:
                         async (req, context) => {
                             const {Dashboard} = await import('../Components/DashBoard/dashboard')
@@ -52,7 +52,7 @@ export default compose(
                 redirect('/mysuperday/users/signin')
         ),
         '/mysuperday/dashboard/traducteur': map(async (request, context) =>
-            await context.authService.isConnected() ? route({
+            ( await context.authService.isConnected() )? route({
                     getView:
                         async (req, context) => {
                             const {Dashboard} = await import('../Components/DashBoard/dashboard')
@@ -68,7 +68,7 @@ export default compose(
                 redirect('/mysuperday/users/signin')
         ),
         '/mysuperday/dashboard/meteo': map(async (request, context) =>
-            await context.authService.isConnected() ? route({
+            ( await context.authService.isConnected()) ? route({
                     getView:
                         async (req, context) => {
                             const {Dashboard} = await import('../Components/DashBoard/dashboard')
@@ -84,7 +84,7 @@ export default compose(
                 redirect('/mysuperday/users/signin')
         ),
         '/mysuperday/dashboard/horoscope': map(async (request, context) =>
-            await context.authService.isConnected() ? route({
+            ( await context.authService.isConnected()) ? route({
                     getView:
                         async (req, context) => {
                             const {Dashboard} = await import('../Components/DashBoard/dashboard')
@@ -100,7 +100,7 @@ export default compose(
                 redirect('/mysuperday/users/signin')
         ),
         '/mysuperday/dashboard/blocNote': map(async (request, context) =>
-            await context.authService.isConnected() ? route({
+            ( await context.authService.isConnected()) ? route({
 
                     getView:
                         async (req, context) => {
@@ -117,7 +117,7 @@ export default compose(
                 redirect('/mysuperday/users/signin')
         ),
         '/mysuperday/dashboard/calculatrice': map(async (request, context) =>
-            await context.authService.isConnected() ? route({
+            ( await context.authService.isConnected()) ? route({
 
                     getView:
                         async (req, context) => {
@@ -134,7 +134,7 @@ export default compose(
                 redirect('/mysuperday/users/signin')
         ),
         '/mysuperday/dashboard': map(async (request, context) =>
-            await context.authService.isConnected() ? route({
+            ( await context.authService.isConnected()) ? route({
                     getView:
                         async (req, context) => {
                             const {Dashboard} = await import('../Components/DashBoard/dashboard')
@@ -152,7 +152,7 @@ export default compose(
                 },
         }),
         '/mysuperday/users/signin': map(async (request, context) =>
-            await context.authService.isConnected() ?
+            ( await context.authService.isConnected()) ?
                 redirect('/mysuperday/dashboard')
                 : route({
                     getView:
