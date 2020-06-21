@@ -15,6 +15,7 @@ import useStyles from "./style";
 import Button from "@material-ui/core/Button";
 
 import { useNavigation} from "react-navi";
+import {redirect} from "navi";
 
 
 export function Dashboard(props) {
@@ -31,7 +32,7 @@ export function Dashboard(props) {
 
     async function deco(){
         await props.authService.deconnected();
-        history.navigate('/')
+        redirect('/mysuperday/users/signin')
     }
 
     const container = window !== undefined ? () => window().document.body : undefined;

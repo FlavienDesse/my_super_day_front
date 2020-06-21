@@ -182,7 +182,7 @@ export function Weather() {
                     data: {}
                 })
             }
-
+            console.log(res)
             setAllDataParticularTown(res);
 
 
@@ -191,7 +191,7 @@ export function Weather() {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
-                        address: encodeURI(+res[i].name),
+                        address: encodeURI(res[i].name),
                     }),
                 };
                 fetch(`${window.url}/mysuperday/api/meteo/getParticularTown`, requestOptions)
