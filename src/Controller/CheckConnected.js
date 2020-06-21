@@ -9,7 +9,7 @@ export function authHeader() {
     }
 }
 
-export  function CheckConnected() {
+export function CheckConnected() {
 
     const requestOptions = {
         method: 'GET',
@@ -18,16 +18,17 @@ export  function CheckConnected() {
 
     return fetch(`${window.url}/mysuperday/api/users/verifyToken`, requestOptions)
 
-        .then(response => {
-               return response.json()
-                    .then(data => {
-                        if(response.status===403 ||response.status===401||response.status===500 ){
-                            return false;
-                        }
-                        return true;
-                    })
+        .then( (response) => {
+
+            if (response.status === 403 || response.status === 401 || response.status === 500) {
+                return false;
             }
-        )
+            return true;
+        })
+
+
+
+
 
 
 }
