@@ -89,6 +89,7 @@ export function NoteBlock(props) {
         <div className={classes.container}>
             <SimpleModal  allSaveFile={allSaveFile} valueTextFieldNote={refTextFieldNote.current} setAllSaveFile={setAllSaveFile} handleOpen={handleOpen} handleClose={handleClose} open={open}>
             </SimpleModal>
+
             <Grid container justify={"center"}>
                 <Grid item xs={4}  className={classes.title}>
                     <Paper variant={'elevation'} elevation={5} color={"primary"}>
@@ -122,7 +123,7 @@ export function NoteBlock(props) {
                     </Paper>
                 </Grid>
                 {
-                    allSaveFile.map((item, i) => 
+                    allSaveFile.map((item, i) =>
                             <Rendersavenote updateNoteDB={updateNoteDB} key={i.toString()} pos={i}  deleteNote={deleteNote} name={item.name} value={item.value}>
 
                             </Rendersavenote>

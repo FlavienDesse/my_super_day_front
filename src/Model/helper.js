@@ -18,9 +18,9 @@ export const authService = {
             return res
         })
     },
-    deconnected() {
+    async deconnected() {
         delete this.currentUser
-        window.localStorage.clear();
+        await window.localStorage.clear();
         if (this.callback) {
             this.callback(undefined)
         }

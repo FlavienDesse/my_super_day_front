@@ -29,6 +29,11 @@ export function Dashboard(props) {
     };
 
 
+    async function deco(){
+        await props.authService.deconnected();
+        history.navigate('/')
+    }
+
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
@@ -50,8 +55,8 @@ export function Dashboard(props) {
                     </Typography>
 
                     <Button variant="contained" onClick={() => {
-                        props.authService.deconnected();
-                        history.navigate('/')
+
+                        deco()
 
                     }}>Se déconnecter</Button>
 

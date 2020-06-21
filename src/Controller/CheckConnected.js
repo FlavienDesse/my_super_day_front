@@ -13,7 +13,7 @@ export function CheckConnected() {
 
     const requestOptions = {
         method: 'GET',
-        headers: authHeader(),
+        headers:  Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
     };
 
     return fetch(`${window.url}/mysuperday/api/users/verifyToken`, requestOptions)
