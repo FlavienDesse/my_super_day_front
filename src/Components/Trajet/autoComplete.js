@@ -10,8 +10,8 @@ export  function AutocompleteFunction(props) {
     const classes = useStyles();
 
 
-    const [selectPredictionsOrigin, setSelectPredictionsOrigin] = React.useState([])
-    const [selectPredictionsDestination, setSelectPredictionsDestination] = React.useState([])
+    const [selectPredictionsOrigin, setSelectPredictionsOrigin] = React.useState(["Mon domicile"])
+    const [selectPredictionsDestination, setSelectPredictionsDestination] = React.useState(["Mon domicile"])
 
 
     function callPredictions(value, setSelectPredictions) {
@@ -28,7 +28,9 @@ export  function AutocompleteFunction(props) {
             .then(response => {
                 response.json()
                     .then(data => {
-                        setSelectPredictions(data.predictions)
+                        let res = selectPredictionsOrigin.slice()
+
+                        setSelectPredictions(res.concat( data.predictions))
                     })
             })
     };
