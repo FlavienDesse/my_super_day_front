@@ -12,7 +12,7 @@ export function FormDialog(props) {
     const refTextFieldTitle = React.createRef();
 
     const [open, setOpen] = React.useState(false);
-    let textField = "";
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -27,19 +27,23 @@ export function FormDialog(props) {
     };
 
 
-
-
     async function addToDB() {
-        const requestOptions = {
-            method: 'POST',
-            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
-            body: JSON.stringify({
-                id_user: encodeURI(JSON.parse(window.localStorage.getItem('users')).id),
-                value: props.lastChoice,
-                title: refTextFieldTitle.current.value,
-            }),
-        };
-        await fetch(`${window.url}/mysuperday/api/trajet/addFav`, requestOptions)
+        if (refTextFieldTitle.current.value != "" && props.lastChoice !== "") {
+
+            props.addPredictionFromDb(refTextFieldTitle.current.value)
+            const requestOptions = {
+                method: 'POST',
+                headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+                body: JSON.stringify({
+                    id_user: encodeURI(JSON.parse(window.localStorage.getItem('users')).id),
+                    value: props.lastChoice,
+                    title: refTextFieldTitle.current.value,
+                }),
+            };
+            await fetch(`${window.url}/mysuperday/api/trajet/addFav`, requestOptions)
+        }
+
+
     }
 
 

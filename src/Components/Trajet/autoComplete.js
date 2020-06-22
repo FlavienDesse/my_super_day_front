@@ -1,17 +1,56 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import useStyles from "./style";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import {FormDialog} from "./dialogsForm";
+import {authHeader} from "../../Controller/CheckConnected";
+import StarIcon from '@material-ui/icons/Star';
+import {set} from "mathjs/es/utils/object";
 
 export function AutocompleteFunction(props) {
 
     const classes = useStyles();
 
+    const [inDb,setInDb] =  React.useState([]);
+    const [selectPredictionsOrigin, setSelectPredictionsOrigin] = React.useState([])
+    const [selectPredictionsDestination, setSelectPredictionsDestination] = React.useState([])
+    const [isOrigin, setIsOrigin] = React.useState(false)
 
-    const [selectPredictionsOrigin, setSelectPredictionsOrigin] = React.useState(["Mon domicile"])
-    const [selectPredictionsDestination, setSelectPredictionsDestination] = React.useState(["Mon domicile"])
+
+
+    function addPredictionFromDb(value){
+        let res = inDb.slice()
+        res.push(value)
+        setInDb(res)
+        setSelectPredictionsOrigin(res);
+        setSelectPredictionsDestination(res);
+
+    }
+
+    useEffect(() => {
+        const requestOptions = {
+            method: 'POST',
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+            body: JSON.stringify({
+                id_users: JSON.parse(window.localStorage.getItem('users')).id,
+            }),
+
+        };
+        fetch(`${window.url}/mysuperday/api/trajet/getFav`, requestOptions)
+            .then(response => {
+                response.json()
+                    .then(data => {
+                        let res = []
+                        for (const elem of data) {
+                            res.push(elem.title)
+                        }
+                        setInDb(res)
+                        setSelectPredictionsOrigin(selectPredictionsOrigin.concat(res));
+                        setSelectPredictionsDestination(selectPredictionsDestination.concat(res));
+                    })
+            })
+    }, []);
 
 
     function callPredictions(value, setSelectPredictions) {
@@ -51,7 +90,6 @@ export function AutocompleteFunction(props) {
                     filterSelectedOptions
                     renderInput={(params) =>
                         <TextField
-
                             onChange={(e) => callPredictions(e.target.value, setSelectPredictionsOrigin)} {...params}
                             variant="outlined"
                             margin="normal"
@@ -61,12 +99,39 @@ export function AutocompleteFunction(props) {
 
                         />
                     }
+                    renderOption={(option) => {
+                        let isInFb = false;
+                        for (const elem of inDb){
+
+                            if(elem === option){
+                                isInFb=true;
+                                break;
+                            }
+                        }
+
+                        return (
+                            <Grid container   justify="flex-start" alignItems="center">
+
+
+                                   {
+                                       isInFb ?
+                                           <Grid item>
+                                               <StarIcon style={{color:'yellow' , stroke:'black'}}> </StarIcon>  {option}
+                                           </Grid>
+
+                                           :
+                                       option
+                                   }
+                                </Grid>
+
+
+                        );
+                    }}
                 />
             </Grid>
             <Grid item xs={2}>
                 <FormDialog
-
-                    lastChoice={selectPredictionsOrigin}
+                    addPredictionFromDb={addPredictionFromDb} lastChoice={props.lastChoiceOrigin}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -91,11 +156,39 @@ export function AutocompleteFunction(props) {
 
                         />
                     }
+                    renderOption={(option) => {
+                        let isInFb = false;
+                        for (const elem of inDb){
+
+                            if(elem === option){
+                                isInFb=true;
+                                break;
+                            }
+                        }
+
+                        return (
+                            <Grid container   justify="flex-start" alignItems="center">
+
+
+                                {
+                                    isInFb ?
+                                        <Grid item>
+                                            <StarIcon style={{color:'yellow' , stroke:'black'}}> </StarIcon>  {option}
+                                        </Grid>
+
+                                        :
+                                        option
+                                }
+                            </Grid>
+
+
+                        );
+                    }}
                 />
             </Grid>
             <Grid item xs={2}>
                 <FormDialog
-                    lastChoice={selectPredictionsDestination}
+                    addPredictionFromDb={addPredictionFromDb}   lastChoice={props.lastChoiceDestination}
                 >
                 </FormDialog>
             </Grid>

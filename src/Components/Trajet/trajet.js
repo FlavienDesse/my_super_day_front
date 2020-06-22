@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import useStyles from "./style";
 import {Map} from './mapContainer';
 import Grid from "@material-ui/core/Grid";
@@ -29,6 +29,8 @@ export  function Trajet() {
 
     const [lastChoiceDestination, setLastChoiceDestination] = React.useState("");
     const [lastChoiceOrigin, setLastChoiceOrigin] = React.useState("");
+
+
 
 
     function MapRender() {
