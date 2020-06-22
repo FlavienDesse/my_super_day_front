@@ -6,9 +6,10 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import {AutocompleteFunction} from "./autoComplete"
 import {FormDialog} from "./dialogsForm";
+import {authHeader} from "../../Controller/CheckConnected";
 
 
-export default function Trajet() {
+export  function Trajet() {
 
 
     const classes = useStyles();
@@ -52,15 +53,17 @@ export default function Trajet() {
 
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
             body: JSON.stringify({
+                id_user: JSON.parse(window.localStorage.getItem('users')).id,
+
                 origin: encodeURI(origin),
                 destination: encodeURI(destination),
             })
 
 
         };
-        fetch(`http://localhost:9000/mysuperday/api/trajet/infotrajet`, requestOptions)
+        fetch(`${window.url}/mysuperday/api/trajet/infotrajet`, requestOptions)
             .then(response => {
                 response.json()
                     .then(data => {
@@ -85,14 +88,16 @@ export default function Trajet() {
 
     function getCoordinate(address, setPos) {
         // Simple POST request with a JSON body using fetch
+        console.log("ici")
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
             body: JSON.stringify({
+                id_user: JSON.parse(window.localStorage.getItem('users')).id,
                 address:encodeURI(address)
             })
         };
-        fetch(`http://localhost:9000/mysuperday/api/trajet/coordinate`, requestOptions)
+        fetch(`${window.url}/mysuperday/api/trajet/coordinate`, requestOptions)
             .then(response => response.json())
             .then(data => {
                 setPos({

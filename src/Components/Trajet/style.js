@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     },
     autoComplete:{
 
-        width:'100%',
+        width:'100% !important' ,
 
 
     },
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     textField: {
-        width: "800px",
+        width: "800px !important",
     },
 
 }));

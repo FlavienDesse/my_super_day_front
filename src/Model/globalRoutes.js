@@ -144,6 +144,23 @@ export default compose(
                 :
                 redirect('/mysuperday/users/signin')
         ),
+        '/mysuperday/dashboard/trajet': map(async (request, context) =>
+            ( await context.authService.isConnected()) ? route({
+
+                    getView:
+                        async (req, context) => {
+                            const {Dashboard} = await import('../Components/DashBoard/dashboard')
+                            const {Trajet} = await import('../Components/Trajet/trajet')
+                            return (
+                                <Dashboard  authService={context.authService}>
+                                    <Trajet authService={context.authService}/>
+                                </Dashboard>
+                            )
+                        },
+                })
+                :
+                redirect('/mysuperday/users/signin')
+        ),
         '/mysuperday/users/signup': route({
             getView:
                 async (req, context) => {

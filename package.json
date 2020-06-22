@@ -25,6 +25,7 @@
     "react-busy-indicator": "^1.0.0",
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.1",
+    "react-google-maps": "^9.4.5",
     "react-moment": "^0.9.7",
     "react-navi": "^0.14.4",
     "react-router-dom": "^5.2.0",

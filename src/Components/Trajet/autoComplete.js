@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import {FormDialog} from "./dialogsForm";
 
-export  function AutocompleteFunction(props) {
+export function AutocompleteFunction(props) {
 
     const classes = useStyles();
 
@@ -24,13 +24,13 @@ export  function AutocompleteFunction(props) {
             }),
 
         };
-        fetch(`http://localhost:9000/mysuperday/api/users/getAutocomplete`, requestOptions)
+        fetch(`${window.url}/mysuperday/api/users/getAutocomplete`, requestOptions)
             .then(response => {
                 response.json()
                     .then(data => {
                         let res = selectPredictionsOrigin.slice()
 
-                        setSelectPredictions(res.concat( data.predictions))
+                        setSelectPredictions(res.concat(data.predictions))
                     })
             })
     };
@@ -42,39 +42,32 @@ export  function AutocompleteFunction(props) {
               alignItems="center"
               spacing={1}
         >
-
             <Grid item xs={4} className={classes.autoCompleteGrid}>
+                <Autocomplete
+                    onChange={(e, newValue) => props.setLastChoiceOrigin(newValue)}
+                    options={selectPredictionsOrigin}
+                    value={props.lastChoiceOrigin}
+                    getOptionLabel={(selectPredictionsOrigin) => selectPredictionsOrigin}
+                    filterSelectedOptions
+                    renderInput={(params) =>
+                        <TextField
 
+                            onChange={(e) => callPredictions(e.target.value, setSelectPredictionsOrigin)} {...params}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            label={"Choissisez un point de départ"}
 
-                    <Autocomplete
-
-                        onChange={(e, newValue) => {props.setLastChoiceOrigin(newValue)}}
-                        options={selectPredictionsOrigin}
-                        value={props.lastChoiceOrigin}
-                        className={classes.autoComplete}
-                        getOptionLabel={(selectPredictionsOrigin) => selectPredictionsOrigin}
-                        renderInput={(params) =>
-                            <TextField className={classes.textField}
-                                       onChange={(e) => callPredictions(e.target.value, setSelectPredictionsOrigin)} {...params}
-                                       variant="outlined"
-                                       margin="normal"
-                                       required
-                                       fullWidth
-                                       label={"Choississez un point de départ"}
-
-
-
-                            />
-                        }
-                    />
-
-
-
-
-
+                        />
+                    }
+                />
             </Grid>
             <Grid item xs={2}>
-                <FormDialog></FormDialog>
+                <FormDialog
+
+                    lastChoice={selectPredictionsOrigin}
+                />
             </Grid>
             <Grid item xs={12}>
 
@@ -101,11 +94,12 @@ export  function AutocompleteFunction(props) {
                 />
             </Grid>
             <Grid item xs={2}>
-                <FormDialog></FormDialog>
+                <FormDialog
+                    lastChoice={selectPredictionsDestination}
+                >
+                </FormDialog>
             </Grid>
         </Grid>
-
-
 
 
     )
