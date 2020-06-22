@@ -13,21 +13,18 @@ export function CheckConnected() {
 
     const requestOptions = {
         method: 'GET',
-        headers:  Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
+        headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
     };
+
 
     return fetch(`${window.url}/mysuperday/api/users/verifyToken`, requestOptions)
 
-        .then( (response) => {
+        .then((response) => {
             if (response.status === 403 || response.status === 401 || response.status === 500) {
                 return false;
             }
             return true;
         })
-
-
-
-
 
 
 }

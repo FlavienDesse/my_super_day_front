@@ -31,9 +31,9 @@ export function Dashboard(props) {
 
 
     async function deco(){
-        localStorage.clear()
+        localStorage.clear();
         localStorage.setItem('users',JSON.stringify({
-            accessToken:null
+            accessToken:"null"
         }))
 
         history.navigate('/mysuperday/users/signin')

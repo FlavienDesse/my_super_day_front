@@ -12,11 +12,25 @@ export const authService = {
     getCurrentUser() {
         return this.currentUser
     },
-    isConnected() {
+    async isConnected() {
 
-        return CheckConnected().then((res) => {
-            return res
-        })
+
+        let user = this.currentUser;
+        console.log(user)
+        if(user){
+            if (user.accessToken === "null") {
+                delete this.currentUser
+                return false
+            } else {
+                let res = await CheckConnected()
+                return res;
+            }
+        }
+        else {
+            delete this.currentUser
+            return false;
+        }
+
     },
     async deconnected() {
         delete this.currentUser
