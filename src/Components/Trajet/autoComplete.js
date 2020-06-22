@@ -24,7 +24,7 @@ export  function AutocompleteFunction(props) {
             }),
 
         };
-        fetch(`https://bdoalex.com/mysuperday/api/users/getAutocomplete`, requestOptions)
+        fetch(`http://localhost:9000/mysuperday/api/users/getAutocomplete`, requestOptions)
             .then(response => {
                 response.json()
                     .then(data => {

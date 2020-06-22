@@ -47,7 +47,7 @@ export default function Trajet() {
 
 
     function getDistance() {
-        let origin = lastChoiceOrigin;
+        let origin =  lastChoiceOrigin;
         let destination = lastChoiceDestination;
 
         const requestOptions = {
@@ -86,10 +86,13 @@ export default function Trajet() {
     function getCoordinate(address, setPos) {
         // Simple POST request with a JSON body using fetch
         const requestOptions = {
-            method: 'GET',
+            method: 'POST',
             headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                address:encodeURI(address)
+            })
         };
-        fetch(encodeURI(`http://localhost:9000/mysuperday/api/trajet/coordinate?address=${address}`), requestOptions)
+        fetch(`http://localhost:9000/mysuperday/api/trajet/coordinate`, requestOptions)
             .then(response => response.json())
             .then(data => {
                 setPos({
