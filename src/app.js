@@ -4,7 +4,7 @@ import routes from './Model/globalRoutes'
 import {Router, View} from 'react-navi'
 import Layout from './Components/Layout'
 
-window.url = "http://localhost:9000"
+window.url = "https://bdoalex.com"
 
 export default function App() {
     let [currentUser,setCurrentUser] = useState(() => authService.getCurrentUser())

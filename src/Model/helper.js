@@ -12,6 +12,12 @@ export const authService = {
     getCurrentUser() {
         return this.currentUser
     },
+    clear(){
+        delete this.currentUser;
+        localStorage.setItem('users',JSON.stringify({
+            accessToken:"null"
+        }))
+    },
     async isConnected() {
 
 

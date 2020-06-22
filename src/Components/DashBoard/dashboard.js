@@ -32,11 +32,8 @@ export function Dashboard(props) {
 
     async function deco(){
         localStorage.clear();
-        localStorage.setItem('users',JSON.stringify({
-            accessToken:"null"
-        }))
-
-        history.navigate('/mysuperday/users/signin')
+        await props.authService.clear()
+        await history.navigate('/mysuperday/users/signin')
     }
 
     const container = window !== undefined ? () => window().document.body : undefined;
