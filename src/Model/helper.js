@@ -22,7 +22,6 @@ export const authService = {
 
 
         let user = this.currentUser;
-        console.log(user)
         if(user){
             if (user.accessToken === "null") {
                 delete this.currentUser
@@ -38,13 +37,7 @@ export const authService = {
         }
 
     },
-    async deconnected() {
-        delete this.currentUser
-        await window.localStorage.clear();
-        if (this.callback) {
-            this.callback(undefined)
-        }
-    },
+
 
     subscribe(callback) {
         this.callback = callback

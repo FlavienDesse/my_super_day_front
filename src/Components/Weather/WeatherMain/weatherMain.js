@@ -110,7 +110,6 @@ export function Weather() {
         });
 
         async function addToDB() {
-            console.log(name)
             const requestOptions = {
                 method: 'POST',
                 headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
@@ -182,7 +181,6 @@ export function Weather() {
                     data: {}
                 })
             }
-            console.log(res)
             setAllDataParticularTown(res);
 
 
