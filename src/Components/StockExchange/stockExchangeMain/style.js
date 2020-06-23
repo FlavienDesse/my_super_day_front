@@ -27,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: "30px",
         fontWeight: "bold",
         fontFamily: "Verdana",
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
     },
 
     paper: {
