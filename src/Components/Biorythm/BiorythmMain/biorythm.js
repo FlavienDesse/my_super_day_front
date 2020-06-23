@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import useStyles from "./style";
 import {Line} from 'react-chartjs-2';
+// eslint-disable-next-line no-unused-vars
 import {annotation} from 'chartjs-plugin-annotation'
 import Grid from "@material-ui/core/Grid";
 import {authHeader} from "../../../Controller/CheckConnected";
@@ -47,6 +48,7 @@ export const Biorythm = () => {
 
         })
 
+        // eslint-disable-next-line no-use-before-define
     }, [])
 
 

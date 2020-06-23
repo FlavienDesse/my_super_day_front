@@ -1,11 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import useStyles from "./style";
 import {Map} from './mapContainer';
 import Grid from "@material-ui/core/Grid";
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import {AutocompleteFunction} from "./autoComplete"
-import {FormDialog} from "./dialogsForm";
 import {authHeader} from "../../Controller/CheckConnected";
 
 

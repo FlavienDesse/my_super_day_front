@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import {FormDialog} from "./dialogsForm";
 import {authHeader} from "../../Controller/CheckConnected";
 import StarIcon from '@material-ui/icons/Star';
-import {set} from "mathjs/es/utils/object";
+
 
 export function AutocompleteFunction(props) {
 
@@ -15,7 +15,7 @@ export function AutocompleteFunction(props) {
     const [inDb,setInDb] =  React.useState([]);
     const [selectPredictionsOrigin, setSelectPredictionsOrigin] = React.useState([])
     const [selectPredictionsDestination, setSelectPredictionsDestination] = React.useState([])
-    const [isOrigin, setIsOrigin] = React.useState(false)
+   
 
 
 
@@ -50,7 +50,7 @@ export function AutocompleteFunction(props) {
                         setSelectPredictionsDestination(selectPredictionsDestination.concat(res));
                     })
             })
-    }, []);
+    },[]);
 
 
     function callPredictions(value, setSelectPredictions) {

@@ -5,17 +5,16 @@ import {
     withScriptjs,
     GoogleMap,
     DirectionsRenderer,
-    Marker,
 
 } from "react-google-maps";
 
 
 export const Map = withScriptjs( (props)=>{
 
-    const [direction, setDirection] = React.useState([]);
+    const [direction, setDirection] = React.useState({});
     const google = window.google;
     const directionsService = new google.maps.DirectionsService();
-
+    console.log(direction)
     const origin = { lat: props.latitudeOrigin, lng:  props.longitudeOrigin };
     const destination = { lat: props.latitudeDestination, lng:  props.longitudeDestination};
 
@@ -27,11 +26,15 @@ export const Map = withScriptjs( (props)=>{
 
 
         >
+            {
 
-            <DirectionsRenderer
-                directions={direction}
+                    <DirectionsRenderer
+                        directions={direction}
 
-            />
+                    />
+
+            }
+
         </GoogleMap>
     ));
 

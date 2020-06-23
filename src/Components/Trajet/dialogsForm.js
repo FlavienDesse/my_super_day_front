@@ -28,7 +28,7 @@ export function FormDialog(props) {
 
 
     async function addToDB() {
-        if (refTextFieldTitle.current.value != "" && props.lastChoice !== "") {
+        if (refTextFieldTitle.current.value !== "" && props.lastChoice !== "") {
 
             props.addPredictionFromDb(refTextFieldTitle.current.value)
             const requestOptions = {

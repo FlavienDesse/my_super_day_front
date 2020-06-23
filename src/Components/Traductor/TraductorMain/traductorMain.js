@@ -168,7 +168,7 @@ export function TraductorMain() {
     ];
 
 
-    function callTrad(props) {
+    function callTrad() {
         const requestOptions = {
             method: 'POST',
             headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
@@ -218,11 +218,12 @@ export function TraductorMain() {
                                     <Select
                                         className={classes.selectLang}
                                         onChange={handleChange}
+                                        defaultValue='fr'
                                     >
                                         {
                                             language.map((item, i) => (
 
-                                                <MenuItem value={item.id}> {item.show} </MenuItem>
+                                                <MenuItem  key={i.toString()}  value={item.id}> {item.show} </MenuItem>
 
 
                                             ))}

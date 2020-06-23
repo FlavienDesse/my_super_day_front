@@ -15,7 +15,6 @@ import useStyles from "./style";
 import Button from "@material-ui/core/Button";
 
 import { useNavigation} from "react-navi";
-import {redirect} from "navi";
 
 
 export function Dashboard(props) {

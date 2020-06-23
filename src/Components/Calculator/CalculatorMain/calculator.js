@@ -80,7 +80,7 @@ export function Calculator(props) {
         )
 
 
-    }, [])
+    },[])
 
 
     function addOneVariable(val) {

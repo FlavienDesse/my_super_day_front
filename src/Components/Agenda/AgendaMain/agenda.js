@@ -180,7 +180,7 @@ export function Agenda() {
                             label="Début de l'évènement"
                             autoOk
                             ampm={false}
-                            showMultiDayTimes
+
                             onChange={handleChandeDatePickerStart}
                             value={dateStart}
                             KeyboardButtonProps={{
