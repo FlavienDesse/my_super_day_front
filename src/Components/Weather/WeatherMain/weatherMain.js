@@ -131,7 +131,7 @@ export function Weather() {
 
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
             body: JSON.stringify({
                 address: encodeURI(name),
             }),
@@ -187,7 +187,7 @@ export function Weather() {
             for (let i = 0; i < res.length; i++) {
                 const requestOptions = {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: Object.assign({}, authHeader(), {'Content-Type': 'application/json'}),
                     body: JSON.stringify({
                         address: encodeURI(res[i].name),
                     }),
