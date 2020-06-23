@@ -88,7 +88,7 @@ export function StockExchange() {
                         <Grid item xs={12} key={i.toString()}>
                             <Paper className={classes.paper}>
                                 <Grid container alignItems="center" className={classes.gridItem}>
-                                    <Grid item xs={5} className={classes.data}>
+                                    <Grid item xs={7}  md={5} className={classes.data}>
                                         <p className={classes.shareTitle}>
                                             {item.name}
                                         </p>
@@ -102,11 +102,11 @@ export function StockExchange() {
                                             <Grid item xs={6}>
                                                 <div>
                                                     <p className={classes.infoTitle}>Variation du jour : </p>
-                                                    <p className={classes.infoNumber}>{item.dayPercentChange > 0 ?
+                                                    <span className={classes.infoNumber}>{item.dayPercentChange > 0 ?
                                                         <span
                                                             className={classes.green}> {item.dayPercentChange} %</span> :
                                                         <span
-                                                            className={classes.red}>{item.dayPercentChange} %</span>}</p>
+                                                            className={classes.red}>{item.dayPercentChange} %</span>}</span>
                                                 </div>
                                             </Grid>
                                             <Grid item xs={6}>
@@ -123,7 +123,7 @@ export function StockExchange() {
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={7}>
+                                    <Grid item xs={7}  md={7}>
                                         <Grid container>
                                             <Grid item xs={11}>
                                             </Grid>
